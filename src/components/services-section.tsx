@@ -18,7 +18,6 @@ import {
   ArrowUpRight,
   CheckCircle2,
   X,
-  Send,
   Code2,
   ShieldCheck,
   Zap,
@@ -31,12 +30,12 @@ import { ALL_SERVICES, ServiceDetail } from "@/lib/services-data";
 import { useConsultation } from "./consultation-modal";
 
 const CATEGORIES = [
-  { id: "all", label: "All Engineering" },
+  { id: "all", label: "All Capabilities" },
   { id: "engineering", label: "Web Applications" },
   { id: "mobile", label: "Mobile Apps" },
   { id: "erp-automation", label: "Odoo ERP & N8N" },
   { id: "growth", label: "SEO & Growth" },
-  { id: "ai-cloud", label: "AI & Cloud Architecture" },
+  { id: "ai-cloud", label: "AI & Cloud Systems" },
 ];
 
 const ICONS_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -54,19 +53,19 @@ const ICONS_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement
   "conversion-optimization": TrendingUp,
 };
 
-const STATS_MAP: Record<string, { label: string; value: string; color: string }> = {
-  "website-development": { label: "Core Web Vitals", value: "100/100", color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
-  "mobile-app-development": { label: "Performance", value: "60 FPS Native", color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
-  "odoo-development": { label: "Compliance", value: "ZATCA Phase 2", color: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
-  "e-commerce": { label: "Checkout Speed", value: "<800ms API", color: "text-blue-400 border-blue-500/30 bg-blue-500/10" },
-  "n8n-development": { label: "Repetitive Tasks", value: "-90% Manual", color: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
-  "seo": { label: "Organic Reach", value: "+320% Traffic", color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
-  "ai-agentic-automation": { label: "Inference SLA", value: "99.9% Uptime", color: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10" },
-  "cloud-devops": { label: "Availability", value: "99.99% SLA", color: "text-sky-400 border-sky-500/30 bg-sky-500/10" },
-  "ui-ux-design-systems": { label: "Design Token SLA", value: "100% WCAG AA", color: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
-  "api-microservices": { label: "P99 Latency", value: "<15ms Edge", color: "text-teal-400 border-teal-500/30 bg-teal-500/10" },
-  "custom-crm-portals": { label: "User Adoption", value: "98% Efficiency", color: "text-violet-400 border-violet-500/30 bg-violet-500/10" },
-  "conversion-optimization": { label: "Revenue Lift", value: "+45% Avg Uplift", color: "text-orange-400 border-orange-500/30 bg-orange-500/10" },
+const STATS_MAP: Record<string, { label: string; value: string; badgeColor: string }> = {
+  "website-development": { label: "Performance", value: "100/100 Vitals", badgeColor: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
+  "mobile-app-development": { label: "Engine", value: "60 FPS Native", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
+  "odoo-development": { label: "Compliance", value: "ZATCA Phase 2", badgeColor: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
+  "e-commerce": { label: "Latency", value: "<800ms Checkout", badgeColor: "text-blue-400 border-blue-500/30 bg-blue-500/10" },
+  "n8n-development": { label: "Automation", value: "-90% Manual Ops", badgeColor: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
+  "seo": { label: "Visibility", value: "+320% Traffic", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
+  "ai-agentic-automation": { label: "Copilots", value: "Custom LLMs", badgeColor: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10" },
+  "cloud-devops": { label: "Reliability", value: "99.99% SLA", badgeColor: "text-sky-400 border-sky-500/30 bg-sky-500/10" },
+  "ui-ux-design-systems": { label: "Accessibility", value: "WCAG AA Standard", badgeColor: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
+  "api-microservices": { label: "P99 Speed", value: "<15ms Edge", badgeColor: "text-teal-400 border-teal-500/30 bg-teal-500/10" },
+  "custom-crm-portals": { label: "Efficiency", value: "Real-time Sync", badgeColor: "text-violet-400 border-violet-500/30 bg-violet-500/10" },
+  "conversion-optimization": { label: "Growth", value: "+45% Conversion", badgeColor: "text-orange-400 border-orange-500/30 bg-orange-500/10" },
 };
 
 function ServiceCard({
@@ -80,10 +79,9 @@ function ServiceCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
 
   const Icon = ICONS_MAP[service.id] || Sparkles;
-  const stat = STATS_MAP[service.id] || { label: "SLA", value: "Enterprise", color: "text-primary border-primary/30 bg-primary/10" };
+  const stat = STATS_MAP[service.id] || { label: "Tier", value: "Enterprise", badgeColor: "text-primary border-primary/30 bg-primary/10" };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -98,38 +96,36 @@ function ServiceCard({
     <motion.div
       ref={cardRef}
       layout
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.04 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      transition={{ duration: 0.45, delay: index * 0.03 }}
       onMouseMove={handleMouseMove}
-      className="group relative flex flex-col justify-between rounded-3xl bg-[#0b0e14] border border-white/10 p-7 sm:p-9 transition-all duration-500 hover:border-primary/60 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] min-h-[420px] overflow-hidden"
+      className="group relative flex flex-col justify-between rounded-3xl bg-[#090c13] border border-white/[0.08] p-7 sm:p-9 transition-all duration-500 hover:border-primary/60 hover:shadow-[0_0_45px_rgba(59,130,246,0.18)] min-h-[410px] overflow-hidden"
     >
-      {/* Dynamic Mouse Spotlight Glow */}
+      {/* Interactive Cursor Spotlight */}
       <div
         className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.18), transparent 80%)`,
+          background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.16), transparent 80%)`,
         }}
         aria-hidden="true"
       />
 
-      {/* Top Ambient Corner Flare */}
+      {/* Top Ambient Glow */}
       <div
-        className="pointer-events-none absolute -top-16 -right-16 size-40 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/0 blur-3xl opacity-30 group-hover:opacity-80 transition-opacity duration-500"
+        className="pointer-events-none absolute -top-16 -right-16 size-40 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/0 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
         aria-hidden="true"
       />
 
-      {/* Header Info */}
-      <div className="relative z-10 space-y-5">
+      {/* Card Content */}
+      <div className="relative z-10 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-space font-mono font-bold text-xs text-white/40 tracking-wider">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/25 px-3 py-1 rounded-full backdrop-blur-md">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/25 px-3 py-0.5 rounded-full backdrop-blur-md">
               {service.categoryLabel}
             </span>
           </div>
@@ -151,8 +147,8 @@ function ServiceCard({
         </p>
 
         {/* Live Metric / Benchmark Pill */}
-        <div className="pt-2">
-          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono font-semibold ${stat.color}`}>
+        <div className="pt-1">
+          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono font-semibold ${stat.badgeColor}`}>
             <span className="relative flex size-1.5">
               <span className="bg-current absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
               <span className="bg-current relative inline-flex size-1.5 rounded-full" />
@@ -164,19 +160,19 @@ function ServiceCard({
       </div>
 
       {/* Footer Area with Tech Badges and Direct Action */}
-      <div className="relative z-10 pt-6 border-t border-white/10 mt-6 space-y-4">
+      <div className="relative z-10 pt-5 border-t border-white/[0.08] mt-6 space-y-4">
         <div className="flex flex-wrap gap-1.5">
           {service.technologies.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="text-[11px] font-mono text-white/60 bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg"
+              className="text-[11px] font-mono text-white/60 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-lg"
             >
               {tech}
             </span>
           ))}
           {service.technologies.length > 3 && (
             <span className="text-[11px] font-mono text-white/40 self-center px-1">
-              +{service.technologies.length - 3} more
+              +{service.technologies.length - 3}
             </span>
           )}
         </div>
@@ -186,14 +182,14 @@ function ServiceCard({
             href={`/services/${service.slug}`}
             className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:text-white transition-colors group/link"
           >
-            <span>Explore Architecture</span>
+            <span>View Architecture</span>
             <ArrowRight className="size-3.5 transition-transform group-hover/link:translate-x-1" />
           </Link>
 
           <button
             type="button"
             onClick={() => onQuickView(service)}
-            className="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
+            className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
             aria-label={`Quick scope overview for ${service.title}`}
           >
             Quick Scope
@@ -228,7 +224,7 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-main-heading"
-      className="relative w-full py-24 sm:py-32 bg-[#07090e] text-white overflow-hidden"
+      className="relative w-full py-24 sm:py-32 bg-[#06080d] text-white overflow-hidden"
     >
       {/* Ambient background lighting */}
       <div
@@ -240,22 +236,15 @@ export function ServicesSection() {
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center space-y-4 mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-lg shadow-primary/10">
-            <Cpu className="size-3.5" /> Full-Spectrum Digital Engineering
+            <Cpu className="size-3.5" /> Capabilities
           </div>
 
           <h2
             id="services-main-heading"
             className="font-space text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] text-white"
           >
-            Engineered For{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-300">
-              Maximum Scale
-            </span>
+            Digital Dominance
           </h2>
-
-          <p className="text-base sm:text-lg text-white/70 leading-relaxed font-normal">
-            From high-throughput Next.js web applications and native mobile platforms to Saudi ZATCA Phase 2 Odoo ERP backbones and autonomous n8n workflows.
-          </p>
         </div>
 
         {/* Filter Controls Bar */}
@@ -288,7 +277,7 @@ export function ServicesSection() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search 12 services or tech..."
+              placeholder="Search services or tech..."
               className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs sm:text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-md"
             />
             {searchQuery && (
