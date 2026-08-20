@@ -149,17 +149,15 @@ export const Logos = {
     </div>
   ),
   python: () => (
-    <div className="h-fit flex items-center justify-start gap-2.5 opacity-90 hover:opacity-100 transition-opacity">
-      <div className="relative size-8 rounded-lg overflow-hidden shrink-0">
+    <div className="h-fit flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity">
+      <div className="relative h-8 w-28 shrink-0">
         <Image
           src="/python-logo.png"
           alt="Python"
-          width={32}
-          height={32}
-          className="size-full object-contain"
+          fill
+          className="object-contain"
         />
       </div>
-      <span className="font-bold text-lg sm:text-xl text-foreground">Python & AI</span>
     </div>
   ),
 };
