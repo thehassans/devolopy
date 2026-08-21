@@ -104,10 +104,7 @@ export default function HomePage() {
           <GridFeatureCardsSection />
         </div>
 
-        {/* 7. Powerful Feature Sections Cards */}
-        <FeatureSections />
-
-        {/* 8. Enterprise Architecture & Interactive Solutions Highlights */}
+        {/* 7. Enterprise Architecture & Interactive Solutions Highlights */}
         <section id="solutions" aria-labelledby="solutions-title" className="py-24 bg-secondary/20 border-t border-border">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
@@ -180,10 +177,13 @@ export const servicesArchitecture = {
           </div>
         </section>
 
-        {/* 9. Tech Stack Infinite Marquee Showcase (Placed at bottom above FAQs) */}
+        {/* 8. Tech Stack Infinite Marquee Showcase */}
         <section aria-label="Enterprise Technologies" className="border-t border-border bg-background">
           <MarqueeDemo />
         </section>
+
+        {/* 9. Powerful Feature Sections (Positioned directly above FAQ) */}
+        <FeatureSections />
 
         {/* 10. Comprehensive FAQ Section */}
         <HomeFAQ />
