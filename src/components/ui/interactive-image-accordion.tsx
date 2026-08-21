@@ -49,9 +49,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ item, isActive, onMouseEn
   return (
     <div
       className={`
-        relative h-[440px] rounded-2xl overflow-hidden cursor-pointer shrink-0
-        transition-all duration-700 ease-in-out select-none shadow-xl border border-black/10 dark:border-white/10
-        ${isActive ? "w-[240px] sm:w-[300px] md:w-[330px] lg:w-[350px]" : "w-[44px] sm:w-[50px] md:w-[56px]"}
+        relative h-[420px] sm:h-[440px] rounded-2xl overflow-hidden cursor-pointer shrink-0
+        transition-all duration-500 ease-out select-none shadow-lg border border-black/15 dark:border-white/15
+        ${
+          isActive
+            ? "w-[200px] xs:w-[240px] sm:w-[270px] md:w-[300px] lg:w-[320px] xl:w-[330px]"
+            : "w-[38px] sm:w-[44px] md:w-[48px] lg:w-[50px]"
+        }
       `}
       onMouseEnter={onMouseEnter}
       onClick={onMouseEnter}
@@ -80,7 +84,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ item, isActive, onMouseEn
           ${
             isActive
               ? "bottom-6 left-1/2 -translate-x-1/2 rotate-0 text-center font-space tracking-tight"
-              : "w-auto text-left bottom-24 left-1/2 -translate-x-1/2 rotate-90 font-mono text-xs tracking-wider opacity-80 uppercase"
+              : "w-auto text-left bottom-24 left-1/2 -translate-x-1/2 rotate-90 font-mono text-[11px] sm:text-xs tracking-wider opacity-80 uppercase"
           }
         `}
       >
@@ -106,12 +110,12 @@ export function LandingAccordionItem() {
       className="w-full bg-background text-foreground font-sans border-t border-border overflow-hidden py-16 sm:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Side: Text Content */}
-          <div className="lg:col-span-6 text-center lg:text-left space-y-6">
+          <div className="lg:col-span-5 text-center lg:text-left space-y-6">
             <h2
               id="ai-accordion-heading"
-              className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tight font-space"
+              className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground leading-[1.08] tracking-tight font-space"
             >
               Accelerate Gen-AI Tasks on Any Device
             </h2>
@@ -129,9 +133,9 @@ export function LandingAccordionItem() {
             </div>
           </div>
 
-          {/* Right Side: Black Aesthetic Image Accordion (Without Bottom Scroll Line) */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-end overflow-hidden">
-            <div className="flex flex-row items-center justify-center gap-2 sm:gap-2.5 md:gap-3 p-1">
+          {/* Right Side: Black Aesthetic Image Accordion (Guaranteed Zero Cut-Off) */}
+          <div className="lg:col-span-7 flex justify-center lg:justify-end overflow-x-auto lg:overflow-visible py-2">
+            <div className="flex flex-row items-center justify-center gap-2 sm:gap-2.5 p-1 min-w-0">
               {accordionItems.map((item, index) => (
                 <AccordionItem
                   key={item.id}
