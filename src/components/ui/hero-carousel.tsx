@@ -8,12 +8,23 @@ import {
   useMotionValue,
   useReducedMotion,
 } from "framer-motion";
-
+import {
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  ArrowUpRight,
+  Play,
+  Pause,
+  Layers,
+  Zap,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useConsultation } from "@/components/consultation-modal";
 
 export interface HeroCarouselItem {
   id?: string | number;
   title: string;
+  subtitle?: string;
   image: string;
   cardImage?: string;
   credit?: string;
@@ -23,6 +34,7 @@ export interface HeroCarouselItem {
   objectPosition?: string;
   bgObjectPosition?: string;
   bgScale?: number;
+  slug?: string;
 }
 
 export interface HeroCarouselProps {
@@ -39,17 +51,13 @@ export interface HeroCarouselProps {
 }
 
 /* Precise layout ratios */
-const GAP_RATIO = 0.06; // gap ÷ card width
-const STRIP_TOP = 0.60; // strip's top edge down the stage
-const TITLE = 0.07; // headline size ÷ stage height
-const PAD = 0.035; // page gutter ÷ stage width
-const RAIL = 0.22; // progress rail width ÷ stage width
+const GAP_RATIO = 0.08;
+const STRIP_TOP = 0.62;
+const TITLE_SCALE = 0.075;
+const PAD_RATIO = 0.04;
 
-const WHEEL_THRESHOLD = 60;
-const WHEEL_COOLDOWN = 420;
-
-const GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+const WHEEL_THRESHOLD = 50;
+const WHEEL_COOLDOWN = 380;
 
 const clamp = (n: number, min: number, max: number) =>
   Math.min(max, Math.max(min, n));
@@ -62,19 +70,21 @@ export function HeroCarousel({
   brand,
   onBack,
   onMenu,
-  autoplay = false,
+  autoplay = true,
   autoplayDelay = 6000,
   className,
 }: HeroCarouselProps) {
   const stageRef = React.useRef<HTMLDivElement>(null);
   const [box, setBox] = React.useState({
     w: typeof window !== "undefined" ? window.innerWidth : 1280,
-    h: typeof window !== "undefined" ? Math.max(620, window.innerHeight * 0.86) : 720,
+    h: typeof window !== "undefined" ? Math.max(640, window.innerHeight * 0.88) : 740,
   });
   const [uncontrolled, setUncontrolled] = React.useState(defaultIndex);
   const [dragging, setDragging] = React.useState(false);
   const [paused, setPaused] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
   const reduced = useReducedMotion();
+  const { openConsultation } = useConsultation();
 
   const last = items.length - 1;
   const index = clamp(controlled ?? uncontrolled, 0, Math.max(0, last));
@@ -83,10 +93,21 @@ export function HeroCarousel({
     (next: number) => {
       const clamped = clamp(next, 0, Math.max(0, last));
       if (controlled === undefined) setUncontrolled(clamped);
-      if (clamped !== index) onIndexChange?.(clamped);
+      if (clamped !== index) {
+        onIndexChange?.(clamped);
+        setProgress(0);
+      }
     },
     [controlled, index, last, onIndexChange]
   );
+
+  const prev = React.useCallback(() => {
+    go(index === 0 ? last : index - 1);
+  }, [go, index, last]);
+
+  const next = React.useCallback(() => {
+    go(index === last ? 0 : index + 1);
+  }, [go, index, last]);
 
   // ResizeObserver observes the stage box
   React.useEffect(() => {
@@ -103,12 +124,12 @@ export function HeroCarousel({
     return () => ro.disconnect();
   }, []);
 
-  // Card dimensions: uniform width and height across active and inactive states
-  const cardW = clamp(box.w * 0.13, 140, 190);
-  const cardH = Math.round(cardW * 0.72); // Sleek 16:10 landscape proportion
+  // Card dimensions: uniform width and height
+  const cardW = clamp(box.w * 0.14, 140, 200);
+  const cardH = Math.round(cardW * 0.68);
   const gap = Math.max(12, Math.round(cardW * GAP_RATIO));
   const step = cardW + gap;
-  const pad = Math.max(20, Math.round(box.w * PAD));
+  const pad = Math.max(20, Math.round(box.w * PAD_RATIO));
 
   // Centre the focused card
   const xFor = React.useCallback(
@@ -120,13 +141,34 @@ export function HeroCarousel({
 
   const spring = reduced
     ? { duration: 0 }
-    : { type: "spring" as const, stiffness: 160, damping: 25, mass: 0.85 };
+    : { type: "spring" as const, stiffness: 180, damping: 26, mass: 0.8 };
 
   React.useEffect(() => {
     if (dragging) return;
     const run = animate(x, target, spring);
     return () => run.stop();
   }, [target, dragging, reduced, x]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Autoplay countdown timer
+  React.useEffect(() => {
+    if (!autoplay || paused || dragging || items.length < 2) return;
+    const stepInterval = 50;
+    const totalSteps = autoplayDelay / stepInterval;
+    let stepCount = 0;
+
+    const timer = setInterval(() => {
+      stepCount++;
+      setProgress(Math.min(100, (stepCount / totalSteps) * 100));
+
+      if (stepCount >= totalSteps) {
+        stepCount = 0;
+        setProgress(0);
+        go(index === last ? 0 : index + 1);
+      }
+    }, stepInterval);
+
+    return () => clearInterval(timer);
+  }, [autoplay, autoplayDelay, dragging, go, index, items.length, last, paused]);
 
   // Wheel and trackpad horizontal scrolling
   React.useEffect(() => {
@@ -156,15 +198,6 @@ export function HeroCarousel({
     return () => stage.removeEventListener("wheel", onWheel);
   }, [go, index, last]);
 
-  React.useEffect(() => {
-    if (!autoplay || paused || dragging || items.length < 2) return;
-    const id = window.setTimeout(
-      () => go(index === last ? 0 : index + 1),
-      autoplayDelay
-    );
-    return () => window.clearTimeout(id);
-  }, [autoplay, autoplayDelay, dragging, go, index, items.length, last, paused]);
-
   const active = items[index] || items[0];
   if (!active) return null;
 
@@ -174,8 +207,8 @@ export function HeroCarousel({
     active.accent &&
     active.accent !== "transparent" &&
     active.accent !== "none";
-  const accent = active.accent ?? "#7b61ff";
-  const bgScale = active.bgScale ?? (active.noColorGrade ? 1.0 : 1.10);
+  const accent = active.accent ?? "#3b82f6";
+  const bgScale = active.bgScale ?? (active.noColorGrade ? 1.0 : 1.08);
 
   return (
     <div
@@ -197,15 +230,13 @@ export function HeroCarousel({
       }}
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
       className={cn(
-        "relative h-full min-h-[34rem] sm:min-h-[40rem] md:min-h-[46rem] lg:min-h-[52rem] w-full overflow-hidden bg-[#07090e] text-white select-none",
-        "outline-none focus-visible:ring-1 focus-visible:ring-white/40 focus-visible:ring-inset",
+        "relative h-full min-h-[36rem] sm:min-h-[42rem] md:min-h-[48rem] lg:min-h-[54rem] w-full overflow-hidden bg-[#04060a] text-white select-none",
+        "outline-none focus-visible:ring-1 focus-visible:ring-primary/40 focus-visible:ring-inset",
         className
       )}
     >
-      {/* ── Background Image Layer with Ultra-Smooth Crossfade ── */}
+      {/* ── Background Image Layer with Ultra-Smooth Crossfade & Dynamic Zoom ── */}
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={index}
@@ -215,6 +246,7 @@ export function HeroCarousel({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
             src={active.image}
             alt={active.title.replace(/\n/g, " ")}
@@ -224,12 +256,12 @@ export function HeroCarousel({
             style={{
               objectPosition: active.bgObjectPosition ?? "center center",
             }}
-            initial={{ scale: reduced ? bgScale : bgScale * 1.03 }}
+            initial={{ scale: reduced ? bgScale : bgScale * 1.04 }}
             animate={{ scale: bgScale }}
-            transition={reduced ? { duration: 0 } : { duration: 6, ease: "easeOut" }}
+            transition={reduced ? { duration: 0 } : { duration: 7, ease: "easeOut" }}
           />
 
-          {/* Accent Hue Color Blend only when enabled */}
+          {/* Accent Hue Color Blend or Deep Cinematic Vignette */}
           {hasColorGrade ? (
             <>
               <div
@@ -242,78 +274,49 @@ export function HeroCarousel({
               />
             </>
           ) : (
-            /* Subtle dark contrast mask for crystal-clear text readability */
-            <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-black/90 via-black/25 to-black/60" />
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#04060a] via-black/35 to-black/65" />
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Legibility gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/90 pointer-events-none" />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.15] mix-blend-overlay"
-        style={{ backgroundImage: GRAIN, backgroundSize: "180px 180px" }}
-      />
+      {/* Cinematic Vignette Layers */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#04060a] via-transparent to-black/70 pointer-events-none" />
 
-      {/* ── Top Stage Bar ── */}
-      {(onBack || brand || onMenu) && (
-        <div
-          className="absolute inset-x-0 flex items-center justify-center z-20 pointer-events-auto"
-          style={{ top: Math.max(16, box.h * 0.02), gap: `${Math.max(20, box.w * 0.04)}px` }}
-        >
-          {onBack ? (
-            <button
-              type="button"
-              onClick={onBack}
-              className="opacity-90 transition-opacity hover:opacity-100 flex items-center gap-1.5 font-mono text-xs uppercase"
-            >
-              <span aria-hidden>↖</span> Back
-            </button>
-          ) : null}
-          {brand ? <div>{brand}</div> : null}
-          {onMenu ? (
-            <button
-              type="button"
-              onClick={onMenu}
-              className="opacity-90 transition-opacity hover:opacity-100 flex items-center gap-1.5 font-mono text-xs uppercase"
-            >
-              Menu <span aria-hidden>☰</span>
-            </button>
-          ) : null}
-        </div>
-      )}
-
-      {/* ── Headline Block: No cut-off descenders (p, g, y) with padded line frames ── */}
+      {/* ── Headline Block & Meta Badges ── */}
       <div
         className="absolute inset-x-0 top-0 flex flex-col justify-end pointer-events-none z-20"
         style={{
           height: `${STRIP_TOP * 100}%`,
           paddingLeft: pad,
           paddingRight: pad,
-          paddingBottom: Math.round(box.h * 0.03),
+          paddingBottom: Math.round(box.h * 0.025),
         }}
       >
         <div className="flex w-full flex-wrap items-end justify-between gap-6 pointer-events-auto">
-          {/* Left Title & Credit Area */}
-          <div className="space-y-2.5 max-w-3xl">
-            {active.credit ? (
-              <motion.div
-                key={`credit-${index}`}
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.2em] text-[11px] sm:text-xs text-primary font-bold bg-primary/10 border border-primary/25 px-3.5 py-1 rounded-full backdrop-blur-xl shadow-lg"
-              >
-                <span>{active.credit}</span>
-              </motion.div>
-            ) : null}
+          {/* Left Title & Interactive CTAs */}
+          <div className="space-y-3.5 max-w-3xl">
+            {/* Top Project Tagline Pill */}
+            <motion.div
+              key={`credit-${index}`}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.2em] text-[11px] sm:text-xs text-primary font-bold bg-black/60 border border-primary/40 px-3.5 py-1 rounded-full backdrop-blur-2xl shadow-xl"
+            >
+              <span className="relative flex size-2">
+                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+                <span className="bg-primary relative inline-flex size-2 rounded-full" />
+              </span>
+              <span>Case Study {String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
+            </motion.div>
 
+            {/* Giant Crisp Title */}
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.h1
                 key={index}
-                className="font-space font-extrabold leading-[1.04] sm:leading-[1.02] tracking-[-0.035em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] pb-1"
-                style={{ fontSize: Math.max(32, Math.round(box.h * TITLE)) }}
+                className="font-space font-black leading-[1.02] tracking-[-0.035em] text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.9)] pb-1 flex flex-wrap items-center gap-4"
+                style={{ fontSize: Math.max(34, Math.round(box.h * TITLE_SCALE)) }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, transition: { duration: 0.18 } }}
@@ -336,19 +339,44 @@ export function HeroCarousel({
                 ))}
               </motion.h1>
             </AnimatePresence>
+
+            {/* Subtitle / 1-liner Description if present */}
+            {active.subtitle && (
+              <motion.p
+                key={`subtitle-${index}`}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.1 }}
+                className="text-sm sm:text-base text-white/70 font-medium max-w-xl line-clamp-2 leading-relaxed"
+              >
+                {active.subtitle}
+              </motion.p>
+            )}
+
+            {/* Direct Interactive CTA */}
+            <div className="pt-1 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => openConsultation(active.slug || "website-development")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all cursor-pointer group"
+              >
+                <span>Explore Project Scope</span>
+                <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </div>
           </div>
 
-          {/* Right Meta Badges */}
+          {/* Right Meta Capsules */}
           {active.meta?.length ? (
-            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap max-w-md justify-start lg:justify-end">
               {active.meta.map((fact, i) => (
                 <motion.span
                   key={`${index}-${fact}`}
-                  className="font-mono whitespace-nowrap uppercase tracking-[0.14em] text-[11px] sm:text-xs font-bold text-white/90 bg-black/60 px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-xl shadow-xl"
+                  className="font-mono whitespace-nowrap uppercase tracking-[0.14em] text-[10px] sm:text-[11px] font-bold text-white/90 bg-black/70 px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-2xl shadow-xl"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={
-                    reduced ? { duration: 0 } : { duration: 0.45, delay: 0.12 + i * 0.06 }
+                    reduced ? { duration: 0 } : { duration: 0.45, delay: 0.12 + i * 0.05 }
                   }
                 >
                   {fact}
@@ -359,10 +387,10 @@ export function HeroCarousel({
         </div>
       </div>
 
-      {/* ── Filmstrip Container: Consistent Image and Aspect Ratio across Open/Close ── */}
+      {/* ── Filmstrip Carousel Container ── */}
       <div
         className="absolute inset-x-0 z-20 flex items-center"
-        style={{ top: `${STRIP_TOP * 100}%`, height: cardH + 20 }}
+        style={{ top: `${STRIP_TOP * 100}%`, height: cardH + 24 }}
       >
         <motion.div
           className="flex items-center"
@@ -380,7 +408,6 @@ export function HeroCarousel({
         >
           {items.map((item, i) => {
             const isFocused = i === index;
-            // Always consistent image (no sudden image swapping on focus)
             const cardImg = item.cardImage ?? item.image;
 
             return (
@@ -391,18 +418,19 @@ export function HeroCarousel({
                 aria-current={isFocused}
                 onClick={() => go(i)}
                 className={cn(
-                  "relative shrink-0 overflow-hidden rounded-2xl border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-all duration-300 bg-[#090c12]",
+                  "relative shrink-0 overflow-hidden rounded-2xl border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all duration-300 bg-[#090c12]",
                   isFocused
-                    ? "border-primary/80 ring-2 ring-primary/40 shadow-[0_0_25px_rgba(59,130,246,0.4)]"
-                    : "border-white/20 hover:border-white/40 shadow-lg opacity-75 hover:opacity-95"
+                    ? "border-primary ring-2 ring-primary/50 shadow-[0_0_30px_rgba(59,130,246,0.5)] scale-105"
+                    : "border-white/15 hover:border-white/40 shadow-lg opacity-70 hover:opacity-95 scale-95"
                 )}
                 style={{ width: cardW, height: cardH }}
                 animate={{
-                  scale: isFocused ? 1.05 : 0.97,
-                  opacity: isFocused ? 1.0 : 0.7,
+                  scale: isFocused ? 1.06 : 0.96,
+                  opacity: isFocused ? 1.0 : 0.65,
                 }}
                 transition={spring}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={cardImg}
                   alt={item.title.replace(/\n/g, " ")}
@@ -412,34 +440,79 @@ export function HeroCarousel({
                     objectPosition: item.objectPosition ?? "center center",
                   }}
                 />
+
+                {/* Dark Vignette on Inactive */}
                 <motion.span
                   aria-hidden
                   className="absolute inset-0 bg-black pointer-events-none"
-                  animate={{ opacity: isFocused ? 0 : 0.25 }}
+                  animate={{ opacity: isFocused ? 0 : 0.35 }}
                   transition={spring}
                 />
+
+                {/* Live active indicator glow bar */}
+                {isFocused && (
+                  <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 shadow-sm" />
+                )}
               </motion.button>
             );
           })}
         </motion.div>
       </div>
 
-      {/* ── Bottom Position Progress Rail ── */}
+      {/* ── Bottom Controls & Progress Dock ── */}
       <div
-        className="absolute z-20"
-        style={{ left: pad, bottom: Math.max(16, box.h * 0.03), width: Math.max(150, box.w * RAIL) }}
+        className="absolute z-20 flex items-center justify-between pointer-events-auto"
+        style={{
+          left: pad,
+          right: pad,
+          bottom: Math.max(16, box.h * 0.03),
+        }}
       >
-        <div className="flex justify-between font-mono tabular-nums text-xs font-semibold text-white/80">
-          <span className="text-primary font-bold">{String(index + 1).padStart(2, "0")}</span>
-          <span>{String(items.length).padStart(2, "0")}</span>
+        {/* Left: Progress Indicator & Autoplay Countdown Bar */}
+        <div className="flex items-center gap-4 bg-black/60 border border-white/15 rounded-2xl px-4 py-2 backdrop-blur-2xl shadow-xl">
+          <div className="flex items-center gap-2 font-mono tabular-nums text-xs font-semibold text-white/90">
+            <span className="text-primary font-bold text-sm">{String(index + 1).padStart(2, "0")}</span>
+            <span className="text-white/40">/</span>
+            <span className="text-white/60">{String(items.length).padStart(2, "0")}</span>
+          </div>
+
+          <div className="relative h-1.5 w-24 sm:w-36 bg-white/15 rounded-full overflow-hidden">
+            <motion.div
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
+              style={{ width: `${progress}%` }}
+              transition={{ ease: "linear" }}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setPaused((p) => !p)}
+            className="text-white/60 hover:text-white transition-colors cursor-pointer p-1"
+            aria-label={paused ? "Resume autoplay" : "Pause autoplay"}
+          >
+            {paused ? <Play className="size-3.5 text-primary" /> : <Pause className="size-3.5" />}
+          </button>
         </div>
-        <div className="relative mt-2 h-1.5 w-full bg-white/20 rounded-full overflow-hidden backdrop-blur-md">
-          <motion.div
-            className="absolute inset-y-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-md"
-            style={{ width: `${100 / items.length}%` }}
-            animate={{ left: `${(index / items.length) * 100}%` }}
-            transition={spring}
-          />
+
+        {/* Right: Glassmorphic Prev / Next Arrow Controls */}
+        <div className="flex items-center gap-2 bg-black/60 border border-white/15 rounded-2xl p-1.5 backdrop-blur-2xl shadow-xl">
+          <button
+            type="button"
+            onClick={prev}
+            className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/20 text-white/80 hover:text-white transition-all cursor-pointer border border-white/5 active:scale-95"
+            aria-label="Previous showcase"
+          >
+            <ChevronLeft className="size-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={next}
+            className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/20 text-white/80 hover:text-white transition-all cursor-pointer border border-white/5 active:scale-95"
+            aria-label="Next showcase"
+          >
+            <ChevronRight className="size-5" />
+          </button>
         </div>
       </div>
     </div>
