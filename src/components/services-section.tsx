@@ -54,22 +54,22 @@ const ICONS_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement
 };
 
 const STATS_MAP: Record<string, { label: string; value: string; badgeColor: string }> = {
-  "website-development": { label: "Performance", value: "100/100 Vitals", badgeColor: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
-  "mobile-app-development": { label: "Engine", value: "60 FPS Native", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
-  "odoo-development": { label: "Architecture", value: "Multi-Entity ERP", badgeColor: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
-  "e-commerce": { label: "Speed", value: "<800ms Checkout", badgeColor: "text-blue-400 border-blue-500/30 bg-blue-500/10" },
-  "n8n-development": { label: "Automation", value: "-90% Manual Ops", badgeColor: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
-  "seo": { label: "Visibility", value: "+320% Traffic", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
-  "ai-agentic-automation": { label: "Copilots", value: "Custom LLMs", badgeColor: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10" },
-  "cloud-devops": { label: "Reliability", value: "99.99% SLA", badgeColor: "text-sky-400 border-sky-500/30 bg-sky-500/10" },
-  "ui-ux-design-systems": { label: "Standards", value: "100% WCAG AA", badgeColor: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
-  "api-microservices": { label: "P99 Speed", value: "<15ms Edge", badgeColor: "text-teal-400 border-teal-500/30 bg-teal-500/10" },
-  "custom-crm-portals": { label: "Architecture", value: "Real-time Sync", badgeColor: "text-violet-400 border-violet-500/30 bg-violet-500/10" },
-  "conversion-optimization": { label: "Growth", value: "+45% Conversion", badgeColor: "text-orange-400 border-orange-500/30 bg-orange-500/10" },
+  "website-development": { label: "Performance", value: "100/100 Vitals", badgeColor: "text-blue-600 dark:text-cyan-400 border-blue-500/20 dark:border-cyan-500/30 bg-blue-500/10" },
+  "mobile-app-development": { label: "Engine", value: "60 FPS Native", badgeColor: "text-emerald-600 dark:text-emerald-400 border-emerald-500/20 dark:border-emerald-500/30 bg-emerald-500/10" },
+  "odoo-development": { label: "Architecture", value: "Multi-Entity ERP", badgeColor: "text-purple-600 dark:text-purple-400 border-purple-500/20 dark:border-purple-500/30 bg-purple-500/10" },
+  "e-commerce": { label: "Speed", value: "<800ms Checkout", badgeColor: "text-sky-600 dark:text-blue-400 border-sky-500/20 dark:border-blue-500/30 bg-sky-500/10" },
+  "n8n-development": { label: "Automation", value: "-90% Manual Ops", badgeColor: "text-amber-600 dark:text-amber-400 border-amber-500/20 dark:border-amber-500/30 bg-amber-500/10" },
+  "seo": { label: "Visibility", value: "+320% Traffic", badgeColor: "text-emerald-600 dark:text-emerald-400 border-emerald-500/20 dark:border-emerald-500/30 bg-emerald-500/10" },
+  "ai-agentic-automation": { label: "Copilots", value: "Custom LLMs", badgeColor: "text-indigo-600 dark:text-indigo-400 border-indigo-500/20 dark:border-indigo-500/30 bg-indigo-500/10" },
+  "cloud-devops": { label: "Reliability", value: "99.99% SLA", badgeColor: "text-blue-600 dark:text-sky-400 border-blue-500/20 dark:border-sky-500/30 bg-blue-500/10" },
+  "ui-ux-design-systems": { label: "Standards", value: "100% WCAG AA", badgeColor: "text-pink-600 dark:text-pink-400 border-pink-500/20 dark:border-pink-500/30 bg-pink-500/10" },
+  "api-microservices": { label: "P99 Speed", value: "<15ms Edge", badgeColor: "text-teal-600 dark:text-teal-400 border-teal-500/20 dark:border-teal-500/30 bg-teal-500/10" },
+  "custom-crm-portals": { label: "Architecture", value: "Real-time Sync", badgeColor: "text-violet-600 dark:text-violet-400 border-violet-500/20 dark:border-violet-500/30 bg-violet-500/10" },
+  "conversion-optimization": { label: "Growth", value: "+45% Conversion", badgeColor: "text-orange-600 dark:text-orange-400 border-orange-500/20 dark:border-orange-500/30 bg-orange-500/10" },
 };
 
 /**
- * High-Performance Hardware-Accelerated 3D Tilt Card
+ * Light & Dark Theme Hardware-Accelerated 3D Tilt Card
  */
 function Card3D({
   service,
@@ -86,12 +86,12 @@ function Card3D({
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
 
-  // Smooth spring physics for realistic organic tilt
+  // Smooth spring physics
   const springConfig = { damping: 25, stiffness: 220, mass: 0.5 };
-  const rotateX = useSpring(useTransform(y, [0, 1], [10, -10]), springConfig);
-  const rotateY = useSpring(useTransform(x, [0, 1], [-10, 10]), springConfig);
+  const rotateX = useSpring(useTransform(y, [0, 1], [8, -8]), springConfig);
+  const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), springConfig);
 
-  // Mouse spotlight coordinates (in px)
+  // Mouse spotlight coordinates
   const spotX = useMotionValue(0);
   const spotY = useMotionValue(0);
   const spotOpacity = useSpring(0, { damping: 20, stiffness: 200 });
@@ -138,7 +138,7 @@ function Card3D({
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="group relative flex h-full flex-col justify-between rounded-3xl bg-[#07090e] border border-white/[0.08] p-7 sm:p-9 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-primary/50 hover:shadow-[0_20px_50px_rgba(59,130,246,0.18)] min-h-[420px] will-change-transform"
+        className="group relative flex h-full flex-col justify-between rounded-3xl bg-card border border-border/80 p-7 sm:p-9 shadow-sm transition-all duration-300 hover:border-primary/60 hover:shadow-xl min-h-[410px] will-change-transform text-card-foreground"
       >
         {/* Layer 0: Specular Reflection Spotlight */}
         <motion.div
@@ -148,15 +148,15 @@ function Card3D({
             background: useTransform(
               [spotX, spotY],
               ([latestX, latestY]) =>
-                `radial-gradient(400px circle at ${latestX}px ${latestY}px, rgba(59, 130, 246, 0.16), transparent 75%)`
+                `radial-gradient(400px circle at ${latestX}px ${latestY}px, rgba(59, 130, 246, 0.12), transparent 75%)`
             ),
           }}
           aria-hidden="true"
         />
 
-        {/* Ambient Top Glow */}
+        {/* Ambient Corner Glow */}
         <div
-          className="pointer-events-none absolute -top-12 -right-12 size-36 rounded-full bg-primary/20 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
+          className="pointer-events-none absolute -top-12 -right-12 size-36 rounded-full bg-primary/10 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
           aria-hidden="true"
         />
 
@@ -164,7 +164,7 @@ function Card3D({
         <div style={{ transform: "translateZ(30px)" }} className="relative z-20 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="font-space font-mono font-bold text-xs text-white/40 tracking-wider">
+              <span className="font-space font-mono font-bold text-xs text-muted-foreground tracking-wider">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/25 px-3 py-0.5 rounded-full backdrop-blur-md">
@@ -175,7 +175,7 @@ function Card3D({
             {/* 3D Floating Icon Capsule (translateZ: 45px) */}
             <div
               style={{ transform: "translateZ(45px)" }}
-              className="flex size-11 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white/80 group-hover:bg-primary group-hover:text-white group-hover:border-primary/80 group-hover:scale-110 transition-all duration-300 shadow-md"
+              className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300 shadow-sm"
             >
               <Icon className="size-5" />
             </div>
@@ -187,7 +187,7 @@ function Card3D({
             style={{ transform: "translateZ(35px)" }}
             className="block group/title pt-1"
           >
-            <h3 className="font-space text-2xl sm:text-3xl font-extrabold tracking-tight text-white group-hover/title:text-primary transition-colors flex items-center justify-between">
+            <h3 className="font-space text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground group-hover/title:text-primary transition-colors flex items-center justify-between">
               <span>{service.title}</span>
               <ArrowUpRight className="size-5 text-primary opacity-0 -translate-x-2 translate-y-2 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:translate-y-0 transition-all duration-300 shrink-0" />
             </h3>
@@ -196,7 +196,7 @@ function Card3D({
           {/* Short Description (translateZ: 20px) */}
           <p
             style={{ transform: "translateZ(20px)" }}
-            className="text-sm sm:text-base text-white/70 leading-relaxed font-normal"
+            className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
           >
             {service.shortDescription}
           </p>
@@ -209,7 +209,7 @@ function Card3D({
                 <span className="bg-current relative inline-flex size-1.5 rounded-full" />
               </span>
               <span>{stat.label}:</span>
-              <strong className="text-white">{stat.value}</strong>
+              <strong className="text-foreground">{stat.value}</strong>
             </div>
           </div>
         </div>
@@ -217,19 +217,19 @@ function Card3D({
         {/* Layer 2: Footer Tech Stack & Actions (translateZ: 25px) */}
         <div
           style={{ transform: "translateZ(25px)" }}
-          className="relative z-20 pt-5 border-t border-white/[0.08] mt-6 space-y-4"
+          className="relative z-20 pt-5 border-t border-border/70 mt-6 space-y-4"
         >
           <div className="flex flex-wrap gap-1.5">
             {service.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="text-[11px] font-mono text-white/60 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-lg"
+                className="text-[11px] font-mono text-muted-foreground bg-secondary/70 border border-border/60 px-2.5 py-0.5 rounded-lg font-medium"
               >
                 {tech}
               </span>
             ))}
             {service.technologies.length > 3 && (
-              <span className="text-[11px] font-mono text-white/40 self-center px-1">
+              <span className="text-[11px] font-mono text-muted-foreground self-center px-1">
                 +{service.technologies.length - 3}
               </span>
             )}
@@ -238,7 +238,7 @@ function Card3D({
           <div className="flex items-center justify-between pt-2">
             <Link
               href={`/services/${service.slug}`}
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:text-white transition-colors group/link"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:underline transition-colors group/link"
             >
               <span>View Architecture</span>
               <ArrowRight className="size-3.5 transition-transform group-hover/link:translate-x-1" />
@@ -247,7 +247,7 @@ function Card3D({
             <button
               type="button"
               onClick={() => onQuickView(service)}
-              className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
+              className="px-3.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-xs font-mono text-foreground transition-all cursor-pointer shadow-sm"
               aria-label={`Quick scope overview for ${service.title}`}
             >
               Quick Scope
@@ -283,24 +283,24 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-main-heading"
-      className="relative w-full py-24 sm:py-32 bg-[#05070b] text-white overflow-hidden"
+      className="relative w-full py-24 sm:py-32 bg-background text-foreground overflow-hidden border-t border-border"
     >
-      {/* Background 3D Depth Fog */}
+      {/* Background 3D Ambient Blur */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1300px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.16),transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1300px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Minimalist Section Header */}
         <div className="mx-auto max-w-3xl text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-lg shadow-primary/10">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-sm">
             <Cpu className="size-3.5" /> Capabilities
           </div>
 
           <h2
             id="services-main-heading"
-            className="font-space text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] text-white"
+            className="font-space text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] text-foreground"
           >
             Digital Dominance
           </h2>
@@ -309,7 +309,7 @@ export function ServicesSection() {
         {/* Filter Controls Bar */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-12">
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl w-full lg:w-auto">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-secondary/50 border border-border/80 backdrop-blur-xl w-full lg:w-auto">
             {CATEGORIES.map((category) => {
               const isActive = activeCategory === category.id;
               return (
@@ -319,8 +319,8 @@ export function ServicesSection() {
                   onClick={() => setActiveCategory(category.id)}
                   className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
                     isActive
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-[1.02]"
-                      : "text-white/70 hover:text-white hover:bg-white/5"
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-[1.02]"
+                      : "text-muted-foreground hover:text-foreground hover:bg-background/80"
                   }`}
                 >
                   {category.label}
@@ -331,19 +331,19 @@ export function ServicesSection() {
 
           {/* Search Box */}
           <div className="relative w-full lg:w-80">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-white/40" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search services or tech..."
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs sm:text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all backdrop-blur-md"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-background border border-border text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs font-mono"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs font-mono"
               >
                 Clear
               </button>
@@ -364,8 +364,8 @@ export function ServicesSection() {
         </div>
 
         {filteredServices.length === 0 && (
-          <div className="text-center py-20 space-y-4 rounded-3xl bg-white/[0.02] border border-white/10">
-            <p className="text-white/60 text-lg">
+          <div className="text-center py-20 space-y-4 rounded-3xl bg-card border border-border">
+            <p className="text-muted-foreground text-lg">
               No engineering services matched your query &quot;{searchQuery}&quot;.
             </p>
             <button
@@ -391,19 +391,19 @@ export function ServicesSection() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedService(null)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 bg-black/60 backdrop-blur-md"
             />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#0c1017] border border-white/20 p-6 sm:p-10 shadow-[0_0_50px_rgba(59,130,246,0.2)] z-10 text-white space-y-8"
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-card border border-border p-6 sm:p-10 shadow-2xl z-10 text-card-foreground space-y-8"
             >
               <button
                 type="button"
                 onClick={() => setSelectedService(null)}
-                className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                className="absolute top-6 right-6 p-2 rounded-full bg-secondary hover:bg-secondary/80 text-foreground transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="size-5" />
@@ -413,24 +413,24 @@ export function ServicesSection() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-mono font-semibold text-primary">
                   {selectedService.categoryLabel}
                 </div>
-                <h3 className="font-space text-2xl sm:text-4xl font-extrabold text-white">
+                <h3 className="font-space text-2xl sm:text-4xl font-extrabold text-foreground">
                   {selectedService.title}
                 </h3>
-                <p className="text-base text-white/70 leading-relaxed">
+                <p className="text-base text-muted-foreground leading-relaxed">
                   {selectedService.fullDescription}
                 </p>
               </div>
 
               {/* Technologies */}
               <div className="space-y-3">
-                <h4 className="text-xs font-mono uppercase tracking-widest text-white/50 flex items-center gap-2">
+                <h4 className="text-xs font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                   <Terminal className="size-4 text-primary" /> Supported Technologies & Stacks
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedService.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm font-mono text-white/90"
+                      className="px-3.5 py-1.5 rounded-xl bg-secondary/70 border border-border text-xs sm:text-sm font-mono text-foreground"
                     >
                       {tech}
                     </span>
@@ -440,11 +440,11 @@ export function ServicesSection() {
 
               {/* Core Features & Deliverables Grid */}
               <div className="grid sm:grid-cols-2 gap-6 pt-2">
-                <div className="space-y-3 bg-white/5 p-5 rounded-2xl border border-white/5">
-                  <h4 className="text-sm font-semibold text-white flex items-center gap-2">
-                    <Zap className="size-4 text-amber-400" /> Architectural Features
+                <div className="space-y-3 bg-secondary/40 p-5 rounded-2xl border border-border">
+                  <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <Zap className="size-4 text-amber-500" /> Architectural Features
                   </h4>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-white/70">
+                  <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground">
                     {selectedService.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
@@ -454,11 +454,11 @@ export function ServicesSection() {
                   </ul>
                 </div>
 
-                <div className="space-y-3 bg-white/5 p-5 rounded-2xl border border-white/5">
-                  <h4 className="text-sm font-semibold text-white flex items-center gap-2">
-                    <ShieldCheck className="size-4 text-emerald-400" /> Standard Deliverables
+                <div className="space-y-3 bg-secondary/40 p-5 rounded-2xl border border-border">
+                  <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <ShieldCheck className="size-4 text-emerald-500" /> Standard Deliverables
                   </h4>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-white/70">
+                  <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground">
                     {selectedService.deliverables.map((item, i) => (
                       <li key={i} className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
@@ -466,7 +466,7 @@ export function ServicesSection() {
                       </li>
                     ))}
                   </ul>
-                  <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/50">
+                  <div className="pt-2 border-t border-border flex items-center justify-between text-xs font-mono text-muted-foreground">
                     <span>Estimated Timeline:</span>
                     <span className="text-primary font-bold">{selectedService.timeline}</span>
                   </div>
@@ -474,12 +474,12 @@ export function ServicesSection() {
               </div>
 
               {/* Actions */}
-              <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-950/40 via-indigo-950/30 to-purple-950/40 border border-primary/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="p-5 rounded-2xl bg-secondary/60 border border-border flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <h4 className="font-semibold text-sm text-white">
+                  <h4 className="font-semibold text-sm text-foreground">
                     Ready to build your {selectedService.title}?
                   </h4>
-                  <p className="text-xs text-white/60">
+                  <p className="text-xs text-muted-foreground">
                     Review the complete technical breakdown or schedule an architectural discovery call.
                   </p>
                 </div>
@@ -487,7 +487,7 @@ export function ServicesSection() {
                 <div className="flex items-center gap-3 w-full sm:w-auto">
                   <Link
                     href={`/services/${selectedService.slug}`}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-xs sm:text-sm font-semibold text-white transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-background hover:bg-secondary border border-border text-xs sm:text-sm font-semibold text-foreground transition-all"
                   >
                     <span>Full Breakdown</span>
                     <ArrowUpRight className="size-4" />
@@ -500,7 +500,7 @@ export function ServicesSection() {
                       setSelectedService(null);
                       openConsultation(slug);
                     }}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-xs sm:text-sm font-semibold text-white shadow-lg transition-all cursor-pointer shrink-0"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-xs sm:text-sm font-semibold text-primary-foreground shadow-md transition-all cursor-pointer shrink-0"
                   >
                     <span>Book Strategy Call</span>
                     <Sparkles className="size-4" />

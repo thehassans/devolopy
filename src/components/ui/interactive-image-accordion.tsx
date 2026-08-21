@@ -1,167 +1,150 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { Sparkles, ArrowRight, Bot, Cpu, Zap, Eye, Mic, Brain } from "lucide-react";
+import {
+  Sparkles,
+  ArrowRight,
+  Bot,
+  Cpu,
+  Zap,
+  Eye,
+  Mic,
+  Brain,
+  ShieldCheck,
+  Code2,
+  CheckCircle2,
+  Layers,
+  Activity,
+} from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
-export interface AccordionItemData {
+export interface AICapabilityItem {
   id: number;
   title: string;
   subtitle: string;
-  imageUrl: string;
+  tagline: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   badge: string;
+  metric: string;
+  metricLabel: string;
+  features: string[];
+  codeSnippet: string;
 }
 
-const DEFAULT_ACCORDION_ITEMS: AccordionItemData[] = [
+const AI_CAPABILITIES: AICapabilityItem[] = [
   {
     id: 1,
     title: "Conversational Voice AI",
-    subtitle: "Real-time, ultra-low latency speech intelligence and voice copilots.",
-    imageUrl: "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=2070&auto=format&fit=crop",
+    tagline: "Ultra-Low Latency Audio Copilots",
+    subtitle: "Real-time, bi-directional speech intelligence and voice copilots for enterprise customer operations.",
     icon: Mic,
-    badge: "<200ms Voice SLA",
+    badge: "<200ms Latency",
+    metric: "<200ms",
+    metricLabel: "Speech Inference SLA",
+    features: [
+      "Sub-200ms streaming audio processing via WebRTC",
+      "Dynamic acoustic noise cancellation and voice activity detection (VAD)",
+      "Multi-lingual accent adaptation and custom voice cloning",
+    ],
+    codeSnippet: `// Voice Pipeline Agent Config
+export const voiceEngine = {
+  transport: "WebRTC / WebSocket Stream",
+  turnDetection: "Server-VAD (Adaptive)",
+  model: "Devolopy-Voice-Turbo-v2",
+  p99Latency: "185ms",
+};`,
   },
   {
     id: 2,
-    title: "Generative Vision & Models",
-    subtitle: "High-resolution diffusion pipelines and automated creative synthesis.",
-    imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2070&auto=format&fit=crop",
-    icon: Sparkles,
-    badge: "Multi-Modal",
+    title: "Enterprise RAG & Knowledge",
+    tagline: "Private Vector Search & Embeddings",
+    subtitle: "Connect frontier LLMs securely to your company manuals, SQL databases, and internal documents with zero leakage.",
+    icon: Brain,
+    badge: "100% Zero-Data Retention",
+    metric: "100%",
+    metricLabel: "Confidentiality SLA",
+    features: [
+      "Hybrid dense & sparse embedding retrieval (BM25 + Cohere Rerank)",
+      "Automated PDF, DOCX, and spreadsheet schema chunking",
+      "Role-based permission guards preventing unauthorized document access",
+    ],
+    codeSnippet: `// Private Enterprise RAG Pipeline
+const ragPipeline = await createVectorMesh({
+  embeddings: "text-embedding-3-large",
+  vectorStore: "Qdrant / Pinecone Private VPC",
+  reranker: "Cohere-Rerank-v3",
+  zeroDataRetention: true,
+});`,
   },
   {
     id: 3,
-    title: "Enterprise RAG & Knowledge",
-    subtitle: "Private vector search connecting frontier LLMs securely to your company data.",
-    imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop",
-    icon: Brain,
-    badge: "100% Data Privacy",
+    title: "Autonomous Agentic Workflows",
+    tagline: "Multi-Agent Reasoning & Tool Use",
+    subtitle: "Self-healing AI agents that reason through multi-step tasks, execute API webhooks, and automate operations 24/7.",
+    icon: Bot,
+    badge: "Self-Healing Logic",
+    metric: "24/7/365",
+    metricLabel: "Autonomous Execution",
+    features: [
+      "Dynamic tool-calling and external API integration loops",
+      "Human-in-the-loop validation triggers for sensitive operations",
+      "Automated self-correcting error recovery and webhook retries",
+    ],
+    codeSnippet: `// Multi-Agent Swarm Orchestrator
+export const agentSwarm = new Orchestrator({
+  planner: "Claude-3.5-Sonnet",
+  executor: "GPT-4o-Mini",
+  tools: [crmAPI, databaseQuery, paymentGateway],
+  humanInLoopThreshold: 0.95,
+});`,
   },
   {
     id: 4,
-    title: "Autonomous Agentic Workflows",
-    subtitle: "Multi-agent reasoning architectures executing complex business workflows 24/7.",
-    imageUrl: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=2006&auto=format&fit=crop",
-    icon: Bot,
-    badge: "Self-Healing",
-  },
-  {
-    id: 5,
     title: "Visual Intelligence & OCR",
-    subtitle: "Automated document comprehension, visual inspection, and telemetry parsing.",
-    imageUrl: "https://images.unsplash.com/photo-1507146153580-69a1fe6d8aa1?q=80&w=2070&auto=format&fit=crop",
+    tagline: "High-Precision Document Perception",
+    subtitle: "Automated document comprehension, structured table parsing, and high-throughput visual inspection pipelines.",
     icon: Eye,
-    badge: "99.8% Accuracy",
+    badge: "99.8% Precision",
+    metric: "99.8%",
+    metricLabel: "Parsing Accuracy",
+    features: [
+      "Complex table extraction and JSON structured data serialization",
+      "Edge-deployed vision transformers for defect detection",
+      "Multi-page financial invoice and contract parsing in seconds",
+    ],
+    codeSnippet: `// Vision OCR & Document Ingestion
+const documentResult = await parseDocument({
+  schema: InvoiceSchema,
+  multimodalModel: "Claude-3.5-Sonnet-Vision",
+  confidenceThreshold: 0.998,
+});`,
   },
 ];
 
-interface AccordionItemProps {
-  item: AccordionItemData;
-  isActive: boolean;
-  onMouseEnter: () => void;
-  onClick: () => void;
-}
-
-const AccordionItem: React.FC<AccordionItemProps> = ({
-  item,
-  isActive,
-  onMouseEnter,
-  onClick,
-}) => {
-  const Icon = item.icon;
-
-  return (
-    <div
-      className={cn(
-        "relative h-[480px] rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-in-out border border-white/10 shadow-2xl backdrop-blur-xl group select-none shrink-0",
-        isActive
-          ? "w-[340px] sm:w-[380px] lg:w-[420px] ring-2 ring-primary/60 shadow-[0_0_50px_rgba(59,130,246,0.25)]"
-          : "w-[68px] sm:w-[80px] opacity-70 hover:opacity-100 hover:border-primary/40"
-      )}
-      onMouseEnter={onMouseEnter}
-      onClick={onClick}
-    >
-      {/* Background Image */}
-      <Image
-        src={item.imageUrl}
-        alt={item.title}
-        fill
-        sizes="(max-width: 768px) 100vw, 420px"
-        className={cn(
-          "object-cover transition-transform duration-700 ease-out",
-          isActive ? "scale-105" : "scale-100 grayscale group-hover:grayscale-0"
-        )}
-      />
-
-      {/* Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
-
-      {/* Active State Content */}
-      {isActive && (
-        <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between z-10 animate-in fade-in duration-500">
-          {/* Top Badge */}
-          <div className="flex items-center justify-between">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 border border-primary/40 text-primary text-xs font-mono font-semibold backdrop-blur-md">
-              <Zap className="size-3" /> {item.badge}
-            </span>
-            <div className="size-10 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-white backdrop-blur-md">
-              <Icon className="size-5 text-primary" />
-            </div>
-          </div>
-
-          {/* Bottom Caption & Description */}
-          <div className="space-y-2.5">
-            <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
-              {item.title}
-            </h3>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed line-clamp-3">
-              {item.subtitle}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Inactive State Rotated Title */}
-      {!isActive && (
-        <div className="absolute inset-0 flex flex-col items-center justify-between py-8 z-10">
-          <div className="size-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center text-white/80">
-            <Icon className="size-4 text-primary" />
-          </div>
-
-          <span className="text-white/90 text-sm font-space font-bold whitespace-nowrap -rotate-90 tracking-wider uppercase mb-16 font-mono">
-            {item.title}
-          </span>
-        </div>
-      )}
-    </div>
-  );
-};
-
 export function LandingAccordionItem({
-  items = DEFAULT_ACCORDION_ITEMS,
   className,
 }: {
-  items?: AccordionItemData[];
   className?: string;
 }) {
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [selectedId, setSelectedId] = useState<number>(2);
   const { openConsultation } = useConsultation();
+
+  const selectedItem = AI_CAPABILITIES.find((item) => item.id === selectedId) || AI_CAPABILITIES[1];
 
   return (
     <section
       id="ai-architecture"
       aria-label="Enterprise AI Architecture"
       className={cn(
-        "relative w-full py-24 sm:py-32 bg-[#06080d] text-white overflow-hidden border-t border-border/50",
+        "relative w-full py-24 sm:py-32 bg-background text-foreground overflow-hidden border-t border-border",
         className
       )}
     >
-      {/* Ambient background glow */}
+      {/* Background Ambient Lighting */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.14),transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
 
@@ -169,15 +152,15 @@ export function LandingAccordionItem({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:items-center">
           {/* Left Side: Headline & Value Proposition */}
           <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-lg shadow-primary/10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-sm">
               <Cpu className="size-3.5" /> Next-Gen AI Infrastructure
             </div>
 
-            <h2 className="font-space text-3xl sm:text-5xl font-black tracking-[-0.035em] text-white leading-tight">
+            <h2 className="font-space text-3xl sm:text-5xl font-black tracking-[-0.035em] text-foreground leading-tight">
               Autonomous AI Systems Built For Scale
             </h2>
 
-            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
               Deploy custom enterprise RAG copilots, multi-modal vision systems, and autonomous multi-agent reasoning pipelines connected securely to your proprietary company databases.
             </p>
 
@@ -185,7 +168,7 @@ export function LandingAccordionItem({
               <button
                 type="button"
                 onClick={() => openConsultation("ai-agentic-automation")}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-sm sm:text-base font-semibold text-primary-foreground shadow-md shadow-primary/20 hover:bg-primary/90 transition-all cursor-pointer"
               >
                 <span>Architect Your AI Stack</span>
                 <ArrowRight className="size-4" />
@@ -193,26 +176,112 @@ export function LandingAccordionItem({
 
               <a
                 href="#services"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/5 border border-white/10 px-6 py-3.5 text-sm sm:text-base font-semibold text-white/90 hover:bg-white/10 hover:text-white transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-secondary hover:bg-secondary/80 border border-border px-6 py-3.5 text-sm sm:text-base font-semibold text-foreground transition-all"
               >
                 <span>Browse All Capabilities</span>
               </a>
             </div>
           </div>
 
-          {/* Right Side: Interactive Image Accordion */}
-          <div className="lg:col-span-7 flex items-center justify-center overflow-x-auto py-4 px-2 scrollbar-none">
-            <div className="flex flex-row items-center justify-center gap-3 sm:gap-4 p-2">
-              {items.map((item, index) => (
-                <AccordionItem
-                  key={item.id}
-                  item={item}
-                  isActive={index === activeIndex}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onClick={() => setActiveIndex(index)}
-                />
-              ))}
+          {/* Right Side: Interactive AI Capability Deck (Without Stock Images) */}
+          <div className="lg:col-span-7 space-y-4">
+            {/* Capability Selector Tabs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {AI_CAPABILITIES.map((item) => {
+                const Icon = item.icon;
+                const isSelected = item.id === selectedId;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setSelectedId(item.id)}
+                    className={cn(
+                      "flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl border text-center transition-all duration-300 cursor-pointer shadow-sm",
+                      isSelected
+                        ? "bg-primary text-primary-foreground border-primary shadow-md scale-[1.02]"
+                        : "bg-card hover:bg-secondary/80 border-border text-card-foreground"
+                    )}
+                  >
+                    <Icon className={cn("size-5 mb-2", isSelected ? "text-primary-foreground" : "text-primary")} />
+                    <span className="font-space text-xs sm:text-sm font-bold line-clamp-1">
+                      {item.title.split(" ")[0]} {item.title.split(" ")[1]}
+                    </span>
+                    <span className={cn("text-[10px] font-mono mt-0.5 opacity-80", isSelected ? "text-primary-foreground/90" : "text-muted-foreground")}>
+                      {item.badge}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
+
+            {/* Active Capability Showcase Card */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedItem.id}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3 }}
+                className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-xl text-card-foreground space-y-6"
+              >
+                {/* Header info */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
+                  <div className="space-y-1">
+                    <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-semibold">
+                      <Zap className="size-3" /> {selectedItem.tagline}
+                    </div>
+                    <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+                      {selectedItem.title}
+                    </h3>
+                  </div>
+
+                  <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-secondary/80 border border-border shrink-0">
+                    <Activity className="size-5 text-primary" />
+                    <div>
+                      <div className="font-space text-lg sm:text-xl font-bold text-foreground leading-none">
+                        {selectedItem.metric}
+                      </div>
+                      <div className="text-[10px] font-mono text-muted-foreground">
+                        {selectedItem.metricLabel}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Subtitle */}
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  {selectedItem.subtitle}
+                </p>
+
+                {/* Features Checklist */}
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {selectedItem.features.map((feature, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-2.5 p-3 rounded-xl bg-secondary/40 border border-border text-xs sm:text-sm text-foreground font-medium"
+                    >
+                      <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
+                      <span className="leading-snug">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Live Code / Architecture Manifest */}
+                <div className="rounded-2xl border border-border/80 bg-background/80 p-4 font-mono text-xs sm:text-sm text-foreground overflow-x-auto shadow-inner">
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-border text-[11px] text-muted-foreground">
+                    <span className="flex items-center gap-2">
+                      <Code2 className="size-3.5 text-primary" /> ai-architecture.manifest.ts
+                    </span>
+                    <span className="text-emerald-500 font-semibold flex items-center gap-1">
+                      <span className="size-1.5 rounded-full bg-emerald-500 animate-ping inline-block" /> Live Engine
+                    </span>
+                  </div>
+                  <pre className="text-xs text-foreground/90 leading-relaxed overflow-x-auto">
+                    {selectedItem.codeSnippet}
+                  </pre>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
