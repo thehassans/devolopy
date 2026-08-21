@@ -28,6 +28,7 @@ import {
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { ALL_SERVICES, ServiceDetail } from "@/lib/services-data";
 import { useConsultation } from "./consultation-modal";
+import { cn } from "@/lib/utils";
 
 const CATEGORIES = [
   { id: "all", label: "All Capabilities" },
@@ -69,7 +70,7 @@ const STATS_MAP: Record<string, { label: string; value: string; badgeColor: stri
 };
 
 /**
- * Light & Dark Theme Hardware-Accelerated 3D Tilt Card
+ * Ultra-Premium Light & Dark Theme 3D Tilt Card
  */
 function Card3D({
   service,
@@ -86,7 +87,7 @@ function Card3D({
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
 
-  // Smooth spring physics
+  // Smooth spring physics for organic tilt
   const springConfig = { damping: 25, stiffness: 220, mass: 0.5 };
   const rotateX = useSpring(useTransform(y, [0, 1], [8, -8]), springConfig);
   const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), springConfig);
@@ -283,33 +284,48 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-main-heading"
-      className="relative w-full py-24 sm:py-32 bg-background text-foreground overflow-hidden border-t border-border"
+      className="relative w-full py-20 sm:py-28 bg-background text-foreground overflow-hidden border-t border-border"
     >
       {/* Background 3D Ambient Blur */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1300px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/3 -translate-x-1/2 w-[1300px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Minimalist Section Header */}
-        <div className="mx-auto max-w-3xl text-center space-y-4 mb-16">
+        {/* Left-Aligned Ultra-Premium Section Header */}
+        <div className="text-left space-y-4 mb-14">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-sm">
             <Cpu className="size-3.5" /> Capabilities
           </div>
 
-          <h2
-            id="services-main-heading"
-            className="font-space text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] text-foreground"
-          >
-            Digital Dominance
-          </h2>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div className="space-y-3 max-w-3xl">
+              <h2
+                id="services-main-heading"
+                className="font-space text-4xl sm:text-6xl lg:text-7xl font-black tracking-[-0.035em] text-foreground leading-[1.04]"
+              >
+                Digital Dominance
+              </h2>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                End-to-end digital engineering ecosystems across full-stack Next.js web applications, native mobile apps, enterprise Odoo ERP backbones, and autonomous AI agent pipelines.
+              </p>
+            </div>
+
+            {/* Quick Stats Pill Deck */}
+            <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground shrink-0 pb-1">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-secondary/60 border border-border">
+                <span className="size-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+                <span>12 Core Capabilities</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Filter Controls Bar */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-12">
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-secondary/50 border border-border/80 backdrop-blur-xl w-full lg:w-auto">
+          <div className="flex flex-wrap items-center justify-start gap-2 p-1.5 rounded-2xl bg-secondary/50 border border-border/80 backdrop-blur-xl w-full lg:w-auto">
             {CATEGORIES.map((category) => {
               const isActive = activeCategory === category.id;
               return (
@@ -317,11 +333,12 @@ export function ServicesSection() {
                   key={category.id}
                   type="button"
                   onClick={() => setActiveCategory(category.id)}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                  className={cn(
+                    "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer",
                     isActive
                       ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-[1.02]"
                       : "text-muted-foreground hover:text-foreground hover:bg-background/80"
-                  }`}
+                  )}
                 >
                   {category.label}
                 </button>
