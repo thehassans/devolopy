@@ -1,291 +1,143 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Sparkles,
-  ArrowRight,
-  Bot,
-  Cpu,
-  Zap,
-  Eye,
-  Mic,
-  Brain,
-  ShieldCheck,
-  Code2,
-  CheckCircle2,
-  Layers,
-  Activity,
-} from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
 
-export interface AICapabilityItem {
+// --- Data for the image accordion ---
+interface AccordionItemData {
   id: number;
   title: string;
-  subtitle: string;
-  tagline: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  badge: string;
-  metric: string;
-  metricLabel: string;
-  features: string[];
-  codeSnippet: string;
+  imageUrl: string;
 }
 
-const AI_CAPABILITIES: AICapabilityItem[] = [
+const accordionItems: AccordionItemData[] = [
   {
     id: 1,
-    title: "Conversational Voice AI",
-    tagline: "Ultra-Low Latency Audio Copilots",
-    subtitle: "Real-time, bi-directional speech intelligence and voice copilots for enterprise customer operations.",
-    icon: Mic,
-    badge: "<200ms Latency",
-    metric: "<200ms",
-    metricLabel: "Speech Inference SLA",
-    features: [
-      "Sub-200ms streaming audio processing via WebRTC",
-      "Dynamic acoustic noise cancellation and voice activity detection (VAD)",
-      "Multi-lingual accent adaptation and custom voice cloning",
-    ],
-    codeSnippet: `// Voice Pipeline Agent Config
-export const voiceEngine = {
-  transport: "WebRTC / WebSocket Stream",
-  turnDetection: "Server-VAD (Adaptive)",
-  model: "Devolopy-Voice-Turbo-v2",
-  p99Latency: "185ms",
-};`,
+    title: "Voice Assistant",
+    imageUrl: "https://images.unsplash.com/photo-1628258334105-2a0b3d6efee1?q=80&w=1974&auto=format&fit=crop",
   },
   {
     id: 2,
-    title: "Enterprise RAG & Knowledge",
-    tagline: "Private Vector Search & Embeddings",
-    subtitle: "Connect frontier LLMs securely to your company manuals, SQL databases, and internal documents with zero leakage.",
-    icon: Brain,
-    badge: "100% Zero-Data Retention",
-    metric: "100%",
-    metricLabel: "Confidentiality SLA",
-    features: [
-      "Hybrid dense & sparse embedding retrieval (BM25 + Cohere Rerank)",
-      "Automated PDF, DOCX, and spreadsheet schema chunking",
-      "Role-based permission guards preventing unauthorized document access",
-    ],
-    codeSnippet: `// Private Enterprise RAG Pipeline
-const ragPipeline = await createVectorMesh({
-  embeddings: "text-embedding-3-large",
-  vectorStore: "Qdrant / Pinecone Private VPC",
-  reranker: "Cohere-Rerank-v3",
-  zeroDataRetention: true,
-});`,
+    title: "AI Image Generation",
+    imageUrl: "https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=2070&auto=format&fit=crop",
   },
   {
     id: 3,
-    title: "Autonomous Agentic Workflows",
-    tagline: "Multi-Agent Reasoning & Tool Use",
-    subtitle: "Self-healing AI agents that reason through multi-step tasks, execute API webhooks, and automate operations 24/7.",
-    icon: Bot,
-    badge: "Self-Healing Logic",
-    metric: "24/7/365",
-    metricLabel: "Autonomous Execution",
-    features: [
-      "Dynamic tool-calling and external API integration loops",
-      "Human-in-the-loop validation triggers for sensitive operations",
-      "Automated self-correcting error recovery and webhook retries",
-    ],
-    codeSnippet: `// Multi-Agent Swarm Orchestrator
-export const agentSwarm = new Orchestrator({
-  planner: "Claude-3.5-Sonnet",
-  executor: "GPT-4o-Mini",
-  tools: [crmAPI, databaseQuery, paymentGateway],
-  humanInLoopThreshold: 0.95,
-});`,
+    title: "AI Chatbot + Local RAG",
+    imageUrl: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1974&auto=format&fit=crop",
   },
   {
     id: 4,
-    title: "Visual Intelligence & OCR",
-    tagline: "High-Precision Document Perception",
-    subtitle: "Automated document comprehension, structured table parsing, and high-throughput visual inspection pipelines.",
-    icon: Eye,
-    badge: "99.8% Precision",
-    metric: "99.8%",
-    metricLabel: "Parsing Accuracy",
-    features: [
-      "Complex table extraction and JSON structured data serialization",
-      "Edge-deployed vision transformers for defect detection",
-      "Multi-page financial invoice and contract parsing in seconds",
-    ],
-    codeSnippet: `// Vision OCR & Document Ingestion
-const documentResult = await parseDocument({
-  schema: InvoiceSchema,
-  multimodalModel: "Claude-3.5-Sonnet-Vision",
-  confidenceThreshold: 0.998,
-});`,
+    title: "AI Agent",
+    imageUrl: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=2090&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    title: "Visual Understanding",
+    imageUrl: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop",
   },
 ];
 
-export function LandingAccordionItem({
-  className,
-}: {
-  className?: string;
-}) {
-  const [selectedId, setSelectedId] = useState<number>(2);
+// --- Accordion Item Component ---
+interface AccordionItemProps {
+  item: AccordionItemData;
+  isActive: boolean;
+  onMouseEnter: () => void;
+}
+
+const AccordionItem: React.FC<AccordionItemProps> = ({ item, isActive, onMouseEnter }) => {
+  return (
+    <div
+      className={`
+        relative h-[450px] rounded-2xl overflow-hidden cursor-pointer shrink-0
+        transition-all duration-700 ease-in-out select-none shadow-lg
+        ${isActive ? "w-[300px] sm:w-[380px] md:w-[400px]" : "w-[50px] sm:w-[60px]"}
+      `}
+      onMouseEnter={onMouseEnter}
+      onClick={onMouseEnter}
+    >
+      {/* Background Image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={item.imageUrl}
+        alt={item.title}
+        className="absolute inset-0 w-full h-full object-cover"
+        onError={(e) => {
+          (e.target as HTMLImageElement).onerror = null;
+          (e.target as HTMLImageElement).src =
+            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
+        }}
+      />
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40"></div>
+
+      {/* Caption Text */}
+      <span
+        className={`
+          absolute text-white text-base sm:text-lg font-semibold whitespace-nowrap
+          transition-all duration-300 ease-in-out
+          ${
+            isActive
+              ? "bottom-6 left-1/2 -translate-x-1/2 rotate-0 text-center" // Active state: horizontal, bottom-center
+              // Inactive state: vertical, positioned at the bottom, for all screen sizes
+              : "w-auto text-left bottom-24 left-1/2 -translate-x-1/2 rotate-90 font-mono tracking-wider"
+          }
+        `}
+      >
+        {item.title}
+      </span>
+    </div>
+  );
+};
+
+// --- Main App Component ---
+export function LandingAccordionItem() {
+  const [activeIndex, setActiveIndex] = useState(4);
   const { openConsultation } = useConsultation();
 
-  const selectedItem = AI_CAPABILITIES.find((item) => item.id === selectedId) || AI_CAPABILITIES[1];
+  const handleItemHover = (index: number) => {
+    setActiveIndex(index);
+  };
 
   return (
-    <section
-      id="ai-architecture"
-      aria-label="Enterprise AI Architecture"
-      className={cn(
-        "relative w-full py-24 sm:py-32 bg-background text-foreground overflow-hidden border-t border-border",
-        className
-      )}
-    >
-      {/* Background Ambient Lighting */}
-      <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)] blur-3xl"
-        aria-hidden="true"
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:items-center">
-          {/* Left Side: Headline & Value Proposition */}
-          <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-sm">
-              <Cpu className="size-3.5" /> Next-Gen AI Infrastructure
-            </div>
-
-            <h2 className="font-space text-3xl sm:text-5xl font-black tracking-[-0.035em] text-foreground leading-tight">
-              Autonomous AI Systems Built For Scale
+    <div className="bg-background text-foreground font-sans border-t border-border">
+      <section className="container mx-auto px-4 py-12 md:py-24">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Left Side: Text Content */}
+          <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
+            <h2 className="text-4xl md:text-6xl font-bold text-foreground leading-tight tracking-tighter font-space">
+              Accelerate Gen-AI Tasks on Any Device
             </h2>
-
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Deploy custom enterprise RAG copilots, multi-modal vision systems, and autonomous multi-agent reasoning pipelines connected securely to your proprietary company databases.
+            <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              Build high-performance AI apps on-device without the hassle of model compression or edge deployment.
             </p>
-
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <div className="pt-2">
               <button
                 type="button"
                 onClick={() => openConsultation("ai-agentic-automation")}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-sm sm:text-base font-semibold text-primary-foreground shadow-md shadow-primary/20 hover:bg-primary/90 transition-all cursor-pointer"
+                className="inline-block bg-primary text-primary-foreground font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:bg-primary/90 transition-colors duration-300 cursor-pointer"
               >
-                <span>Architect Your AI Stack</span>
-                <ArrowRight className="size-4" />
+                Contact Us
               </button>
-
-              <a
-                href="#services"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-secondary hover:bg-secondary/80 border border-border px-6 py-3.5 text-sm sm:text-base font-semibold text-foreground transition-all"
-              >
-                <span>Browse All Capabilities</span>
-              </a>
             </div>
           </div>
 
-          {/* Right Side: Interactive AI Capability Deck (Without Stock Images) */}
-          <div className="lg:col-span-7 space-y-4">
-            {/* Capability Selector Tabs */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {AI_CAPABILITIES.map((item) => {
-                const Icon = item.icon;
-                const isSelected = item.id === selectedId;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setSelectedId(item.id)}
-                    className={cn(
-                      "flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl border text-center transition-all duration-300 cursor-pointer shadow-sm",
-                      isSelected
-                        ? "bg-primary text-primary-foreground border-primary shadow-md scale-[1.02]"
-                        : "bg-card hover:bg-secondary/80 border-border text-card-foreground"
-                    )}
-                  >
-                    <Icon className={cn("size-5 mb-2", isSelected ? "text-primary-foreground" : "text-primary")} />
-                    <span className="font-space text-xs sm:text-sm font-bold line-clamp-1">
-                      {item.title.split(" ")[0]} {item.title.split(" ")[1]}
-                    </span>
-                    <span className={cn("text-[10px] font-mono mt-0.5 opacity-80", isSelected ? "text-primary-foreground/90" : "text-muted-foreground")}>
-                      {item.badge}
-                    </span>
-                  </button>
-                );
-              })}
+          {/* Right Side: Image Accordion */}
+          <div className="w-full lg:w-1/2">
+            <div className="flex flex-row items-center justify-center gap-3 sm:gap-4 overflow-x-auto p-4 scrollbar-none">
+              {accordionItems.map((item, index) => (
+                <AccordionItem
+                  key={item.id}
+                  item={item}
+                  isActive={index === activeIndex}
+                  onMouseEnter={() => handleItemHover(index)}
+                />
+              ))}
             </div>
-
-            {/* Active Capability Showcase Card */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedItem.id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
-                className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-xl text-card-foreground space-y-6"
-              >
-                {/* Header info */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
-                  <div className="space-y-1">
-                    <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-semibold">
-                      <Zap className="size-3" /> {selectedItem.tagline}
-                    </div>
-                    <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                      {selectedItem.title}
-                    </h3>
-                  </div>
-
-                  <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-secondary/80 border border-border shrink-0">
-                    <Activity className="size-5 text-primary" />
-                    <div>
-                      <div className="font-space text-lg sm:text-xl font-bold text-foreground leading-none">
-                        {selectedItem.metric}
-                      </div>
-                      <div className="text-[10px] font-mono text-muted-foreground">
-                        {selectedItem.metricLabel}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Subtitle */}
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  {selectedItem.subtitle}
-                </p>
-
-                {/* Features Checklist */}
-                <div className="grid sm:grid-cols-3 gap-3">
-                  {selectedItem.features.map((feature, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-2.5 p-3 rounded-xl bg-secondary/40 border border-border text-xs sm:text-sm text-foreground font-medium"
-                    >
-                      <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
-                      <span className="leading-snug">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Live Code / Architecture Manifest */}
-                <div className="rounded-2xl border border-border/80 bg-background/80 p-4 font-mono text-xs sm:text-sm text-foreground overflow-x-auto shadow-inner">
-                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-border text-[11px] text-muted-foreground">
-                    <span className="flex items-center gap-2">
-                      <Code2 className="size-3.5 text-primary" /> ai-architecture.manifest.ts
-                    </span>
-                    <span className="text-emerald-500 font-semibold flex items-center gap-1">
-                      <span className="size-1.5 rounded-full bg-emerald-500 animate-ping inline-block" /> Live Engine
-                    </span>
-                  </div>
-                  <pre className="text-xs text-foreground/90 leading-relaxed overflow-x-auto">
-                    {selectedItem.codeSnippet}
-                  </pre>
-                </div>
-              </motion.div>
-            </AnimatePresence>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
