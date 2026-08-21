@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
 import { useConsultation } from "./consultation-modal";
-import { Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import { Menu, X, ArrowUpRight, Zap } from "lucide-react";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -106,11 +106,10 @@ export function Navbar() {
               <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 rounded-full animate-pulse" />
 
               {/* Button inner */}
-              <span className="relative flex items-center gap-2 h-9 px-5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 group-hover:from-blue-500 group-hover:to-indigo-500 shadow-inner">
+                <span className="relative flex items-center gap-2 h-9 px-5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 group-hover:from-blue-500 group-hover:to-indigo-500 shadow-inner">
                 {/* Moving light shine sweep */}
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%)] rounded-full" />
 
-                <Sparkles className="size-3.5 text-cyan-200" />
                 <span>Get Started</span>
                 <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>
@@ -158,7 +157,7 @@ export function Navbar() {
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition-all"
               >
                 <span>Get Started with Devolopy</span>
-                <Sparkles className="size-4" />
+                <ArrowUpRight className="size-4" />
               </button>
             </div>
           </div>

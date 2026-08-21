@@ -2,7 +2,7 @@
 
 import React from "react";
 import DotPattern from "@/components/ui/dot-pattern-1";
-import { Sparkles, ArrowUpRight } from "lucide-react";
+import { Zap, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 export function DevolopyBelieve() {
@@ -35,7 +35,7 @@ export function DevolopyBelieve() {
             <div className="flex items-center gap-2">
               <span className="h-px w-8 bg-primary" />
               <p className="font-mono text-xs sm:text-sm uppercase tracking-widest text-primary font-bold flex items-center gap-1.5">
-                <Sparkles className="size-3.5" /> Devolopy Believes
+                <Zap className="size-3.5" /> Devolopy Believes
               </p>
             </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Gauge, ShieldCheck, Layers, Sparkles, Activity } from "lucide-react";
+import { Gauge, ShieldCheck, Layers, Zap, Activity } from "lucide-react";
 
 export function KeyMetricsBar() {
   const metrics = [
@@ -47,7 +47,7 @@ export function KeyMetricsBar() {
       label: "Faster Delivery & Scale",
       subtext: "Accelerated Agile Engineering",
       badge: "High Velocity",
-      icon: Sparkles,
+      icon: Zap,
       glow: "from-amber-500/20 via-orange-500/10 to-transparent",
       borderColor: "group-hover:border-amber-500/50",
       textColor: "text-amber-400",

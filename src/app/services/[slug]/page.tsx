@@ -9,7 +9,7 @@ import { ALL_SERVICES, getServiceBySlug } from "@/lib/services-data";
 import {
   CheckCircle2,
   ArrowRight,
-  Sparkles,
+  Cpu,
   ChevronRight,
   ShieldCheck,
   Zap,
@@ -84,7 +84,7 @@ export default function ServiceDetailPage({
               {/* Left Column */}
               <div className="lg:col-span-7 space-y-6">
                 <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary">
-                  <Sparkles className="size-3.5" /> {service.categoryLabel}
+                  <Cpu className="size-3.5" /> {service.categoryLabel}
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">

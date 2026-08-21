@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { Zap, Cpu, Fingerprint, Pencil, Settings2, Sparkles } from 'lucide-react';
+import { Zap, Cpu, Fingerprint, Pencil, Settings2, Bot } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 export type FeatureType = {
@@ -104,7 +104,7 @@ export const defaultFeatures: FeatureType[] = [
 	},
 	{
 		title: 'Built for AI Era',
-		icon: Sparkles,
+		icon: Bot,
 		description: 'Designed for high-converting agentic workflows, responsive interfaces, and intelligent digital experiences.',
 	},
 ];
@@ -141,7 +141,7 @@ export function GridFeatureCardsSection() {
 			<div className="mx-auto w-full max-w-6xl space-y-12 px-4 sm:px-6 lg:px-8">
 				<AnimatedContainer className="mx-auto max-w-3xl text-center">
 					<div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary mb-4">
-						<Sparkles className="size-3.5" /> High Impact Features
+						<Zap className="size-3.5" /> High Impact Features
 					</div>
 					<h2 id="features-heading" className="text-3xl font-bold tracking-tight text-balance md:text-4xl lg:text-5xl">
 						Power. Speed. Control.

@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
-  Sparkles,
   CheckCircle2,
   Send,
   Calendar,
@@ -164,7 +163,7 @@ export function ConsultationProvider({ children }: { children: React.ReactNode }
                   {/* Header */}
                   <div className="space-y-2 pr-8">
                     <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 py-1 text-xs font-mono font-semibold text-primary shadow-sm">
-                      <Sparkles className="size-3.5" /> High-Velocity Engineering
+                      <Zap className="size-3.5" /> High-Velocity Engineering
                     </div>
                     <h2 className="font-space text-2xl sm:text-4xl font-black text-foreground tracking-tight">
                       Start Your Project With Devolopy

@@ -11,7 +11,6 @@ import {
 import {
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   ArrowUpRight,
   Play,
   Pause,

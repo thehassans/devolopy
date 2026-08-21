@@ -14,7 +14,9 @@ import {
   Twitter,
   Github,
   Dribbble,
-  Sparkles,
+  Workflow,
+  Globe,
+  Zap,
   ArrowUpRight,
 } from "lucide-react";
 
@@ -265,7 +267,7 @@ export function HoverFooter() {
             </p>
 
             <div className="flex items-center gap-2 text-xs font-mono text-primary bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full w-fit">
-              <Sparkles className="size-3.5" /> Ultra-High-Performance Engineering
+              <Zap className="size-3.5" /> Ultra-High-Performance Engineering
             </div>
           </div>
 

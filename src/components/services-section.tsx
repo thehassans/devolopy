@@ -9,7 +9,7 @@ import {
   ShoppingCart,
   Workflow,
   Search,
-  Sparkles,
+  Bot,
   Cloud,
   Palette,
   Server,
@@ -45,7 +45,7 @@ const ICONS_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement
   "e-commerce": ShoppingCart,
   "n8n-development": Workflow,
   "seo": Search,
-  "ai-agentic-automation": Sparkles,
+  "ai-agentic-automation": Bot,
   "cloud-devops": Cloud,
   "ui-ux-design-systems": Palette,
   "api-microservices": Server,
@@ -96,7 +96,7 @@ function Card3D({
   const spotY = useMotionValue(0);
   const spotOpacity = useSpring(0, { damping: 20, stiffness: 200 });
 
-  const Icon = ICONS_MAP[service.id] || Sparkles;
+  const Icon = ICONS_MAP[service.id] || Zap;
   const stat = STATS_MAP[service.id] || {
     label: "Tier",
     value: "Enterprise",
@@ -503,7 +503,7 @@ export function ServicesSection() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-xs sm:text-sm font-semibold text-primary-foreground shadow-md transition-all cursor-pointer shrink-0"
                   >
                     <span>Book Strategy Call</span>
-                    <Sparkles className="size-4" />
+                    <ArrowRight className="size-4" />
                   </button>
                 </div>
               </div>

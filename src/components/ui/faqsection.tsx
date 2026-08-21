@@ -4,7 +4,7 @@ import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { HelpCircle, Sparkles } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 
 export type FAQItem = {
   question: string;
