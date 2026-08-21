@@ -6,6 +6,7 @@ import LandingAccordionItem from "@/components/ui/interactive-image-accordion";
 import DevolopyBelieve from "@/components/ui/devolopy-believe";
 import Integrations from "@/components/ui/integrations-4-2";
 import GridFeatureCardsSection from "@/components/ui/grid-feature-cards";
+import FeatureSections from "@/components/ui/feature-sections";
 import { MarqueeDemo } from "@/components/ui/marquee";
 import HomeFAQ from "@/components/home-faq";
 import FooterNewsletter from "@/components/ui/footer-newsletter";
@@ -103,7 +104,10 @@ export default function HomePage() {
           <GridFeatureCardsSection />
         </div>
 
-        {/* 7. Enterprise Architecture & Interactive Solutions Highlights */}
+        {/* 7. Powerful Feature Sections Cards */}
+        <FeatureSections />
+
+        {/* 8. Enterprise Architecture & Interactive Solutions Highlights */}
         <section id="solutions" aria-labelledby="solutions-title" className="py-24 bg-secondary/20 border-t border-border">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
@@ -176,21 +180,21 @@ export const servicesArchitecture = {
           </div>
         </section>
 
-        {/* 8. Tech Stack Infinite Marquee Showcase (Placed at bottom above FAQs) */}
+        {/* 9. Tech Stack Infinite Marquee Showcase (Placed at bottom above FAQs) */}
         <section aria-label="Enterprise Technologies" className="border-t border-border bg-background">
           <MarqueeDemo />
         </section>
 
-        {/* 9. Comprehensive FAQ Section */}
+        {/* 10. Comprehensive FAQ Section */}
         <HomeFAQ />
 
-        {/* 10. Newsletter & Call to Action */}
+        {/* 11. Newsletter & Call to Action */}
         <div id="about">
           <FooterNewsletter />
         </div>
       </main>
 
-      {/* 11. Devolopy Interactive Hover Footer */}
+      {/* 12. Devolopy Interactive Hover Footer */}
       <HoverFooter />
     </div>
   );
