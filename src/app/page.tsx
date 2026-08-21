@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import { MarqueeDemo } from "@/components/ui/marquee";
 import ServicesSection from "@/components/services-section";
+import LandingAccordionItem from "@/components/ui/interactive-image-accordion";
 import DevolopyBelieve from "@/components/ui/devolopy-believe";
 import Integrations from "@/components/ui/integrations-4-2";
 import GridFeatureCardsSection from "@/components/ui/grid-feature-cards";
@@ -29,18 +30,21 @@ export default function HomePage() {
         {/* 3. Comprehensive Services Section (With 12 detailed dedicated pages) */}
         <ServicesSection />
 
-        {/* 4. Devolopy Believes Manifesto Section */}
+        {/* 4. Interactive AI & Autonomous Systems Accordion Showcase */}
+        <LandingAccordionItem />
+
+        {/* 5. Devolopy Believes Manifesto Section */}
         <DevolopyBelieve />
 
-        {/* 5. Seamless Integrations Section */}
+        {/* 6. Seamless Integrations Section */}
         <Integrations />
 
-        {/* 6. Grid Feature Cards Section */}
+        {/* 7. Grid Feature Cards Section */}
         <div id="features">
           <GridFeatureCardsSection />
         </div>
 
-        {/* 7. Enterprise Architecture & Interactive Solutions Highlights */}
+        {/* 8. Enterprise Architecture & Interactive Solutions Highlights */}
         <section id="solutions" aria-labelledby="solutions-title" className="py-24 bg-secondary/20 border-t border-border">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
@@ -113,16 +117,16 @@ export const servicesArchitecture = {
           </div>
         </section>
 
-        {/* 8. Comprehensive FAQ Section */}
+        {/* 9. Comprehensive FAQ Section */}
         <HomeFAQ />
 
-        {/* 9. Newsletter & Call to Action */}
+        {/* 10. Newsletter & Call to Action */}
         <div id="about">
           <FooterNewsletter />
         </div>
       </main>
 
-      {/* 10. Devolopy Interactive Hover Footer */}
+      {/* 11. Devolopy Interactive Hover Footer */}
       <HoverFooter />
     </div>
   );
