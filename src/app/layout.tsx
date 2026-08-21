@@ -133,14 +133,14 @@ const jsonLd = {
         "Building beautiful, functional, and ultra-fast web experiences with modern Next.js, Tailwind CSS, Odoo ERP, n8n automations, and AI technologies.",
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Devolopy Digital Services",
+        name: "Devolopy Digital Engineering Services",
         itemListElement: [
           {
             "@type": "Offer",
             itemOffered: {
               "@type": "Service",
               name: "Website Development",
-              description: "Custom UI/UX, Next.js architecture, and SEO-optimized high-performance websites.",
+              description: "Custom Next.js web applications, responsive UI/UX, and SEO-optimized architecture.",
             },
           },
           {
@@ -156,15 +156,15 @@ const jsonLd = {
             itemOffered: {
               "@type": "Service",
               name: "Odoo Development",
-              description: "Custom enterprise Odoo ERP implementation, module development, and automated financial workflows.",
+              description: "Custom enterprise Odoo ERP implementation, module development, and automated business workflows.",
             },
           },
           {
             "@type": "Offer",
             itemOffered: {
               "@type": "Service",
-              name: "E-Commerce",
-              description: "High-performance online stores with secure multi-gateway payment integration.",
+              name: "E-Commerce Solutions",
+              description: "High-performance online stores with secure multi-gateway payment integration and headless checkout.",
             },
           },
           {
@@ -172,7 +172,7 @@ const jsonLd = {
             itemOffered: {
               "@type": "Service",
               name: "N8N Development",
-              description: "Workflow automation pipelines and cross-application integration with self-hosted n8n.",
+              description: "Workflow automation pipelines and cross-application integration with enterprise n8n.",
             },
           },
           {
@@ -181,6 +181,54 @@ const jsonLd = {
               "@type": "Service",
               name: "SEO Optimization",
               description: "Technical SEO, Core Web Vitals acceleration, Schema.org rich snippets, and Google ranking growth.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "AI Agentic Automation",
+              description: "Autonomous AI agents, custom fine-tuned LLMs, retrieval augmented generation (RAG), and smart copilots.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Cloud & DevOps Architecture",
+              description: "Scalable AWS, Docker, Kubernetes infrastructure with 99.99% uptime and automated CI/CD.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "UI/UX Design Systems",
+              description: "Figma design tokens, accessible WCAG AA standards, and pixel-perfect interactive component libraries.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "API & Microservices Architecture",
+              description: "High-throughput REST and GraphQL APIs with low latency caching on Edge CDN networks.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Custom CRM & Client Portals",
+              description: "Tailored enterprise dashboards with real-time role-based access control and analytics.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Conversion Rate Optimization (CRO)",
+              description: "Data-driven multivariate testing, user journey mapping, and funnel optimization.",
             },
           },
         ],

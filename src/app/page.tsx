@@ -1,21 +1,83 @@
 import React from "react";
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
-import { MarqueeDemo } from "@/components/ui/marquee";
 import ServicesSection from "@/components/services-section";
 import LandingAccordionItem from "@/components/ui/interactive-image-accordion";
 import DevolopyBelieve from "@/components/ui/devolopy-believe";
 import Integrations from "@/components/ui/integrations-4-2";
 import GridFeatureCardsSection from "@/components/ui/grid-feature-cards";
+import { MarqueeDemo } from "@/components/ui/marquee";
 import HomeFAQ from "@/components/home-faq";
 import FooterNewsletter from "@/components/ui/footer-newsletter";
 import HoverFooter from "@/components/ui/hover-footer";
 import { CheckCircle2, ArrowRight, Code2 } from "lucide-react";
 import Link from "next/link";
 
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://devolopy.com/#webpage",
+      url: "https://devolopy.com",
+      name: "Devolopy - Full-Spectrum Digital Engineering Studio",
+      description:
+        "High-performance website development, mobile apps, Odoo ERP customization, autonomous n8n workflows, and SEO dominance.",
+      inLanguage: "en-US",
+      isPartOf: {
+        "@type": "WebSite",
+        "@id": "https://devolopy.com/#website",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What makes Devolopy different from standard web agencies?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Devolopy is a full-spectrum digital engineering studio. We architect end-to-end ecosystems comprising custom Next.js web applications, native mobile apps, enterprise Odoo ERP backbones with financial automation, and autonomous n8n workflows.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How fast can you deliver an enterprise-grade web or ERP project?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Our modular architecture and CI/CD pipelines allow us to deploy production-ready MVP websites in 2 to 3 weeks, complex custom web platforms in 4 to 6 weeks, and full-scale Odoo ERP deployments in 6 to 10 weeks.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do you guarantee 100/100 Google Lighthouse and Core Web Vitals?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Every web platform we build undergoes strict performance audits on Edge networks, ensuring sub-second First Contentful Paint (FCP), zero Cumulative Layout Shift (CLS < 0.05), and perfect SEO accessibility scores.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Can you customize Odoo ERP for complex multi-entity business operations?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Absolutely. We engineer custom Odoo 17 & 18 modules, multi-currency accounting engines, real-time inventory synchronization, automated PDF report generators, and secure payment and bank reconciliation APIs.",
+          },
+        },
+      ],
+    },
+  ],
+};
+
 export default function HomePage() {
   return (
     <div className="relative flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+      {/* JSON-LD Rich Snippet for FAQ & WebPage */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
+      />
+
       {/* Navigation */}
       <Navbar />
 
@@ -24,27 +86,24 @@ export default function HomePage() {
         {/* 1. Hero Section with Filmstrip Carousel */}
         <HeroSection />
 
-        {/* 2. Tech Stack Infinite Marquee Showcase */}
-        <MarqueeDemo />
-
-        {/* 3. Comprehensive Services Section (With 12 detailed dedicated pages) */}
+        {/* 2. Comprehensive Services Section (With 12 detailed dedicated pages) */}
         <ServicesSection />
 
-        {/* 4. Interactive AI & Autonomous Systems Accordion Showcase */}
+        {/* 3. Interactive AI & Autonomous Systems Accordion Showcase */}
         <LandingAccordionItem />
 
-        {/* 5. Devolopy Believes Manifesto Section */}
+        {/* 4. Devolopy Believes Manifesto Section */}
         <DevolopyBelieve />
 
-        {/* 6. Seamless Integrations Section */}
+        {/* 5. Seamless Integrations Section */}
         <Integrations />
 
-        {/* 7. Grid Feature Cards Section */}
+        {/* 6. Grid Feature Cards Section */}
         <div id="features">
           <GridFeatureCardsSection />
         </div>
 
-        {/* 8. Enterprise Architecture & Interactive Solutions Highlights */}
+        {/* 7. Enterprise Architecture & Interactive Solutions Highlights */}
         <section id="solutions" aria-labelledby="solutions-title" className="py-24 bg-secondary/20 border-t border-border">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
@@ -115,6 +174,11 @@ export const servicesArchitecture = {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* 8. Tech Stack Infinite Marquee Showcase (Placed at bottom above FAQs) */}
+        <section aria-label="Enterprise Technologies" className="border-t border-border bg-background">
+          <MarqueeDemo />
         </section>
 
         {/* 9. Comprehensive FAQ Section */}
