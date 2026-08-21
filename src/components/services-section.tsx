@@ -31,12 +31,12 @@ import { useConsultation } from "./consultation-modal";
 import { cn } from "@/lib/utils";
 
 const CATEGORIES = [
-  { id: "all", label: "All Capabilities" },
-  { id: "engineering", label: "Web Applications" },
-  { id: "mobile", label: "Mobile Apps" },
-  { id: "erp-automation", label: "Odoo ERP & N8N" },
+  { id: "all", label: "All" },
+  { id: "engineering", label: "Web Apps" },
+  { id: "mobile", label: "Mobile" },
+  { id: "erp-automation", label: "Odoo & N8N" },
   { id: "growth", label: "SEO & Growth" },
-  { id: "ai-cloud", label: "AI & Cloud Systems" },
+  { id: "ai-cloud", label: "AI & Cloud" },
 ];
 
 const ICONS_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -70,7 +70,7 @@ const STATS_MAP: Record<string, { label: string; value: string; badgeColor: stri
 };
 
 /**
- * Ultra-Premium Light & Dark Theme 3D Tilt Card
+ * Ultra-Premium Minimalist 3D Tilt Card
  */
 function Card3D({
   service,
@@ -83,16 +83,13 @@ function Card3D({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Mouse tilt motion values
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
 
-  // Smooth spring physics for organic tilt
   const springConfig = { damping: 25, stiffness: 220, mass: 0.5 };
-  const rotateX = useSpring(useTransform(y, [0, 1], [8, -8]), springConfig);
-  const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), springConfig);
+  const rotateX = useSpring(useTransform(y, [0, 1], [7, -7]), springConfig);
+  const rotateY = useSpring(useTransform(x, [0, 1], [-7, 7]), springConfig);
 
-  // Mouse spotlight coordinates
   const spotX = useMotionValue(0);
   const spotY = useMotionValue(0);
   const spotOpacity = useSpring(0, { damping: 20, stiffness: 200 });
@@ -128,10 +125,10 @@ function Card3D({
       <motion.div
         ref={cardRef}
         layout
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.035 }}
+        transition={{ duration: 0.45, delay: index * 0.03 }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
@@ -139,7 +136,7 @@ function Card3D({
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="group relative flex h-full flex-col justify-between rounded-3xl bg-card border border-border/80 p-7 sm:p-9 shadow-sm transition-all duration-300 hover:border-primary/60 hover:shadow-xl min-h-[410px] will-change-transform text-card-foreground"
+        className="group relative flex h-full flex-col justify-between rounded-3xl bg-card border border-border/70 p-6 sm:p-8 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl min-h-[390px] will-change-transform text-card-foreground"
       >
         {/* Layer 0: Specular Reflection Spotlight */}
         <motion.div
@@ -149,7 +146,7 @@ function Card3D({
             background: useTransform(
               [spotX, spotY],
               ([latestX, latestY]) =>
-                `radial-gradient(400px circle at ${latestX}px ${latestY}px, rgba(59, 130, 246, 0.12), transparent 75%)`
+                `radial-gradient(350px circle at ${latestX}px ${latestY}px, rgba(59, 130, 246, 0.12), transparent 75%)`
             ),
           }}
           aria-hidden="true"
@@ -157,98 +154,98 @@ function Card3D({
 
         {/* Ambient Corner Glow */}
         <div
-          className="pointer-events-none absolute -top-12 -right-12 size-36 rounded-full bg-primary/10 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
+          className="pointer-events-none absolute -top-10 -right-10 size-32 rounded-full bg-primary/10 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
           aria-hidden="true"
         />
 
-        {/* Layer 1: Top Information (translateZ: 30px) */}
-        <div style={{ transform: "translateZ(30px)" }} className="relative z-20 space-y-4">
+        {/* Layer 1: Top Information */}
+        <div style={{ transform: "translateZ(25px)" }} className="relative z-20 space-y-3.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="font-space font-mono font-bold text-xs text-muted-foreground tracking-wider">
+              <span className="font-mono font-bold text-xs text-muted-foreground tracking-wider">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/25 px-3 py-0.5 rounded-full backdrop-blur-md">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 {service.categoryLabel}
               </span>
             </div>
 
-            {/* 3D Floating Icon Capsule (translateZ: 45px) */}
+            {/* 3D Floating Icon Capsule */}
             <div
-              style={{ transform: "translateZ(45px)" }}
-              className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300 shadow-sm"
+              style={{ transform: "translateZ(35px)" }}
+              className="flex size-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-all duration-300 shadow-sm"
             >
-              <Icon className="size-5" />
+              <Icon className="size-4.5" />
             </div>
           </div>
 
-          {/* Title (translateZ: 35px) */}
+          {/* Title */}
           <Link
             href={`/services/${service.slug}`}
-            style={{ transform: "translateZ(35px)" }}
-            className="block group/title pt-1"
+            style={{ transform: "translateZ(30px)" }}
+            className="block group/title pt-0.5"
           >
-            <h3 className="font-space text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground group-hover/title:text-primary transition-colors flex items-center justify-between">
+            <h3 className="font-space text-xl sm:text-2xl font-bold tracking-tight text-foreground group-hover/title:text-primary transition-colors flex items-center justify-between">
               <span>{service.title}</span>
-              <ArrowUpRight className="size-5 text-primary opacity-0 -translate-x-2 translate-y-2 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:translate-y-0 transition-all duration-300 shrink-0" />
+              <ArrowUpRight className="size-4.5 text-primary opacity-0 -translate-x-1.5 translate-y-1.5 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:translate-y-0 transition-all duration-300 shrink-0" />
             </h3>
           </Link>
 
-          {/* Short Description (translateZ: 20px) */}
+          {/* Short Description */}
           <p
-            style={{ transform: "translateZ(20px)" }}
-            className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
+            style={{ transform: "translateZ(15px)" }}
+            className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-normal"
           >
             {service.shortDescription}
           </p>
 
-          {/* Live Benchmark SLA Pill (translateZ: 40px) */}
-          <div style={{ transform: "translateZ(40px)" }} className="pt-1">
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono font-semibold ${stat.badgeColor}`}>
+          {/* Live Benchmark SLA Pill */}
+          <div style={{ transform: "translateZ(30px)" }} className="pt-0.5">
+            <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-[11px] font-mono font-medium ${stat.badgeColor}`}>
               <span className="relative flex size-1.5">
                 <span className="bg-current absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
                 <span className="bg-current relative inline-flex size-1.5 rounded-full" />
               </span>
               <span>{stat.label}:</span>
-              <strong className="text-foreground">{stat.value}</strong>
+              <strong className="text-foreground font-semibold">{stat.value}</strong>
             </div>
           </div>
         </div>
 
-        {/* Layer 2: Footer Tech Stack & Actions (translateZ: 25px) */}
+        {/* Layer 2: Footer Tech Stack & Actions */}
         <div
-          style={{ transform: "translateZ(25px)" }}
-          className="relative z-20 pt-5 border-t border-border/70 mt-6 space-y-4"
+          style={{ transform: "translateZ(20px)" }}
+          className="relative z-20 pt-4 border-t border-border/70 mt-5 space-y-3.5"
         >
           <div className="flex flex-wrap gap-1.5">
             {service.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="text-[11px] font-mono text-muted-foreground bg-secondary/70 border border-border/60 px-2.5 py-0.5 rounded-lg font-medium"
+                className="text-[10px] font-mono text-muted-foreground bg-secondary/70 border border-border/60 px-2 py-0.5 rounded-md font-medium"
               >
                 {tech}
               </span>
             ))}
             {service.technologies.length > 3 && (
-              <span className="text-[11px] font-mono text-muted-foreground self-center px-1">
+              <span className="text-[10px] font-mono text-muted-foreground self-center px-0.5">
                 +{service.technologies.length - 3}
               </span>
             )}
           </div>
 
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center justify-between pt-1">
             <Link
               href={`/services/${service.slug}`}
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:underline transition-colors group/link"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline transition-colors group/link"
             >
-              <span>View Architecture</span>
-              <ArrowRight className="size-3.5 transition-transform group-hover/link:translate-x-1" />
+              <span>View Specs</span>
+              <ArrowRight className="size-3 transition-transform group-hover/link:translate-x-1" />
             </Link>
 
             <button
               type="button"
               onClick={() => onQuickView(service)}
-              className="px-3.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary border border-border text-xs font-mono text-foreground transition-all cursor-pointer shadow-sm"
+              className="px-3 py-1 rounded-lg bg-secondary/80 hover:bg-secondary border border-border text-[11px] font-mono text-foreground transition-all cursor-pointer shadow-sm"
               aria-label={`Quick scope overview for ${service.title}`}
             >
               Quick Scope
@@ -284,92 +281,79 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-main-heading"
-      className="relative w-full py-20 sm:py-28 bg-background text-foreground overflow-hidden border-t border-border"
+      className="relative w-full py-12 sm:py-16 bg-background text-foreground overflow-hidden border-t border-border"
     >
       {/* Background 3D Ambient Blur */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/3 -translate-x-1/2 w-[1300px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/3 -translate-x-1/2 w-[1200px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.07),transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Left-Aligned Ultra-Premium Section Header */}
-        <div className="text-left space-y-4 mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-sm">
-            <Cpu className="size-3.5" /> Capabilities
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
+        {/* Ultra-Minimalist Single-Deck Header & Controls Bar */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-border/50">
+          {/* Left Title & Micro-Badge */}
+          <div className="flex items-center gap-3">
+            <h2
+              id="services-main-heading"
+              className="font-space text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground"
+            >
+              Digital Dominance
+            </h2>
+            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-muted-foreground bg-secondary/70 border border-border/70 px-2.5 py-0.5 rounded-full">
+              <Cpu className="size-3 text-primary" /> 12 Capabilities
+            </span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-3xl">
-              <h2
-                id="services-main-heading"
-                className="font-space text-4xl sm:text-6xl lg:text-7xl font-black tracking-[-0.035em] text-foreground leading-[1.04]"
-              >
-                Digital Dominance
-              </h2>
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                End-to-end digital engineering ecosystems across full-stack Next.js web applications, native mobile apps, enterprise Odoo ERP backbones, and autonomous AI agent pipelines.
-              </p>
+          {/* Right Filter Pills & Search */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {/* Category Filter Pills */}
+            <div className="flex items-center gap-1 p-1 rounded-xl bg-secondary/50 border border-border/70 backdrop-blur-md">
+              {CATEGORIES.map((category) => {
+                const isActive = activeCategory === category.id;
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() => setActiveCategory(category.id)}
+                    className={cn(
+                      "px-3 py-1 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap",
+                      isActive
+                        ? "bg-primary text-primary-foreground shadow-sm scale-[1.02]"
+                        : "text-muted-foreground hover:text-foreground hover:bg-background/60"
+                    )}
+                  >
+                    {category.label}
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Quick Stats Pill Deck */}
-            <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground shrink-0 pb-1">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-secondary/60 border border-border">
-                <span className="size-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                <span>12 Core Capabilities</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Filter Controls Bar */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-12">
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center justify-start gap-2 p-1.5 rounded-2xl bg-secondary/50 border border-border/80 backdrop-blur-xl w-full lg:w-auto">
-            {CATEGORIES.map((category) => {
-              const isActive = activeCategory === category.id;
-              return (
+            {/* Compact Search Input */}
+            <div className="relative w-full sm:w-56">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="w-full pl-8 pr-7 py-1.5 rounded-xl bg-background border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1.5 focus:ring-primary transition-all shadow-sm h-8.5"
+              />
+              {searchQuery && (
                 <button
-                  key={category.id}
                   type="button"
-                  onClick={() => setActiveCategory(category.id)}
-                  className={cn(
-                    "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer",
-                    isActive
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-[1.02]"
-                      : "text-muted-foreground hover:text-foreground hover:bg-background/80"
-                  )}
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-[10px] font-mono"
                 >
-                  {category.label}
+                  ✕
                 </button>
-              );
-            })}
-          </div>
-
-          {/* Search Box */}
-          <div className="relative w-full lg:w-80">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search services or tech..."
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-background border border-border text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs font-mono"
-              >
-                Clear
-              </button>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
         {/* 12 Interactive 3D Tilt Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 pt-2">
           {filteredServices.map((service, index) => (
             <Card3D
               key={service.id}
@@ -381,8 +365,8 @@ export function ServicesSection() {
         </div>
 
         {filteredServices.length === 0 && (
-          <div className="text-center py-20 space-y-4 rounded-3xl bg-card border border-border">
-            <p className="text-muted-foreground text-lg">
+          <div className="text-center py-16 space-y-3 rounded-2xl bg-card border border-border">
+            <p className="text-muted-foreground text-sm">
               No engineering services matched your query &quot;{searchQuery}&quot;.
             </p>
             <button
@@ -391,9 +375,9 @@ export function ServicesSection() {
                 setSearchQuery("");
                 setActiveCategory("all");
               }}
-              className="text-primary hover:underline text-sm font-semibold cursor-pointer"
+              className="text-primary hover:underline text-xs font-semibold cursor-pointer"
             >
-              Reset all filters
+              Reset filters
             </button>
           </div>
         )}
