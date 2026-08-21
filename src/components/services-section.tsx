@@ -56,7 +56,7 @@ const ICONS_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement
 const STATS_MAP: Record<string, { label: string; value: string; badgeColor: string }> = {
   "website-development": { label: "Performance", value: "100/100 Vitals", badgeColor: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
   "mobile-app-development": { label: "Engine", value: "60 FPS Native", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
-  "odoo-development": { label: "Compliance", value: "ZATCA Phase 2", badgeColor: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
+  "odoo-development": { label: "Architecture", value: "Multi-Entity ERP", badgeColor: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
   "e-commerce": { label: "Speed", value: "<800ms Checkout", badgeColor: "text-blue-400 border-blue-500/30 bg-blue-500/10" },
   "n8n-development": { label: "Automation", value: "-90% Manual Ops", badgeColor: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
   "seo": { label: "Visibility", value: "+320% Traffic", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },

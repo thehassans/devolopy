@@ -156,7 +156,7 @@ const jsonLd = {
             itemOffered: {
               "@type": "Service",
               name: "Odoo Development",
-              description: "Custom enterprise Odoo ERP implementation, module development, and ZATCA e-invoicing.",
+              description: "Custom enterprise Odoo ERP implementation, module development, and automated financial workflows.",
             },
           },
           {

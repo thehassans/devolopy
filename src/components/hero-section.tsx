@@ -9,7 +9,7 @@ const LOOKS: HeroCarouselItem[] = [
     title: "Maqder",
     image: "/maqderdevolopy.jpg",
     cardImage: "/maqderdevolopy.jpg",
-    meta: ["ZATCA PHASE 2", "ODOO ERP", "SUPPLY CHAIN"],
+    meta: ["ENTERPRISE ERP", "FINANCIAL ENGINE", "SUPPLY CHAIN"],
     noColorGrade: true,
     objectPosition: "center top",
     bgObjectPosition: "center 90%",

@@ -59,7 +59,7 @@ export default function HomePage() {
                   {[
                     "Custom Website & Full-Stack Next.js App Router Architecture",
                     "Native Cross-Platform iOS & Android Mobile Engineering",
-                    "Enterprise Odoo 17/18 ERP Customization & ZATCA e-Invoicing",
+                    "Enterprise Odoo 17/18 ERP Customization & Financial Automation",
                     "High-Conversion Headless & Shopify E-Commerce Storefronts",
                     "Autonomous N8N & AI Agentic Workflow Automations",
                     "Aggressive Technical SEO, Core Web Vitals & Schema.org Rich Snippets",
@@ -98,7 +98,7 @@ export default function HomePage() {
 export const servicesArchitecture = {
   web: ["Next.js 14/15", "React", "TypeScript", "Tailwind CSS"],
   mobile: ["React Native", "Flutter", "iOS Swift", "Android Kotlin"],
-  erp: ["Odoo 17/18", "Python", "PostgreSQL", "ZATCA Phase 2"],
+  erp: ["Odoo 17/18", "Python", "PostgreSQL", "API Microservices"],
   ecommerce: ["Next.js Commerce", "Shopify Plus", "Stripe", "Apple Pay"],
   automation: ["n8n Enterprise", "Webhooks", "AI Agent Copilots"],
   growth: {

@@ -11,7 +11,7 @@ export function HomeFAQ() {
     {
       question: "What makes Devolopy different from standard web agencies?",
       answer:
-        "Devolopy is a full-spectrum digital engineering studio. We don't just build frontend templates; we architect end-to-end ecosystems comprising custom Next.js web applications, native mobile apps, enterprise Odoo ERP backbones with ZATCA Phase 2 compliance, and autonomous n8n workflows.",
+        "Devolopy is a full-spectrum digital engineering studio. We don't just build frontend templates; we architect end-to-end ecosystems comprising custom Next.js web applications, native mobile apps, enterprise Odoo ERP backbones with financial automation, and autonomous n8n workflows.",
     },
     {
       question: "How fast can you deliver an enterprise-grade web or ERP project?",
@@ -24,9 +24,9 @@ export function HomeFAQ() {
         "Yes. Every web platform we build undergoes strict performance audits on Edge networks, ensuring sub-second First Contentful Paint (FCP), zero Cumulative Layout Shift (CLS < 0.05), and perfect SEO accessibility scores.",
     },
     {
-      question: "Can you integrate Saudi ZATCA Phase 2 e-Invoicing with our Odoo ERP?",
+      question: "Can you customize Odoo ERP for complex multi-entity business operations?",
       answer:
-        "Absolutely. We specialize in Saudi ZATCA Phase 2 compliance, implementing cryptographic stamps, QR codes, XML UBL 2.1 formats, and automated real-time API clearance/reporting directly inside Odoo 17 & 18.",
+        "Absolutely. We engineer custom Odoo 17 & 18 modules, multi-currency accounting engines, real-time inventory synchronization, automated PDF report generators, and secure payment and bank reconciliation APIs.",
     },
     {
       question: "How do your n8n and AI agent automations work?",
