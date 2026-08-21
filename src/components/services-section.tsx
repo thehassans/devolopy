@@ -25,7 +25,7 @@ import {
   Cpu,
   Terminal,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { ALL_SERVICES, ServiceDetail } from "@/lib/services-data";
 import { useConsultation } from "./consultation-modal";
 
@@ -57,18 +57,21 @@ const STATS_MAP: Record<string, { label: string; value: string; badgeColor: stri
   "website-development": { label: "Performance", value: "100/100 Vitals", badgeColor: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
   "mobile-app-development": { label: "Engine", value: "60 FPS Native", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
   "odoo-development": { label: "Compliance", value: "ZATCA Phase 2", badgeColor: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
-  "e-commerce": { label: "Latency", value: "<800ms Checkout", badgeColor: "text-blue-400 border-blue-500/30 bg-blue-500/10" },
+  "e-commerce": { label: "Speed", value: "<800ms Checkout", badgeColor: "text-blue-400 border-blue-500/30 bg-blue-500/10" },
   "n8n-development": { label: "Automation", value: "-90% Manual Ops", badgeColor: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
   "seo": { label: "Visibility", value: "+320% Traffic", badgeColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10" },
   "ai-agentic-automation": { label: "Copilots", value: "Custom LLMs", badgeColor: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10" },
   "cloud-devops": { label: "Reliability", value: "99.99% SLA", badgeColor: "text-sky-400 border-sky-500/30 bg-sky-500/10" },
-  "ui-ux-design-systems": { label: "Accessibility", value: "WCAG AA Standard", badgeColor: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
+  "ui-ux-design-systems": { label: "Standards", value: "100% WCAG AA", badgeColor: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
   "api-microservices": { label: "P99 Speed", value: "<15ms Edge", badgeColor: "text-teal-400 border-teal-500/30 bg-teal-500/10" },
-  "custom-crm-portals": { label: "Efficiency", value: "Real-time Sync", badgeColor: "text-violet-400 border-violet-500/30 bg-violet-500/10" },
+  "custom-crm-portals": { label: "Architecture", value: "Real-time Sync", badgeColor: "text-violet-400 border-violet-500/30 bg-violet-500/10" },
   "conversion-optimization": { label: "Growth", value: "+45% Conversion", badgeColor: "text-orange-400 border-orange-500/30 bg-orange-500/10" },
 };
 
-function ServiceCard({
+/**
+ * High-Performance Hardware-Accelerated 3D Tilt Card
+ */
+function Card3D({
   service,
   index,
   onQuickView,
@@ -78,125 +81,181 @@ function ServiceCard({
   onQuickView: (service: ServiceDetail) => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // Mouse tilt motion values
+  const x = useMotionValue(0.5);
+  const y = useMotionValue(0.5);
+
+  // Smooth spring physics for realistic organic tilt
+  const springConfig = { damping: 25, stiffness: 220, mass: 0.5 };
+  const rotateX = useSpring(useTransform(y, [0, 1], [10, -10]), springConfig);
+  const rotateY = useSpring(useTransform(x, [0, 1], [-10, 10]), springConfig);
+
+  // Mouse spotlight coordinates (in px)
+  const spotX = useMotionValue(0);
+  const spotY = useMotionValue(0);
+  const spotOpacity = useSpring(0, { damping: 20, stiffness: 200 });
 
   const Icon = ICONS_MAP[service.id] || Sparkles;
-  const stat = STATS_MAP[service.id] || { label: "Tier", value: "Enterprise", badgeColor: "text-primary border-primary/30 bg-primary/10" };
+  const stat = STATS_MAP[service.id] || {
+    label: "Tier",
+    value: "Enterprise",
+    badgeColor: "text-primary border-primary/30 bg-primary/10",
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    x.set(mouseX / rect.width);
+    y.set(mouseY / rect.height);
+    spotX.set(mouseX);
+    spotY.set(mouseY);
+    spotOpacity.set(1);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0.5);
+    y.set(0.5);
+    spotOpacity.set(0);
   };
 
   return (
-    <motion.div
-      ref={cardRef}
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: index * 0.03 }}
-      onMouseMove={handleMouseMove}
-      className="group relative flex flex-col justify-between rounded-3xl bg-[#090c13] border border-white/[0.08] p-7 sm:p-9 transition-all duration-500 hover:border-primary/60 hover:shadow-[0_0_45px_rgba(59,130,246,0.18)] min-h-[410px] overflow-hidden"
-    >
-      {/* Interactive Cursor Spotlight */}
-      <div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+    <div style={{ perspective: 1200 }} className="h-full">
+      <motion.div
+        ref={cardRef}
+        layout
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.035 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         style={{
-          background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.16), transparent 80%)`,
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
         }}
-        aria-hidden="true"
-      />
+        className="group relative flex h-full flex-col justify-between rounded-3xl bg-[#07090e] border border-white/[0.08] p-7 sm:p-9 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-primary/50 hover:shadow-[0_20px_50px_rgba(59,130,246,0.18)] min-h-[420px] will-change-transform"
+      >
+        {/* Layer 0: Specular Reflection Spotlight */}
+        <motion.div
+          className="pointer-events-none absolute -inset-px rounded-3xl z-10 transition-opacity duration-300"
+          style={{
+            opacity: spotOpacity,
+            background: useTransform(
+              [spotX, spotY],
+              ([latestX, latestY]) =>
+                `radial-gradient(400px circle at ${latestX}px ${latestY}px, rgba(59, 130, 246, 0.16), transparent 75%)`
+            ),
+          }}
+          aria-hidden="true"
+        />
 
-      {/* Top Ambient Glow */}
-      <div
-        className="pointer-events-none absolute -top-16 -right-16 size-40 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/0 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
-        aria-hidden="true"
-      />
+        {/* Ambient Top Glow */}
+        <div
+          className="pointer-events-none absolute -top-12 -right-12 size-36 rounded-full bg-primary/20 blur-3xl opacity-20 group-hover:opacity-75 transition-opacity duration-500"
+          aria-hidden="true"
+        />
 
-      {/* Card Content */}
-      <div className="relative z-10 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="font-space font-mono font-bold text-xs text-white/40 tracking-wider">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/25 px-3 py-0.5 rounded-full backdrop-blur-md">
-              {service.categoryLabel}
-            </span>
-          </div>
+        {/* Layer 1: Top Information (translateZ: 30px) */}
+        <div style={{ transform: "translateZ(30px)" }} className="relative z-20 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="font-space font-mono font-bold text-xs text-white/40 tracking-wider">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-semibold bg-primary/10 border border-primary/25 px-3 py-0.5 rounded-full backdrop-blur-md">
+                {service.categoryLabel}
+              </span>
+            </div>
 
-          <div className="flex size-11 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white/80 group-hover:bg-primary group-hover:text-white group-hover:border-primary/80 group-hover:scale-110 transition-all duration-300 shadow-md">
-            <Icon className="size-5" />
-          </div>
-        </div>
-
-        <Link href={`/services/${service.slug}`} className="block group/title pt-1">
-          <h3 className="font-space text-2xl sm:text-3xl font-extrabold tracking-tight text-white group-hover/title:text-primary transition-colors flex items-center justify-between">
-            <span>{service.title}</span>
-            <ArrowUpRight className="size-5 text-primary opacity-0 -translate-x-2 translate-y-2 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:translate-y-0 transition-all duration-300 shrink-0" />
-          </h3>
-        </Link>
-
-        <p className="text-sm sm:text-base text-white/70 leading-relaxed font-normal">
-          {service.shortDescription}
-        </p>
-
-        {/* Live Metric / Benchmark Pill */}
-        <div className="pt-1">
-          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono font-semibold ${stat.badgeColor}`}>
-            <span className="relative flex size-1.5">
-              <span className="bg-current absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
-              <span className="bg-current relative inline-flex size-1.5 rounded-full" />
-            </span>
-            <span>{stat.label}:</span>
-            <strong className="text-white">{stat.value}</strong>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer Area with Tech Badges and Direct Action */}
-      <div className="relative z-10 pt-5 border-t border-white/[0.08] mt-6 space-y-4">
-        <div className="flex flex-wrap gap-1.5">
-          {service.technologies.slice(0, 3).map((tech) => (
-            <span
-              key={tech}
-              className="text-[11px] font-mono text-white/60 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-lg"
+            {/* 3D Floating Icon Capsule (translateZ: 45px) */}
+            <div
+              style={{ transform: "translateZ(45px)" }}
+              className="flex size-11 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white/80 group-hover:bg-primary group-hover:text-white group-hover:border-primary/80 group-hover:scale-110 transition-all duration-300 shadow-md"
             >
-              {tech}
-            </span>
-          ))}
-          {service.technologies.length > 3 && (
-            <span className="text-[11px] font-mono text-white/40 self-center px-1">
-              +{service.technologies.length - 3}
-            </span>
-          )}
-        </div>
+              <Icon className="size-5" />
+            </div>
+          </div>
 
-        <div className="flex items-center justify-between pt-2">
+          {/* Title (translateZ: 35px) */}
           <Link
             href={`/services/${service.slug}`}
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:text-white transition-colors group/link"
+            style={{ transform: "translateZ(35px)" }}
+            className="block group/title pt-1"
           >
-            <span>View Architecture</span>
-            <ArrowRight className="size-3.5 transition-transform group-hover/link:translate-x-1" />
+            <h3 className="font-space text-2xl sm:text-3xl font-extrabold tracking-tight text-white group-hover/title:text-primary transition-colors flex items-center justify-between">
+              <span>{service.title}</span>
+              <ArrowUpRight className="size-5 text-primary opacity-0 -translate-x-2 translate-y-2 group-hover/title:opacity-100 group-hover/title:translate-x-0 group-hover/title:translate-y-0 transition-all duration-300 shrink-0" />
+            </h3>
           </Link>
 
-          <button
-            type="button"
-            onClick={() => onQuickView(service)}
-            className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
-            aria-label={`Quick scope overview for ${service.title}`}
+          {/* Short Description (translateZ: 20px) */}
+          <p
+            style={{ transform: "translateZ(20px)" }}
+            className="text-sm sm:text-base text-white/70 leading-relaxed font-normal"
           >
-            Quick Scope
-          </button>
+            {service.shortDescription}
+          </p>
+
+          {/* Live Benchmark SLA Pill (translateZ: 40px) */}
+          <div style={{ transform: "translateZ(40px)" }} className="pt-1">
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono font-semibold ${stat.badgeColor}`}>
+              <span className="relative flex size-1.5">
+                <span className="bg-current absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+                <span className="bg-current relative inline-flex size-1.5 rounded-full" />
+              </span>
+              <span>{stat.label}:</span>
+              <strong className="text-white">{stat.value}</strong>
+            </div>
+          </div>
         </div>
-      </div>
-    </motion.div>
+
+        {/* Layer 2: Footer Tech Stack & Actions (translateZ: 25px) */}
+        <div
+          style={{ transform: "translateZ(25px)" }}
+          className="relative z-20 pt-5 border-t border-white/[0.08] mt-6 space-y-4"
+        >
+          <div className="flex flex-wrap gap-1.5">
+            {service.technologies.slice(0, 3).map((tech) => (
+              <span
+                key={tech}
+                className="text-[11px] font-mono text-white/60 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-lg"
+              >
+                {tech}
+              </span>
+            ))}
+            {service.technologies.length > 3 && (
+              <span className="text-[11px] font-mono text-white/40 self-center px-1">
+                +{service.technologies.length - 3}
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between pt-2">
+            <Link
+              href={`/services/${service.slug}`}
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:text-white transition-colors group/link"
+            >
+              <span>View Architecture</span>
+              <ArrowRight className="size-3.5 transition-transform group-hover/link:translate-x-1" />
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => onQuickView(service)}
+              className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
+              aria-label={`Quick scope overview for ${service.title}`}
+            >
+              Quick Scope
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -224,16 +283,16 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-main-heading"
-      className="relative w-full py-24 sm:py-32 bg-[#06080d] text-white overflow-hidden"
+      className="relative w-full py-24 sm:py-32 bg-[#05070b] text-white overflow-hidden"
     >
-      {/* Ambient background lighting */}
+      {/* Background 3D Depth Fog */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.18),transparent_70%)] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[1300px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.16),transparent_70%)] blur-3xl"
         aria-hidden="true"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Minimalist Section Header */}
         <div className="mx-auto max-w-3xl text-center space-y-4 mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-lg shadow-primary/10">
             <Cpu className="size-3.5" /> Capabilities
@@ -292,10 +351,10 @@ export function ServicesSection() {
           </div>
         </div>
 
-        {/* 12 Services Dynamic Grid */}
+        {/* 12 Interactive 3D Tilt Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredServices.map((service, index) => (
-            <ServiceCard
+            <Card3D
               key={service.id}
               service={service}
               index={index}
