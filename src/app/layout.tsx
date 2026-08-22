@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ConsultationProvider } from "@/components/consultation-modal";
+import { VerticalThemeToggle } from "@/components/vertical-theme-toggle";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -264,7 +265,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans">
+      <body className="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans relative">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -273,6 +274,8 @@ export default function RootLayout({
         >
           <ConsultationProvider>
             {children}
+            {/* Ultra-Premium Vertical Theme Toggle Docked on Right */}
+            <VerticalThemeToggle />
           </ConsultationProvider>
         </ThemeProvider>
       </body>
