@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
 import { useConsultation } from "./consultation-modal";
-import { Menu, X, ArrowUpRight, Zap } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -22,81 +22,67 @@ export function Navbar() {
 
   const navLinks = [
     { label: "Services", href: "#services" },
-    { label: "Integrations", href: "#integrations" },
-    { label: "Philosophy", href: "#manifesto" },
-    { label: "Features", href: "#features" },
     { label: "Solutions", href: "#solutions" },
+    { label: "AI & Automation", href: "#ai-automation" },
+    { label: "How We Work", href: "#how-we-work" },
+    { label: "Technology", href: "#technology" },
+    { label: "Why Us", href: "#why-devolopy" },
   ];
 
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/90 backdrop-blur-xl border-b border-border/70 shadow-lg py-3"
-          : "bg-gradient-to-b from-black/90 via-black/40 to-transparent py-4 sm:py-5"
+          ? "bg-background/90 backdrop-blur-xl border-b border-border shadow-md py-3"
+          : "bg-background/80 backdrop-blur-md border-b border-border/50 py-4 sm:py-5"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <nav aria-label="Main Navigation" className="flex items-center justify-between">
-          {/* Double-Sized Brand Logo */}
+          {/* Brand Logo with automatic Light/Dark mode switching */}
           <Link
             href="/"
             className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl transition-transform hover:scale-[1.02]"
             aria-label="Devolopy Home"
           >
             <div className="relative h-12 w-44 sm:h-14 sm:w-52 lg:h-16 lg:w-60">
-              {scrolled ? (
-                <>
-                  <Image
-                    src="/DevolopyLighttheme.png"
-                    alt="Devolopy Logo"
-                    width={288}
-                    height={80}
-                    className="h-full w-auto object-contain dark:hidden"
-                    priority
-                  />
-                  <Image
-                    src="/DevolopyDarkTheme.png"
-                    alt="Devolopy Logo Dark"
-                    width={288}
-                    height={80}
-                    className="hidden h-full w-auto object-contain dark:block"
-                    priority
-                  />
-                </>
-              ) : (
-                <Image
-                  src="/DevolopyDarkTheme.png"
-                  alt="Devolopy Logo"
-                  width={288}
-                  height={80}
-                  className="h-full w-auto object-contain drop-shadow-lg"
-                  priority
-                />
-              )}
+              <Image
+                src="/DevolopyLighttheme.png"
+                alt="Devolopy Logo"
+                width={288}
+                height={80}
+                className="h-full w-auto object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/DevolopyDarkTheme.png"
+                alt="Devolopy Logo Dark"
+                width={288}
+                height={80}
+                className="hidden h-full w-auto object-contain dark:block"
+                priority
+              />
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-7 lg:gap-9">
+          <div className="hidden md:flex items-center gap-7 lg:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className={`text-sm lg:text-base font-medium transition-colors hover:text-primary ${
-                  scrolled ? "text-foreground/85" : "text-white/90 hover:text-white"
-                }`}
+                className="text-sm lg:text-base font-medium text-foreground/80 hover:text-primary transition-colors"
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Ultra-Premium Theme Toggle & Get Started CTA */}
+          {/* Theme Toggle & Get Started CTA */}
           <div className="hidden sm:flex items-center gap-3.5">
             <ThemeToggle />
 
-            {/* Ultra-Premium Theme-Aware Get Started Button */}
+            {/* Theme-Aware Get Started Button */}
             <button
               type="button"
               onClick={() => openConsultation()}
@@ -106,8 +92,7 @@ export function Navbar() {
               <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 rounded-full animate-pulse" />
 
               {/* Button inner */}
-                <span className="relative flex items-center gap-2 h-9 px-5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 group-hover:from-blue-500 group-hover:to-indigo-500 shadow-inner">
-                {/* Moving light shine sweep */}
+              <span className="relative flex items-center gap-2 h-9 px-5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 group-hover:from-blue-500 group-hover:to-indigo-500 shadow-inner">
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%)] rounded-full" />
 
                 <span>Get Started</span>
@@ -122,9 +107,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-2 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                scrolled ? "text-foreground hover:bg-muted" : "text-white hover:bg-white/10"
-              }`}
+              className="p-2 rounded-xl text-foreground hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               aria-label="Toggle mobile menu"
             >
               {mobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}

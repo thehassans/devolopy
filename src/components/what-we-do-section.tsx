@@ -102,17 +102,17 @@ export function WhatWeDoSection() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section id="services" className="w-full py-20 sm:py-28 bg-[#08090B] text-[#F5F6F7] border-b border-white/10 relative">
+    <section id="services" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="max-w-3xl space-y-4">
           <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
             What We Do
           </span>
-          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
             From idea to scale. We build what your business needs.
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg">
             Ten specialized engineering disciplines unified under a single, accountable development partner.
           </p>
         </div>
@@ -125,27 +125,27 @@ export function WhatWeDoSection() {
               <Link
                 key={idx}
                 href={`/services/${svc.slug}`}
-                className="group relative flex flex-col justify-between p-7 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-primary/50 hover:bg-white/[0.06] transition-all duration-300 hover:-translate-y-1 shadow-lg backdrop-blur-sm"
+                className="group relative flex flex-col justify-between p-7 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/60 dark:hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-lg backdrop-blur-sm"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <div className="p-3 rounded-2xl bg-secondary dark:bg-white/5 border border-border dark:border-white/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                       <Icon className="size-6" />
                     </div>
-                    <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+                    <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider bg-secondary/80 dark:bg-white/5 px-2.5 py-1 rounded-full border border-border/60 dark:border-white/10">
                       {svc.tag}
                     </span>
                   </div>
 
-                  <h3 className="font-space text-xl font-bold text-white group-hover:text-primary transition-colors">
+                  <h3 className="font-space text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                     {svc.title}
                   </h3>
-                  <p className="text-sm text-slate-400 mt-2 leading-relaxed">
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                     {svc.desc}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors">
+                <div className="pt-6 mt-6 border-t border-border/60 dark:border-white/10 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
                   <span>Explore Capabilities</span>
                   <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -156,23 +156,23 @@ export function WhatWeDoSection() {
           {/* 11th CTA Card */}
           <div
             onClick={() => openConsultation("custom-software")}
-            className="group relative flex flex-col justify-between p-8 rounded-3xl bg-gradient-to-br from-[#16191E] via-[#0E1013] to-primary/20 border border-primary/30 hover:border-primary transition-all duration-300 hover:-translate-y-1 shadow-xl cursor-pointer"
+            className="group relative flex flex-col justify-between p-8 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-primary/20 dark:from-[#16191E] dark:via-[#0E1013] dark:to-primary/20 border border-primary/30 hover:border-primary transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-xl cursor-pointer"
           >
             <div className="space-y-4">
               <span className="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
                 Full Ecosystem
               </span>
-              <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-white leading-snug">
+              <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-foreground leading-snug">
                 Ten capabilities. One accountable team.
               </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Ready to architect or upgrade your digital stack? Talk directly with our senior engineering team.
               </p>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between font-space font-semibold text-primary group-hover:text-white transition-colors">
+            <div className="pt-6 mt-6 border-t border-border/60 dark:border-white/10 flex items-center justify-between font-space font-semibold text-primary group-hover:translate-x-1 transition-transform">
               <span>Start Consultation</span>
-              <ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform" />
+              <ArrowRight className="size-4" />
             </div>
           </div>
         </div>

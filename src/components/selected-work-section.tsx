@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { ArrowRight, ExternalLink, ShieldCheck, Zap, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 
 interface CaseStudy {
@@ -49,17 +48,17 @@ export function SelectedWorkSection() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section id="work" className="w-full py-20 sm:py-28 bg-[#0E1013] text-[#F5F6F7] border-b border-white/10 relative">
+    <section id="work" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header */}
         <div className="max-w-3xl space-y-4">
           <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
             Selected Work
           </span>
-          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
             Systems we designed, built and shipped.
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg">
             Real enterprise case studies engineered for performance, scale, and operational ROI.
           </p>
         </div>
@@ -69,47 +68,47 @@ export function SelectedWorkSection() {
           {workItems.map((w, idx) => (
             <div
               key={idx}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center p-8 sm:p-10 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl backdrop-blur-sm"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center p-8 sm:p-10 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-lg backdrop-blur-sm"
             >
               {/* Media / Browser Simulation Frame */}
               <div className="lg:col-span-6 order-2 lg:order-1">
-                <div className="relative rounded-2xl bg-[#16191E] border border-white/15 overflow-hidden shadow-2xl">
+                <div className="relative rounded-2xl bg-secondary/70 dark:bg-[#16191E] border border-border/80 dark:border-white/15 overflow-hidden shadow-md">
                   {/* Browser top chrome */}
-                  <div className="flex items-center justify-between px-4 py-3 bg-[#0E1013] border-b border-white/10">
+                  <div className="flex items-center justify-between px-4 py-3 bg-secondary dark:bg-[#0E1013] border-b border-border dark:border-white/10">
                     <div className="flex items-center gap-2">
                       <div className="size-2.5 rounded-full bg-red-500/80" />
                       <div className="size-2.5 rounded-full bg-amber-500/80" />
                       <div className="size-2.5 rounded-full bg-emerald-500/80" />
                     </div>
-                    <span className="text-[11px] font-mono text-slate-500">
+                    <span className="text-[11px] font-mono text-muted-foreground">
                       {w.client.toLowerCase().replace(/\s+/g, "")}.devolopy.io
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+                    <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
                       LIVE
                     </span>
                   </div>
 
                   {/* Mock dashboard canvas */}
-                  <div className="p-6 space-y-4 bg-gradient-to-br from-[#16191E] to-[#0E1013]">
+                  <div className="p-6 space-y-4 bg-gradient-to-br from-card to-secondary dark:from-[#16191E] dark:to-[#0E1013]">
                     <div className="flex items-center justify-between">
-                      <div className="h-3 w-28 bg-white/20 rounded" />
+                      <div className="h-3 w-28 bg-foreground/20 rounded" />
                       <div className="h-3 w-16 bg-primary/40 rounded" />
                     </div>
                     <div className="grid grid-cols-3 gap-3">
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                        <div className="h-2 w-12 bg-slate-500 rounded" />
-                        <div className="h-4 w-16 bg-white/80 rounded font-mono text-xs" />
+                      <div className="p-3 rounded-xl bg-card dark:bg-white/5 border border-border/60 dark:border-white/5 space-y-2">
+                        <div className="h-2 w-12 bg-muted-foreground/60 rounded" />
+                        <div className="h-4 w-16 bg-foreground/80 rounded font-mono text-xs" />
                       </div>
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                        <div className="h-2 w-12 bg-slate-500 rounded" />
+                      <div className="p-3 rounded-xl bg-card dark:bg-white/5 border border-border/60 dark:border-white/5 space-y-2">
+                        <div className="h-2 w-12 bg-muted-foreground/60 rounded" />
                         <div className="h-4 w-16 bg-[#C0703C] rounded font-mono text-xs" />
                       </div>
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                        <div className="h-2 w-12 bg-slate-500 rounded" />
+                      <div className="p-3 rounded-xl bg-card dark:bg-white/5 border border-border/60 dark:border-white/5 space-y-2">
+                        <div className="h-2 w-12 bg-muted-foreground/60 rounded" />
                         <div className="h-4 w-16 bg-primary rounded font-mono text-xs" />
                       </div>
                     </div>
-                    <div className="h-24 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-xs font-mono text-slate-400">
+                    <div className="h-24 rounded-xl bg-card/60 dark:bg-white/[0.03] border border-border/60 dark:border-white/5 flex items-center justify-center text-xs font-mono text-muted-foreground">
                       High-Throughput Production Architecture
                     </div>
                   </div>
@@ -127,15 +126,15 @@ export function SelectedWorkSection() {
                   </span>
                 </div>
 
-                <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">
+                <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
                   {w.client} &middot; {w.category}
                 </div>
 
-                <h3 className="font-space text-2xl sm:text-3xl font-bold text-white">
+                <h3 className="font-space text-2xl sm:text-3xl font-bold text-foreground">
                   {w.title}
                 </h3>
 
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                   {w.outcome}
                 </p>
 
@@ -143,7 +142,7 @@ export function SelectedWorkSection() {
                   {w.tags.map((tag, tIdx) => (
                     <span
                       key={tIdx}
-                      className="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300"
+                      className="px-3 py-1 rounded-full text-xs font-mono bg-secondary/80 dark:bg-white/5 border border-border/80 dark:border-white/10 text-foreground/80"
                     >
                       {tag}
                     </span>

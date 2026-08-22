@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, TrendingUp, Award, Users } from "lucide-react";
+import { ArrowRight, TrendingUp, Award, Users } from "lucide-react";
 
 export function WhoWeAreSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -49,7 +49,7 @@ export function WhoWeAreSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="w-full py-20 sm:py-28 bg-[#0E1013] text-[#F5F6F7] border-b border-white/10 relative overflow-hidden"
+      className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative overflow-hidden"
     >
       {/* Background ambient lighting */}
       <div
@@ -64,12 +64,12 @@ export function WhoWeAreSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
               Who We Are
             </span>
-            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
               Technology built around how your business actually works.
             </h2>
           </div>
 
-          <div className="lg:col-span-7 space-y-6 text-slate-300 text-base sm:text-lg leading-relaxed">
+          <div className="lg:col-span-7 space-y-6 text-muted-foreground text-base sm:text-lg leading-relaxed">
             <p>
               Most software fails because it was designed around a demo, not around the people who use it every day.
               We start with the workflow &mdash; who does what, where it breaks, what it costs when it breaks &mdash; and build from there.
@@ -91,48 +91,48 @@ export function WhoWeAreSection() {
         </div>
 
         {/* Live Count-Up Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
-          <div className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1 shadow-lg backdrop-blur-md">
-            <div className="flex items-center justify-between text-slate-400 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-border">
+          <div className="p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1 shadow-sm hover:shadow-lg backdrop-blur-md">
+            <div className="flex items-center justify-between text-muted-foreground mb-4">
               <span className="text-xs font-mono uppercase tracking-wider">Metric // 01</span>
               <TrendingUp className="size-5 text-[#C0703C]" />
             </div>
-            <div className="font-space text-5xl sm:text-6xl font-black text-white tracking-tight">
+            <div className="font-space text-5xl sm:text-6xl font-black text-foreground tracking-tight">
               {counts.projects}
               <span className="text-[#C0703C]">+</span>
             </div>
-            <div className="text-base font-semibold text-slate-200 mt-2">Projects delivered</div>
-            <div className="text-xs font-mono text-[#C0703C]/80 mt-1 uppercase tracking-wider">
+            <div className="text-base font-semibold text-foreground mt-2">Projects delivered</div>
+            <div className="text-xs font-mono text-[#C0703C] mt-1 uppercase tracking-wider font-semibold">
               Production Verified
             </div>
           </div>
 
-          <div className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1 shadow-lg backdrop-blur-md">
-            <div className="flex items-center justify-between text-slate-400 mb-4">
+          <div className="p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1 shadow-sm hover:shadow-lg backdrop-blur-md">
+            <div className="flex items-center justify-between text-muted-foreground mb-4">
               <span className="text-xs font-mono uppercase tracking-wider">Metric // 02</span>
               <Award className="size-5 text-[#2B5CFF]" />
             </div>
-            <div className="font-space text-5xl sm:text-6xl font-black text-white tracking-tight">
+            <div className="font-space text-5xl sm:text-6xl font-black text-foreground tracking-tight">
               {counts.years}
               <span className="text-[#2B5CFF]">+</span>
             </div>
-            <div className="text-base font-semibold text-slate-200 mt-2">Years building software</div>
-            <div className="text-xs font-mono text-[#2B5CFF]/80 mt-1 uppercase tracking-wider">
+            <div className="text-base font-semibold text-foreground mt-2">Years building software</div>
+            <div className="text-xs font-mono text-primary mt-1 uppercase tracking-wider font-semibold">
               Engineering Depth
             </div>
           </div>
 
-          <div className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1 shadow-lg backdrop-blur-md">
-            <div className="flex items-center justify-between text-slate-400 mb-4">
+          <div className="p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1 shadow-sm hover:shadow-lg backdrop-blur-md">
+            <div className="flex items-center justify-between text-muted-foreground mb-4">
               <span className="text-xs font-mono uppercase tracking-wider">Metric // 03</span>
               <Users className="size-5 text-[#C0703C]" />
             </div>
-            <div className="font-space text-5xl sm:text-6xl font-black text-white tracking-tight">
+            <div className="font-space text-5xl sm:text-6xl font-black text-foreground tracking-tight">
               {counts.clients}
               <span className="text-[#C0703C]">+</span>
             </div>
-            <div className="text-base font-semibold text-slate-200 mt-2">Clients served</div>
-            <div className="text-xs font-mono text-[#C0703C]/80 mt-1 uppercase tracking-wider">
+            <div className="text-base font-semibold text-foreground mt-2">Clients served</div>
+            <div className="text-xs font-mono text-[#C0703C] mt-1 uppercase tracking-wider font-semibold">
               GCC &amp; Global Partners
             </div>
           </div>

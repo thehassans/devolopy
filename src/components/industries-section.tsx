@@ -141,17 +141,17 @@ export function IndustriesSection() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section id="industries" className="w-full py-20 sm:py-28 bg-[#08090B] text-[#F5F6F7] border-b border-white/10 relative">
+    <section id="industries" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="max-w-3xl space-y-4">
           <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
             Industries
           </span>
-          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
             We learn the operation before we build for it.
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
             Every sector has its own operational bottleneck. These are the industries we have engineered solutions inside.
           </p>
         </div>
@@ -167,20 +167,20 @@ export function IndustriesSection() {
                 onClick={() => setSelectedIdx(isSelected ? null : idx)}
                 className={`p-6 rounded-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[170px] ${
                   isSelected
-                    ? "bg-white/[0.08] border-primary shadow-xl shadow-primary/10 -translate-y-1"
-                    : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04]"
+                    ? "bg-card border-primary shadow-lg ring-1 ring-primary/40 -translate-y-1"
+                    : "bg-card/60 dark:bg-white/[0.02] border-border/80 dark:border-white/10 hover:border-border"
                 }`}
               >
                 <div>
-                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-[#C0703C] w-fit mb-4">
+                  <div className="p-3 rounded-2xl bg-secondary dark:bg-white/5 border border-border dark:border-white/10 text-[#C0703C] w-fit mb-4">
                     <Icon className="size-5" />
                   </div>
-                  <h3 className="font-space text-lg font-bold text-white mb-2">
+                  <h3 className="font-space text-lg font-bold text-foreground mb-2">
                     {ind.name}
                   </h3>
 
                   {isSelected && (
-                    <ul className="mt-3 space-y-2 text-xs text-slate-300 pt-3 border-t border-white/10 animate-in fade-in duration-200">
+                    <ul className="mt-3 space-y-2 text-xs text-muted-foreground pt-3 border-t border-border animate-in fade-in duration-200">
                       {ind.points.map((pt, pIdx) => (
                         <li key={pIdx} className="flex items-start gap-2">
                           <span className="text-[#C0703C] font-bold">&bull;</span>
@@ -194,7 +194,7 @@ export function IndustriesSection() {
                             e.stopPropagation();
                             openConsultation("custom-software");
                           }}
-                          className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary hover:underline"
+                          className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary hover:underline cursor-pointer"
                         >
                           <span>Explore Solutions</span>
                           <ArrowRight className="size-3" />
@@ -205,9 +205,9 @@ export function IndustriesSection() {
                 </div>
 
                 {!isSelected && (
-                  <div className="text-[11px] font-mono text-slate-400 mt-4 flex items-center justify-between">
+                  <div className="text-[11px] font-mono text-muted-foreground mt-4 flex items-center justify-between">
                     <span>View Bottlenecks</span>
-                    <ArrowRight className="size-3 text-slate-500" />
+                    <ArrowRight className="size-3" />
                   </div>
                 )}
               </div>

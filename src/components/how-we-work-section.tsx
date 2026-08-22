@@ -67,7 +67,7 @@ export function HowWeWorkSection() {
   const [activeIdx, setActiveIdx] = useState(0);
 
   return (
-    <section id="how-we-work" className="w-full py-20 sm:py-28 bg-[#08090B] text-[#F5F6F7] border-b border-white/10 relative">
+    <section id="how-we-work" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -75,10 +75,10 @@ export function HowWeWorkSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
               How We Work
             </span>
-            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
               Six stages. No surprises in the middle.
             </h2>
-            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
               You know what is happening, what is next, and what it depends on &mdash; with complete transparency at every stage.
             </p>
 
@@ -90,8 +90,8 @@ export function HowWeWorkSection() {
                   onClick={() => setActiveIdx(idx)}
                   className={`w-full text-left px-4 py-3 rounded-2xl border transition-all flex items-center justify-between ${
                     activeIdx === idx
-                      ? "bg-white/10 border-primary text-white font-bold"
-                      : "bg-white/[0.02] border-white/5 text-slate-400 hover:text-white hover:bg-white/5"
+                      ? "bg-secondary dark:bg-white/10 border-primary text-foreground font-bold shadow-xs"
+                      : "bg-card/50 dark:bg-white/[0.02] border-border text-muted-foreground hover:text-foreground hover:bg-secondary/60"
                   }`}
                 >
                   <span className="font-mono text-xs uppercase tracking-wider">
@@ -112,10 +112,10 @@ export function HowWeWorkSection() {
                 <div
                   key={idx}
                   onClick={() => setActiveIdx(idx)}
-                  className={`p-8 rounded-3xl border transition-all duration-300 shadow-lg cursor-pointer ${
+                  className={`p-8 rounded-3xl border transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer ${
                     isSelected
-                      ? "bg-white/[0.06] border-primary shadow-primary/10 -translate-y-1"
-                      : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04]"
+                      ? "bg-card border-primary ring-1 ring-primary/40 -translate-y-1"
+                      : "bg-card/60 dark:bg-white/[0.02] border-border/80 dark:border-white/10 hover:border-border"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-4">
@@ -127,21 +127,21 @@ export function HowWeWorkSection() {
                         Stage {step.num} &mdash; {step.stage}
                       </span>
                     </div>
-                    <span className="font-mono text-xs text-slate-500 font-bold">{step.num}</span>
+                    <span className="font-mono text-xs text-muted-foreground font-bold">{step.num}</span>
                   </div>
 
-                  <h3 className="font-space text-2xl font-bold text-white mb-2">
+                  <h3 className="font-space text-2xl font-bold text-foreground mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                     {step.desc}
                   </p>
 
-                  <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap gap-2">
+                  <div className="mt-6 pt-5 border-t border-border/60 dark:border-white/10 flex flex-wrap gap-2">
                     {step.deliverables.map((deliv, dIdx) => (
                       <span
                         key={dIdx}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-secondary/80 dark:bg-white/5 border border-border/60 dark:border-white/10 text-foreground/80"
                       >
                         <CheckCircle2 className="size-3 text-primary shrink-0" />
                         {deliv}

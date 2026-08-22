@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import WhoWeAreSection from "@/components/who-we-are-section";
 import WhatWeDoSection from "@/components/what-we-do-section";
+import SolutionsCardsSection from "@/components/solutions-cards-section";
 import WhatWeBuildSection from "@/components/what-we-build-section";
 import SelectedWorkSection from "@/components/selected-work-section";
 import AIAutomationSection from "@/components/ai-automation-section";
@@ -89,14 +90,14 @@ const homeJsonLd = {
 
 export default function HomePage() {
   return (
-    <div className="relative flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+    <div className="relative flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground transition-colors duration-300">
       {/* JSON-LD Rich Snippet for FAQ & WebPage */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
 
-      {/* 1. Header (Preserving existing Navbar) */}
+      {/* 1. Header (Adaptive Navbar with Light/Dark logo) */}
       <Navbar />
 
       {/* Main Content Area */}
@@ -115,37 +116,42 @@ export default function HomePage() {
         {/* 5. What We Do Section (10 Services + 1 CTA Card) */}
         <WhatWeDoSection />
 
-        {/* 6. What We Build Section (Bento Grid) */}
+        {/* 6. Solutions Cards Section (8 Cards Grid matching user design reference) */}
+        <div id="solutions">
+          <SolutionsCardsSection />
+        </div>
+
+        {/* 7. What We Build Section (Bento Grid) */}
         <WhatWeBuildSection />
 
-        {/* 7. Selected Work Section */}
+        {/* 8. Selected Work Section */}
         <SelectedWorkSection />
 
-        {/* 8. AI & Automation Section (Interactive Pipeline Flow) */}
+        {/* 9. AI & Automation Section (Interactive Pipeline Flow) */}
         <AIAutomationSection />
 
-        {/* 9. How We Work Section (Sticky 6-Stage Process Track) */}
+        {/* 10. How We Work Section (Sticky 6-Stage Process Track) */}
         <HowWeWorkSection />
 
-        {/* 10. Modern Technology Stack Grid */}
+        {/* 11. Modern Technology Stack Grid */}
         <TechStackSection />
 
-        {/* 11. Industries Grid */}
+        {/* 12. Industries Grid */}
         <IndustriesSection />
 
-        {/* 12. Why Devolopy & Engagement Models */}
+        {/* 13. Why Devolopy & Engagement Models */}
         <WhyDevolopySection />
 
-        {/* 13. Comprehensive FAQ Section */}
+        {/* 14. Comprehensive FAQ Section */}
         <HomeFAQ />
 
-        {/* 14. Newsletter & Final Call to Action */}
+        {/* 15. Newsletter & Final Call to Action */}
         <div id="newsletter">
           <FooterNewsletter />
         </div>
       </main>
 
-      {/* 15. Devolopy Interactive Hover Footer */}
+      {/* 16. Devolopy Interactive Hover Footer */}
       <HoverFooter />
     </div>
   );

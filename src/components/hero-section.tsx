@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Layers, ShieldCheck, Database, Cpu, Layout } from "lucide-react";
+import { ArrowRight, Layers, Database, Cpu, Layout } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 
 const beats = [
@@ -37,7 +37,7 @@ export function HeroSection() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const stageRef = useRef<HTMLDivElement>(null);
 
-  // Auto-cycle beats every 6 seconds if not manually selected
+  // Auto-cycle beats every 6.5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveBeat((prev) => (prev + 1) % beats.length);
@@ -58,7 +58,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#08090B] text-[#F5F6F7] pt-28 pb-16 lg:py-24 border-b border-white/10">
+    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden bg-background text-foreground pt-28 pb-16 lg:py-24 border-b border-border transition-colors duration-300">
       {/* Background Ambient Radial Glows */}
       <div
         className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-primary/10 blur-[140px] rounded-full"
@@ -74,17 +74,17 @@ export function HeroSection() {
           {/* Left Column: Multi-Beat Copy & CTAs */}
           <div className="lg:col-span-6 space-y-6">
             {/* Eyebrow badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
               <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
               Digital Product &amp; Technology Partner
             </div>
 
             {/* Headline Switcher Area */}
             <div className="min-h-[190px] sm:min-h-[160px] flex flex-col justify-center">
-              <h1 className="font-space text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.08] text-white">
+              <h1 className="font-space text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.08] text-foreground">
                 {beats[activeBeat].title}
               </h1>
-              <p className="text-base sm:text-lg text-slate-400 mt-4 leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-muted-foreground mt-4 leading-relaxed max-w-xl">
                 {beats[activeBeat].subtitle}
               </p>
             </div>
@@ -97,7 +97,7 @@ export function HeroSection() {
                   type="button"
                   onClick={() => setActiveBeat(idx)}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    activeBeat === idx ? "w-8 bg-[#C0703C]" : "w-2 bg-white/20 hover:bg-white/40"
+                    activeBeat === idx ? "w-8 bg-[#C0703C]" : "w-2 bg-foreground/20 hover:bg-foreground/40"
                   }`}
                   aria-label={`View slide ${idx + 1}`}
                 />
@@ -109,7 +109,7 @@ export function HeroSection() {
               <button
                 type="button"
                 onClick={() => openConsultation("custom-software")}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-white font-semibold text-sm sm:text-base shadow-lg shadow-primary/25 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm sm:text-base shadow-lg shadow-primary/25 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
               >
                 <span>Start a Project</span>
                 <ArrowRight className="size-4" />
@@ -117,21 +117,21 @@ export function HeroSection() {
 
               <Link
                 href="#work"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-white font-semibold text-sm sm:text-base border border-white/10 transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-secondary/80 hover:bg-secondary text-foreground font-semibold text-sm sm:text-base border border-border transition-all duration-200"
               >
                 <span>See our work</span>
               </Link>
             </div>
 
             {/* Technology Strip */}
-            <div className="pt-6 border-t border-white/10 flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono text-slate-400">
-              <span className="hover:text-white transition-colors">Custom Software</span>
+            <div className="pt-6 border-t border-border flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono text-muted-foreground">
+              <span className="hover:text-foreground transition-colors">Custom Software</span>
               <span className="text-[#C0703C]">&middot;</span>
-              <span className="hover:text-white transition-colors">Odoo ERP</span>
+              <span className="hover:text-foreground transition-colors">Odoo ERP</span>
               <span className="text-[#C0703C]">&middot;</span>
-              <span className="hover:text-white transition-colors">Mobile Apps</span>
+              <span className="hover:text-foreground transition-colors">Mobile Apps</span>
               <span className="text-[#C0703C]">&middot;</span>
-              <span className="hover:text-white transition-colors">AI Automation</span>
+              <span className="hover:text-foreground transition-colors">AI Automation</span>
             </div>
           </div>
 
@@ -146,7 +146,7 @@ export function HeroSection() {
               style={{ perspective: "1200px" }}
             >
               {/* Floor ambient glow shadow */}
-              <div className="absolute bottom-4 w-64 h-16 bg-black/80 blur-2xl rounded-full" />
+              <div className="absolute bottom-4 w-64 h-16 bg-black/20 dark:bg-black/80 blur-2xl rounded-full" />
 
               {/* 3D Rotating Stack Container */}
               <div
@@ -161,7 +161,7 @@ export function HeroSection() {
                   className={`absolute inset-0 rounded-2xl border transition-all duration-500 shadow-2xl ${
                     hoveredLayer === 0
                       ? "border-[#2B5CFF] shadow-[#2B5CFF]/30 ring-2 ring-[#2B5CFF]/40"
-                      : "border-white/15"
+                      : "border-border dark:border-white/15"
                   }`}
                   style={{
                     transform: "translateZ(0px)",
@@ -179,7 +179,7 @@ export function HeroSection() {
                       backgroundSize: "20px 20px",
                     }}
                   />
-                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-slate-500 uppercase tracking-wider">
+                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
                     L1 // Infra
                   </div>
                 </div>
@@ -189,7 +189,7 @@ export function HeroSection() {
                   className={`absolute inset-0 rounded-2xl border transition-all duration-500 shadow-2xl ${
                     hoveredLayer === 1
                       ? "border-[#C0703C] shadow-[#C0703C]/30 ring-2 ring-[#C0703C]/40"
-                      : "border-white/15"
+                      : "border-border dark:border-white/15"
                   }`}
                   style={{
                     transform: "translateZ(50px)",
@@ -220,7 +220,7 @@ export function HeroSection() {
                   className={`absolute inset-0 rounded-2xl border transition-all duration-500 shadow-2xl ${
                     hoveredLayer === 2
                       ? "border-[#2B5CFF] shadow-[#2B5CFF]/30 ring-2 ring-[#2B5CFF]/40"
-                      : "border-white/20"
+                      : "border-border dark:border-white/20"
                   }`}
                   style={{
                     transform: "translateZ(100px)",
@@ -242,7 +242,7 @@ export function HeroSection() {
                   className={`absolute inset-0 rounded-2xl border backdrop-blur-sm transition-all duration-500 shadow-2xl ${
                     hoveredLayer === 3
                       ? "border-white shadow-white/20 ring-2 ring-white/40"
-                      : "border-white/25"
+                      : "border-border dark:border-white/25"
                   }`}
                   style={{
                     transform: "translateZ(150px)",
@@ -266,7 +266,7 @@ export function HeroSection() {
                       </div>
                     </div>
                   </div>
-                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-white/80 uppercase tracking-wider">
+                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-white/90 uppercase tracking-wider">
                     L4 // Interface
                   </div>
                 </div>
@@ -294,22 +294,22 @@ export function HeroSection() {
                     onMouseLeave={() => setHoveredLayer(null)}
                     className={`flex items-start gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ${
                       isHovered
-                        ? "bg-white/10 border-primary shadow-md translate-x-1"
-                        : "bg-white/5 border-white/5 hover:border-white/15"
+                        ? "bg-secondary dark:bg-white/10 border-primary shadow-sm translate-x-1"
+                        : "bg-card/60 dark:bg-white/5 border-border dark:border-white/5 hover:border-border/80"
                     }`}
                   >
                     <div
                       className={`p-1.5 rounded-lg shrink-0 ${
-                        isHovered ? "bg-primary text-white" : "bg-white/10 text-slate-400"
+                        isHovered ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                       }`}
                     >
                       <Icon className="size-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
                         {layer.name}
                       </div>
-                      <div className="text-[11px] text-slate-400 leading-tight">
+                      <div className="text-[11px] text-muted-foreground leading-tight">
                         {layer.desc}
                       </div>
                     </div>

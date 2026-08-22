@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { ArrowRight, Code2 } from "lucide-react";
 
 interface TechCategory {
   category: string;
@@ -79,27 +77,27 @@ const techCategories: TechCategory[] = [
 
 export function TechStackSection() {
   return (
-    <section id="technology" className="w-full py-20 sm:py-28 bg-[#0E1013] text-[#F5F6F7] border-b border-white/10 relative">
+    <section id="technology" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="max-w-3xl space-y-4">
           <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
             The Stack We Build On
           </span>
-          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
             Modern stack. Chosen for the job, not for the trend.
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
             Every technology decision is made against three rigorous criteria: what the system must accomplish, who maintains it, and total operational cost over five years.
           </p>
         </div>
 
         {/* Categories Stack Rows */}
-        <div className="space-y-6 pt-6 border-t border-white/10">
+        <div className="space-y-6 pt-6 border-t border-border">
           {techCategories.map((cat, idx) => (
             <div
               key={idx}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start py-5 border-b border-white/5"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start py-5 border-b border-border/40"
             >
               <div className="lg:col-span-4 font-mono text-xs uppercase tracking-wider text-[#C0703C] font-semibold pt-2">
                 {cat.category}
@@ -111,13 +109,13 @@ export function TechStackSection() {
                     key={cIdx}
                     className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm transition-all duration-200 border ${
                       chip.isLead
-                        ? "bg-primary/15 border-primary/40 text-white font-semibold shadow-md shadow-primary/10"
-                        : "bg-white/[0.03] border-white/10 text-slate-300 hover:border-white/25 hover:bg-white/[0.06]"
+                        ? "bg-primary/15 border-primary/40 text-primary font-semibold shadow-xs"
+                        : "bg-card border-border/80 dark:border-white/10 text-foreground hover:border-primary/40"
                     }`}
                   >
                     <span className="font-bold">{chip.name}</span>
                     {chip.note && (
-                      <span className="text-[11px] text-primary-200 border-l border-primary/30 pl-2 hidden sm:inline">
+                      <span className="text-[11px] text-muted-foreground border-l border-border pl-2 hidden sm:inline">
                         {chip.note}
                       </span>
                     )}
