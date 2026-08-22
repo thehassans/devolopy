@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import {
   ArrowRight,
+  ArrowUpRight,
   Store,
   Utensils,
   ShoppingBag,
@@ -22,234 +23,263 @@ import { useConsultation } from "@/components/consultation-modal";
 
 interface IndustryItem {
   id: string;
+  num: string;
   name: string;
-  category: "commerce" | "operations" | "services" | "enterprise";
-  icon: React.ComponentType<{ className?: string }>;
+  category: string;
   badge: string;
   bottleneck: string;
   solution: string;
   tags: string[];
+  icon: React.ComponentType<{ className?: string }>;
 }
 
-const allIndustries: IndustryItem[] = [
+const industriesList: IndustryItem[] = [
   {
     id: "retail",
-    name: "Retail & Multi-Branch",
-    category: "commerce",
-    icon: Store,
+    num: "01",
+    name: "Retail & Multi-Branch Chains",
+    category: "Commerce",
     badge: "POS & Multi-Store",
-    bottleneck: "Stock counts that never match legacy systems across multiple physical branches.",
-    solution: "Centralized Odoo ERP sync, automated reordering triggers, and unified cloud POS.",
-    tags: ["Odoo POS", "Barcode Telemetry", "ZATCA Phase 2"],
+    bottleneck: "Stock counts that never match legacy systems across multiple physical branches and warehouses.",
+    solution: "Centralized Odoo ERP sync, automated reordering triggers, barcode telemetry, and unified cloud POS.",
+    tags: ["Odoo POS", "Barcode Telemetry", "ZATCA Phase 2", "Multi-Store Sync"],
+    icon: Store,
   },
   {
     id: "fnb",
-    name: "Food & Beverage",
-    category: "commerce",
-    icon: Utensils,
+    num: "02",
+    name: "Food & Beverage Operations",
+    category: "Commerce",
     badge: "Aggregator Sync",
-    bottleneck: "Manual branch costing in spreadsheets and delivery orders re-keyed by staff.",
-    solution: "Automated aggregator webhook routing, live KDS, and batch ingredient cost ledgers.",
-    tags: ["Webhook Router", "Kitchen Display (KDS)", "Real-Time Ledger"],
+    bottleneck: "Manual branch costing in spreadsheets and delivery aggregator orders re-keyed by hand.",
+    solution: "Automated aggregator webhook routing, live Kitchen Display (KDS), and batch ingredient cost ledgers.",
+    tags: ["Webhook Router", "Kitchen Display (KDS)", "Recipe Costing", "Real-Time Ledger"],
+    icon: Utensils,
   },
   {
     id: "ecommerce",
-    name: "E-Commerce & Brands",
-    category: "commerce",
-    icon: ShoppingBag,
+    num: "03",
+    name: "E-Commerce & Digital Brands",
+    category: "Commerce",
     badge: "Headless Commerce",
-    bottleneck: "Catalogue updates taking days to sync across channels and broken shipping rails.",
-    solution: "Sub-second Next.js headless storefronts with 1-click Mada and Stripe checkout.",
-    tags: ["Next.js 15", "Stripe & Mada", "Shopify Plus"],
+    bottleneck: "Catalogue updates taking days to sync across channels and disconnected shipping fulfillment rails.",
+    solution: "Sub-second Next.js headless storefronts with 1-click Mada and Stripe checkout and auto courier dispatch.",
+    tags: ["Next.js 15", "Stripe & Mada", "Shopify Plus", "Redis Cache"],
+    icon: ShoppingBag,
   },
   {
     id: "logistics",
-    name: "Logistics & Fleet",
-    category: "operations",
-    icon: Truck,
+    num: "04",
+    name: "Logistics & Fleet Dispatch",
+    category: "Operations",
     badge: "Real-Time Telemetry",
-    bottleneck: "Driver dispatches coordinated over chat with zero end-to-end shipment visibility.",
-    solution: "Custom mobile dispatcher app, live GPS geofencing, and automated tracking SMS.",
-    tags: ["Flutter Driver App", "Live GPS Geofence", "WhatsApp Bot"],
+    bottleneck: "Driver dispatches coordinated over chat groups with zero end-to-end shipment visibility.",
+    solution: "Custom mobile dispatcher app, live GPS geofencing, driver route telemetry, and automated customer SMS.",
+    tags: ["Flutter Driver App", "Live GPS Geofence", "WhatsApp Bot", "Route Optimization"],
+    icon: Truck,
   },
   {
     id: "healthcare",
-    name: "Healthcare & Clinics",
-    category: "services",
-    icon: HeartPulse,
+    num: "05",
+    name: "Healthcare & Specialized Clinics",
+    category: "Services",
     badge: "Patient Portals",
-    bottleneck: "Fragmented records across paper tools and high appointment no-show rates.",
-    solution: "Unified EHR portal, doctor shift scheduler, and automated reminder sequences.",
-    tags: ["HIPAA Ready", "Telehealth Portal", "WhatsApp Reminders"],
+    bottleneck: "Fragmented patient records across legacy tools and high appointment no-show rates.",
+    solution: "Unified EHR portal, doctor shift scheduler, automated WhatsApp reminders, and secure telehealth.",
+    tags: ["HIPAA Ready", "Telehealth Portal", "WhatsApp Reminders", "EHR Sync"],
+    icon: HeartPulse,
   },
   {
     id: "education",
-    name: "Education & Academies",
-    category: "services",
-    icon: GraduationCap,
+    num: "06",
+    name: "Education, Schools & Academies",
+    category: "Services",
     badge: "EdTech & LMS",
-    bottleneck: "Student enrollment, LMS courses, and tuition fee ledgers disconnected.",
-    solution: "Unified student lifecycle portal with automated fee plans and mobile parent app.",
-    tags: ["LMS Platform", "Automated Billing", "Parent Mobile App"],
+    bottleneck: "Student enrollment, LMS courses, and tuition fee ledgers disconnected across multiple silos.",
+    solution: "Unified student lifecycle portal with automated fee installment plans and dedicated mobile parent app.",
+    tags: ["LMS Platform", "Automated Billing", "Parent Mobile App", "Student CRM"],
+    icon: GraduationCap,
   },
   {
     id: "realestate",
-    name: "Real Estate & Assets",
-    category: "services",
-    icon: Building2,
+    num: "07",
+    name: "Real Estate & Asset Developers",
+    category: "Services",
     badge: "Lead & Property Hub",
-    bottleneck: "Listings duplicated across five marketing portals and lost broker leads.",
-    solution: "Custom property search platform with interactive floorplans and CRM lead capture.",
-    tags: ["Searchable Engine", "Lead Capture", "Odoo CRM Sync"],
+    bottleneck: "Listings duplicated across five marketing portals and high lead slippage between broker spreadsheets.",
+    solution: "Custom property search platform with interactive floorplans, 3D tours, and instant CRM lead capture.",
+    tags: ["Searchable Engine", "Lead Capture", "Odoo CRM Sync", "Interactive Maps"],
+    icon: Building2,
   },
   {
     id: "hospitality",
-    name: "Hospitality & Resorts",
-    category: "services",
-    icon: Hotel,
+    num: "08",
+    name: "Hospitality & Boutique Resorts",
+    category: "Services",
     badge: "Direct Booking",
-    bottleneck: "Direct room reservations losing out to heavy 25%+ OTA commissions.",
-    solution: "High-converting direct booking engine with guest portal and localized payments.",
-    tags: ["Direct Booking", "Channel Manager", "Guest Web App"],
+    bottleneck: "Direct room reservations losing out to heavy 25%+ third-party OTA commission fees.",
+    solution: "High-converting direct booking engine with guest experience portal and localized payment rails.",
+    tags: ["Direct Booking", "Channel Manager", "Guest Web App", "Mada Gateway"],
+    icon: Hotel,
   },
   {
     id: "travel",
-    name: "Travel & Tours",
-    category: "services",
-    icon: Plane,
+    num: "09",
+    name: "Travel & Custom Tour Operators",
+    category: "Services",
     badge: "Dynamic Itineraries",
-    bottleneck: "Manual itinerary building in Word documents and seasonal rate friction.",
+    bottleneck: "Manual itinerary building in Word documents and seasonal rate updating friction.",
     solution: "Dynamic visual itinerary builder with live supplier flight and hotel API feeds.",
-    tags: ["Supplier APIs", "Itinerary Builder", "Dynamic Pricing"],
+    tags: ["Supplier APIs", "Itinerary Builder", "Dynamic Pricing", "Multi-Currency"],
+    icon: Plane,
   },
   {
     id: "manufacturing",
-    name: "Manufacturing & Plants",
-    category: "operations",
-    icon: Factory,
+    num: "10",
+    name: "Manufacturing & Industrial Plants",
+    category: "Operations",
     badge: "Shop Floor IoT",
     bottleneck: "Paper-based shop floor logs and reactive machine maintenance downtime.",
-    solution: "IoT sensor telemetry dashboard, automated work orders, and predictive alerts.",
-    tags: ["IoT Telemetry", "Odoo MRP", "Automated Work Orders"],
+    solution: "IoT sensor telemetry dashboard, automated work orders, and predictive maintenance alerts.",
+    tags: ["IoT Telemetry", "Odoo MRP", "Automated Work Orders", "Predictive Maintenance"],
+    icon: Factory,
   },
   {
     id: "proservices",
-    name: "Professional Services",
-    category: "enterprise",
-    icon: Briefcase,
+    num: "11",
+    name: "Professional Services & Agencies",
+    category: "Enterprise",
     badge: "Agency Operations",
-    bottleneck: "Billable hours estimated at month-end and unmeasured project margins.",
-    solution: "Automated timesheet telemetry, client milestone invoicing, and margin analytics.",
-    tags: ["Timesheet Tracking", "Milestone Billing", "Margin Analytics"],
+    bottleneck: "Billable hours estimated at month-end and unmeasured project profitability margins.",
+    solution: "Automated timesheet telemetry, client milestone invoicing, and real-time margin analytics.",
+    tags: ["Timesheet Tracking", "Milestone Billing", "Margin Analytics", "Client Portals"],
+    icon: Briefcase,
   },
   {
     id: "startups",
-    name: "High-Growth Startups",
-    category: "enterprise",
-    icon: Rocket,
+    num: "12",
+    name: "High-Growth Venture Startups",
+    category: "Enterprise",
     badge: "4-Week MVP Sprint",
     bottleneck: "Investor product timelines shorter than typical agency build estimates.",
     solution: "Rapid 4-week production MVP sprint with modular TypeScript codebase ready to scale.",
-    tags: ["4-Week MVP Sprint", "TypeScript Stack", "Next.js + Postgres"],
+    tags: ["4-Week MVP Sprint", "TypeScript Stack", "Next.js + Postgres", "Scalable Schema"],
+    icon: Rocket,
   },
 ];
 
-const categories = [
-  { id: "all", label: "All Sectors" },
-  { id: "commerce", label: "Commerce & Retail" },
-  { id: "operations", label: "Operations & Logistics" },
-  { id: "services", label: "Services & Healthcare" },
-  { id: "enterprise", label: "Enterprise & Startups" },
-];
-
 export function IndustriesSection() {
-  const [activeTab, setActiveTab] = useState("all");
+  const [selectedIndustry, setSelectedIndustry] = useState<string>("retail");
   const { openConsultation } = useConsultation();
-
-  const filteredIndustries =
-    activeTab === "all"
-      ? allIndustries
-      : allIndustries.filter((item) => item.category === activeTab);
 
   return (
     <section
       id="industries"
-      className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative overflow-hidden"
+      className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative"
     >
-      {/* Background ambient lighting */}
-      <div
-        className="pointer-events-none absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-primary/5 blur-[140px] rounded-full"
-        aria-hidden="true"
-      />
+      {/* Atmospheric Ambient Glows */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-primary/5 blur-[140px] rounded-full" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
-        {/* Header & Filter Tabs */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-          <div className="max-w-2xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
-              <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
-              Industries &amp; Domain Expertise
-            </span>
-            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.1]">
-              We learn the operation before we build for it.
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-              Every sector has its own operational bottleneck. Here is how we engineer software around your exact industry workflow.
-            </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Split-Screen Master Layout Matching Services & How We Work */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start relative">
+          {/* =========================================================
+              LEFT COLUMN: Truly Sticky Header & Quick Sector Selector
+             ========================================================= */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-6 z-20">
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
+                <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
+                Industries &amp; Domain Expertise
+              </span>
+
+              <h2 className="font-space text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight text-foreground leading-[1.1]">
+                We learn the operation before we build for it.
+              </h2>
+
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                Every sector has its own operational bottleneck. Here is how we engineer custom software and ERP workflows around your exact domain.
+              </p>
+            </div>
+
+            {/* Quick Interactive Sector Selector List */}
+            <div className="hidden lg:block space-y-1.5 p-3 rounded-2xl bg-card border border-border/80 dark:border-white/10 shadow-xs max-h-[300px] overflow-y-auto">
+              {industriesList.map((ind) => (
+                <button
+                  key={ind.id}
+                  type="button"
+                  onClick={() => setSelectedIndustry(ind.id)}
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
+                    selectedIndustry === ind.id
+                      ? "bg-primary text-primary-foreground border-primary font-bold shadow-xs"
+                      : "bg-transparent border-transparent text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  }`}
+                >
+                  <span className="font-mono text-xs uppercase tracking-wider">
+                    {ind.num} // {ind.badge}
+                  </span>
+                  <span className="text-xs font-space font-medium truncate max-w-[180px]">
+                    {ind.name.split(" ")[0]} {ind.name.split(" ")[1]}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* CTA Trigger */}
+            <button
+              type="button"
+              onClick={() => openConsultation("custom-software")}
+              className="w-full inline-flex items-center justify-between px-6 py-3.5 rounded-2xl bg-secondary hover:bg-primary hover:text-primary-foreground text-foreground font-semibold text-sm transition-all duration-200 cursor-pointer border border-border group"
+            >
+              <span>Build For Your Industry</span>
+              <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
 
-          {/* Category Filter Pills (Uniform Horizontal Row) */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-card border border-border/80 dark:border-white/10 shadow-xs">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setActiveTab(cat.id)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                  activeTab === cat.id
-                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20 scale-[1.02]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Ultra-Premium Cards Grid (Equal Heights & Perfectly Aligned Inner Sections) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {filteredIndustries.map((ind) => {
-            const Icon = ind.icon;
-            return (
-              <div
-                key={ind.id}
-                className="group relative flex flex-col justify-between h-full p-7 sm:p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-xl dark:shadow-2xl backdrop-blur-md"
-              >
-                {/* Top Content Block */}
-                <div className="flex flex-col flex-1">
-                  {/* Top Bar: Icon + Badge */}
+          {/* =========================================================
+              RIGHT COLUMN: Full-Width Luxury Industry Cards Stack
+             ========================================================= */}
+          <div className="lg:col-span-7 space-y-6">
+            {industriesList.map((ind) => {
+              const Icon = ind.icon;
+              const isSelected = selectedIndustry === ind.id;
+              return (
+                <div
+                  key={ind.id}
+                  onClick={() => setSelectedIndustry(ind.id)}
+                  className={`p-7 sm:p-8 rounded-3xl border transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-2xl cursor-pointer ${
+                    isSelected
+                      ? "bg-card border-primary ring-1 ring-primary/40 -translate-y-1"
+                      : "bg-card/70 dark:bg-white/[0.02] border-border/80 dark:border-white/10 hover:border-border"
+                  }`}
+                >
+                  {/* Top Bar: Icon + Number + Badge */}
                   <div className="flex items-center justify-between mb-5">
-                    <div className="size-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 flex items-center justify-center shadow-xs">
-                      <Icon className="size-6" />
+                    <div className="flex items-center gap-3">
+                      <div className="size-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shadow-xs">
+                        <Icon className="size-6" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] font-mono font-bold text-[#C0703C] uppercase tracking-wider block">
+                          Sector // {ind.category}
+                        </span>
+                        <h3 className="font-space text-2xl font-bold text-foreground">
+                          {ind.name}
+                        </h3>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-mono font-bold text-[#C0703C] uppercase tracking-wider bg-[#C0703C]/10 px-3 py-1 rounded-full border border-[#C0703C]/20">
+                    <span className="text-[11px] font-mono font-bold text-[#C0703C] uppercase tracking-wider bg-[#C0703C]/10 px-3 py-1 rounded-full border border-[#C0703C]/20 hidden sm:inline">
                       {ind.badge}
                     </span>
                   </div>
 
-                  {/* Industry Title (Equalized Min-Height for Consistent Grid Flow) */}
-                  <div className="min-h-[44px] flex items-center mb-4">
-                    <h3 className="font-space text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
-                      {ind.name}
-                    </h3>
-                  </div>
-
-                  {/* Bottleneck vs Solution Section (Equalized Fixed Heights) */}
-                  <div className="space-y-3 mb-5">
-                    {/* The Bottleneck Box */}
-                    <div className="p-3.5 rounded-2xl bg-destructive/5 dark:bg-destructive/10 border border-destructive/15 min-h-[92px] flex flex-col justify-start">
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-destructive mb-1">
+                  {/* Bottleneck vs Solution 2-Column Comparison */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-5">
+                    {/* The Bottleneck */}
+                    <div className="p-4 rounded-2xl bg-destructive/5 dark:bg-destructive/10 border border-destructive/15 flex flex-col justify-start">
+                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-destructive mb-1.5">
                         <AlertCircle className="size-3.5 shrink-0" />
                         <span>The Bottleneck</span>
                       </div>
@@ -258,9 +288,9 @@ export function IndustriesSection() {
                       </p>
                     </div>
 
-                    {/* Our Engineered System Box */}
-                    <div className="p-3.5 rounded-2xl bg-primary/5 dark:bg-primary/10 border border-primary/15 min-h-[92px] flex flex-col justify-start">
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-primary mb-1">
+                    {/* Our Engineered System */}
+                    <div className="p-4 rounded-2xl bg-primary/5 dark:bg-primary/10 border border-primary/15 flex flex-col justify-start">
+                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-primary mb-1.5">
                         <CheckCircle2 className="size-3.5 shrink-0" />
                         <span>Our Engineered System</span>
                       </div>
@@ -270,33 +300,35 @@ export function IndustriesSection() {
                     </div>
                   </div>
 
-                  {/* Tech Tags (Equalized Min-Height for Flawless Baseline Alignment) */}
-                  <div className="min-h-[58px] flex flex-wrap items-center content-start gap-1.5 mb-4">
-                    {ind.tags.map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-secondary text-muted-foreground border border-border/60"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  {/* Tech & Compliance Chips */}
+                  <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-border/60 dark:border-white/10 items-center justify-between">
+                    <div className="flex flex-wrap gap-1.5">
+                      {ind.tags.map((tag, tIdx) => (
+                        <span
+                          key={tIdx}
+                          className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-secondary text-muted-foreground border border-border/60"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openConsultation("custom-software");
+                      }}
+                      className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary hover:underline cursor-pointer pt-2 sm:pt-0"
+                    >
+                      <span>Explore Architecture</span>
+                      <ArrowUpRight className="size-3.5" />
+                    </button>
                   </div>
                 </div>
-
-                {/* Card Action CTA (Locked to Bottom) */}
-                <div className="pt-4 border-t border-border/80 dark:border-white/10 mt-auto">
-                  <button
-                    type="button"
-                    onClick={() => openConsultation("custom-software")}
-                    className="w-full inline-flex items-center justify-between px-4 py-2.5 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground text-foreground font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer group/btn shadow-xs"
-                  >
-                    <span>Build For {ind.name.split(" ")[0]}</span>
-                    <ArrowRight className="size-3.5 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
