@@ -25,10 +25,10 @@ const TECH_LOGOS: LogoItem[] = [
     name: "Next.js 15",
     icon: (
       <svg className="size-6 sm:size-7" viewBox="0 0 180 180" fill="none">
-        <mask id="next-mask-p" maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="180" style={{ maskType: "alpha" }}>
+        <mask id="next-mask-p2" maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="180" style={{ maskType: "alpha" }}>
           <circle cx="90" cy="90" r="90" fill="black" />
         </mask>
-        <g mask="url(#next-mask-p)">
+        <g mask="url(#next-mask-p2)">
           <circle cx="90" cy="90" r="90" fill="black" className="dark:fill-white" />
           <path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.166 149.508 157.52Z" fill="white" className="dark:fill-black" />
           <rect x="115" y="54" width="12" height="72" fill="white" className="dark:fill-black" />
@@ -171,11 +171,11 @@ export const AnimatedCarousel = ({
   badge = "Enterprise Technology Stack",
   containerClassName = "",
   titleClassName = "",
-  speedSeconds = 95, // Ultra-slow, serene, luxurious marquee speed
+  speedSeconds = 130, // True slow, relaxed, ultra-premium continuous glide
   padding = "py-14 sm:py-20",
 }: AnimatedCarouselProps) => {
-  // Quadruple array for seamless endless marquee flow
-  const duplicatedLogos = [...TECH_LOGOS, ...TECH_LOGOS, ...TECH_LOGOS, ...TECH_LOGOS];
+  // Duplicate array 2x for seamless continuous infinite marquee
+  const duplicatedLogos = [...TECH_LOGOS, ...TECH_LOGOS];
 
   return (
     <section
@@ -203,11 +203,13 @@ export const AnimatedCarousel = ({
         </div>
       </div>
 
-      {/* Infinite Continuous Ultra-Slow Marquee (Perfect proportions & authentic colors) */}
+      {/* Infinite Continuous Ultra-Slow Marquee */}
       <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_12%,white_88%,transparent)] dark:[mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
         <div
-          className="flex w-max items-center gap-16 sm:gap-24 animate-marquee py-2"
-          style={{ animationDuration: `${speedSeconds}s` }}
+          className="flex w-max items-center gap-16 sm:gap-24 py-2"
+          style={{
+            animation: `marquee ${speedSeconds}s linear infinite`,
+          }}
         >
           {duplicatedLogos.map((tech, index) => (
             <div
