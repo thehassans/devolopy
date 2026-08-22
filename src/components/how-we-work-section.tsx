@@ -1,112 +1,156 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
+import { Search, Compass, Palette, Code2, Rocket, TrendingUp, CheckCircle2 } from "lucide-react";
 
 interface ProcessStep {
   num: string;
+  stage: string;
   title: string;
   desc: string;
+  icon: React.ComponentType<{ className?: string }>;
+  deliverables: string[];
 }
 
 const steps: ProcessStep[] = [
   {
-    num: "01 — Discover",
+    num: "01",
+    stage: "Discover",
     title: "Understand the business",
-    desc: "Workflows, users, goals and the actual cost of the current problem. We write down what success looks like before anyone opens a design file.",
+    desc: "Workflows, users, goals, and the actual financial cost of the current bottleneck. We write down what success looks like before opening design software.",
+    icon: Search,
+    deliverables: ["Workflow Bottleneck Audit", "Core KPIs Definition", "User Personas"],
   },
   {
-    num: "02 — Define",
+    num: "02",
+    stage: "Define",
     title: "Scope, architecture, roadmap",
-    desc: "Requirements agreed in writing, system architecture decided, and a phased plan with dates you can hold us to.",
+    desc: "Detailed technical specification, cloud data architecture, and a phased milestone plan with commitments you can hold us to.",
+    icon: Compass,
+    deliverables: ["Technical Architecture Document", "Milestone Roadmap", "Fixed Price & Timeline"],
   },
   {
-    num: "03 — Design",
+    num: "03",
+    stage: "Design",
     title: "Product experience",
-    desc: "UX flows first, interface second. You review working prototypes, not static pictures.",
+    desc: "UX wireflows first, visual design second. You interact with working prototypes and design tokens, not static mockups.",
+    icon: Palette,
+    deliverables: ["Figma Design Tokens", "Interactive Prototype", "Design System"],
   },
   {
-    num: "04 — Build",
+    num: "04",
+    stage: "Build",
     title: "Engineering and integration",
-    desc: "Two-week cycles, a working environment you can open at any time, and integration handled as part of the build — not left to the end.",
+    desc: "Two-week sprints, live staging deployment you can test anytime, and system integrations handled continuously throughout the build.",
+    icon: Code2,
+    deliverables: ["Modular TypeScript Codebase", "Continuous CI/CD Staging", "API Microservices"],
   },
   {
-    num: "05 — Launch",
+    num: "05",
+    stage: "Launch",
     title: "Deploy and train",
-    desc: "Deployment, monitoring, data migration and training for the people who will actually use the system.",
+    desc: "Production deployment on Edge CDN, automated data migration, load testing, and hands-on training for your operational team.",
+    icon: Rocket,
+    deliverables: ["Edge CDN Deployment", "Data Migration Runbook", "Team Onboarding Training"],
   },
   {
-    num: "06 — Scale",
+    num: "06",
+    stage: "Scale",
     title: "Support and improve",
-    desc: "Agreed response times, ongoing development, and a roadmap that keeps moving after launch day.",
+    desc: "Guaranteed SLA response times, proactive monitoring, security updates, and quarterly feature iterations that keep moving after launch.",
+    icon: TrendingUp,
+    deliverables: ["SLA Response Agreement", "Automated Monitoring & Backups", "Quarterly Roadmap"],
   },
 ];
 
 export function HowWeWorkSection() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
-  const [activeStep, setActiveStep] = useState<number>(0);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    const fill = fillRef.current;
-    if (!track || !fill) return;
-
-    const onScrollProc = () => {
-      const r = track.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const start = vh * 0.75;
-      const total = r.height + start - vh * 0.35;
-      const p = Math.min(1, Math.max(0, (start - r.top) / total));
-
-      fill.style.height = `${p * r.height}px`;
-
-      const stepElements = track.querySelectorAll(".dv-proc__step");
-      stepElements.forEach((s, idx) => {
-        const sr = s.getBoundingClientRect();
-        if (sr.top < vh * 0.6 && sr.bottom > vh * 0.2) {
-          setActiveStep(idx);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", onScrollProc, { passive: true });
-    window.addEventListener("resize", onScrollProc);
-    onScrollProc();
-
-    return () => {
-      window.removeEventListener("scroll", onScrollProc);
-      window.removeEventListener("resize", onScrollProc);
-    };
-  }, []);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   return (
-    <section id="how-we-work" className="dv-sec dv-sec--light">
-      <div className="dv-wrap">
-        <div className="dv-proc">
-          {/* Sticky Left Info */}
-          <div className="dv-proc__sticky">
-            <span className="dv-eyebrow">How we work</span>
-            <h2 className="dv-h2">Six stages. No surprises in the middle.</h2>
-            <p className="dv-muted-l" style={{ marginTop: "var(--s5)", maxWidth: "40ch" }}>
-              You know what is happening, what is next, and what it depends on &mdash; at every stage.
+    <section id="how-we-work" className="w-full py-20 sm:py-28 bg-[#08090B] text-[#F5F6F7] border-b border-white/10 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-28">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
+              How We Work
+            </span>
+            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              Six stages. No surprises in the middle.
+            </h2>
+            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+              You know what is happening, what is next, and what it depends on &mdash; with complete transparency at every stage.
             </p>
+
+            <div className="hidden lg:block pt-4 space-y-2">
+              {steps.map((s, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveIdx(idx)}
+                  className={`w-full text-left px-4 py-3 rounded-2xl border transition-all flex items-center justify-between ${
+                    activeIdx === idx
+                      ? "bg-white/10 border-primary text-white font-bold"
+                      : "bg-white/[0.02] border-white/5 text-slate-400 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <span className="font-mono text-xs uppercase tracking-wider">
+                    {s.num} // {s.stage}
+                  </span>
+                  <span className="text-sm font-space">{s.title}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Right Process Track */}
-          <div className="dv-proc__track" id="procTrack" ref={trackRef}>
-            <span className="dv-proc__line"></span>
-            <span className="dv-proc__fill" id="procFill" ref={fillRef}></span>
+          {/* Right Process Cards Roadmap */}
+          <div className="lg:col-span-7 space-y-6">
+            {steps.map((step, idx) => {
+              const Icon = step.icon;
+              const isSelected = activeIdx === idx;
+              return (
+                <div
+                  key={idx}
+                  onClick={() => setActiveIdx(idx)}
+                  className={`p-8 rounded-3xl border transition-all duration-300 shadow-lg cursor-pointer ${
+                    isSelected
+                      ? "bg-white/[0.06] border-primary shadow-primary/10 -translate-y-1"
+                      : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
+                        <Icon className="size-5" />
+                      </div>
+                      <span className="font-mono text-xs font-bold text-[#C0703C] uppercase tracking-wider">
+                        Stage {step.num} &mdash; {step.stage}
+                      </span>
+                    </div>
+                    <span className="font-mono text-xs text-slate-500 font-bold">{step.num}</span>
+                  </div>
 
-            {steps.map((step, idx) => (
-              <div
-                key={idx}
-                className={`dv-proc__step transition-all duration-300 ${activeStep === idx ? "is-active" : ""}`}
-              >
-                <div className="dv-proc__n">{step.num}</div>
-                <h3 className="dv-proc__h">{step.title}</h3>
-                <p className="dv-proc__p">{step.desc}</p>
-              </div>
-            ))}
+                  <h3 className="font-space text-2xl font-bold text-white mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+                    {step.desc}
+                  </p>
+
+                  <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap gap-2">
+                    {step.deliverables.map((deliv, dIdx) => (
+                      <span
+                        key={dIdx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300"
+                      >
+                        <CheckCircle2 className="size-3 text-primary shrink-0" />
+                        {deliv}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

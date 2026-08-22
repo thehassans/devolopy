@@ -2,76 +2,99 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Code2,
+  Globe,
+  Smartphone,
+  ShoppingCart,
+  Database,
+  Bot,
+  Layout,
+  Cloud,
+  Users,
+  Compass,
+} from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 
 interface ServiceItem {
   title: string;
   desc: string;
-  iconPath: string;
-  slug?: string;
+  icon: React.ComponentType<{ className?: string }>;
+  slug: string;
+  tag: string;
 }
 
 const servicesData: ServiceItem[] = [
   {
     title: "Custom Software",
-    desc: "Platforms and business applications built around your actual workflows.",
-    iconPath: "M4 6h16v12H4z M8 10h8",
+    desc: "Platforms and bespoke enterprise business applications engineered around your actual workflows.",
+    icon: Code2,
     slug: "website-development",
+    tag: "Core Engineering",
   },
   {
     title: "Web Development",
-    desc: "Corporate sites, web apps and platforms that load fast and convert.",
-    iconPath: "M3 12h18 M12 3a15 15 0 0 1 0 18 A15 15 0 0 1 12 3",
+    desc: "Corporate web platforms, full-stack Next.js apps, and high-conversion portals with sub-second page loads.",
+    icon: Globe,
     slug: "website-development",
+    tag: "Next.js & React",
   },
   {
     title: "Mobile Applications",
-    desc: "iOS, Android and cross-platform apps built for daily use.",
-    iconPath: "M7 3h10v18H7z M11 18h2",
+    desc: "Native iOS, Android, and cross-platform Flutter/React Native apps built for high daily active engagement.",
+    icon: Smartphone,
     slug: "mobile-app-development",
+    tag: "iOS & Android",
   },
   {
-    title: "Ecommerce",
-    desc: "Stores, marketplaces, integrations and custom commerce experiences.",
-    iconPath: "M4 8h16l-2 12H6z M9 8a3 3 0 0 1 6 0",
+    title: "Ecommerce Systems",
+    desc: "Custom headless storefronts, marketplace engines, payment gateways, and automated inventory sync.",
+    icon: ShoppingCart,
     slug: "e-commerce-solutions",
+    tag: "Headless Commerce",
   },
   {
-    title: "Odoo & ERP",
-    desc: "Implementation, customisation, integration and operational automation.",
-    iconPath: "M4 5h7v7H4z M13 5h7v7h-7z M4 14h7v5H4z M13 14h7v5h-7z",
+    title: "Odoo & ERP Systems",
+    desc: "Enterprise Odoo 17/18 implementation, custom Python modules, financial accounting, and operational automation.",
+    icon: Database,
     slug: "odoo-development",
+    tag: "ERP Integration",
   },
   {
-    title: "AI & Automation",
-    desc: "Practical AI features and workflow automation that remove manual work.",
-    iconPath: "M12 4v4 M12 16v4 M4 12h4 M16 12h4 M9 9h6v6H9z",
+    title: "AI & Autonomous Automation",
+    desc: "Practical AI copilots, intelligent OCR document extractors, and automated n8n business workflows.",
+    icon: Bot,
     slug: "ai-agentic-automation",
+    tag: "AI & Workflows",
   },
   {
-    title: "UI/UX Design",
-    desc: "Research, UX strategy, interface design and design systems.",
-    iconPath: "M4 5h16v10H4z M9 19h6",
+    title: "UI/UX Design Systems",
+    desc: "In-depth user research, interactive wireframing, high-fidelity prototypes, and scalable Figma design systems.",
+    icon: Layout,
     slug: "ui-ux-design-systems",
+    tag: "Product Design",
   },
   {
-    title: "Cloud & DevOps",
-    desc: "Infrastructure, CI/CD, monitoring and deployment you can rely on.",
-    iconPath: "M6 15a4 4 0 1 1 1-7.9A5 5 0 0 1 17 8a3.5 3.5 0 0 1 .5 7z",
+    title: "Cloud & DevOps Architecture",
+    desc: "Scalable AWS & Docker infrastructure, Kubernetes clusters, automated CI/CD pipelines, and 99.99% uptime.",
+    icon: Cloud,
     slug: "cloud-devops-architecture",
+    tag: "AWS & Kubernetes",
   },
   {
-    title: "Dedicated Teams",
-    desc: "Engineers who work as an extension of your own team.",
-    iconPath: "M9 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0 M4 20a6 6 0 0 1 16 0",
+    title: "Dedicated Engineering Teams",
+    desc: "Senior full-stack developers and solutions architects embedded directly into your daily standups and roadmap.",
+    icon: Users,
     slug: "custom-crm-client-portals",
+    tag: "Staff Augmentation",
   },
   {
     title: "Technology Consulting",
-    desc: "Architecture decisions, technical audits and system planning.",
-    iconPath: "M12 3l8 4v6c0 4-3.5 7-8 8-4.5-1-8-4-8-8V7z",
+    desc: "Enterprise system audits, scalable architectural roadmaps, security compliance, and vendor evaluations.",
+    icon: Compass,
     slug: "conversion-rate-optimization-cro",
+    tag: "Advisory",
   },
 ];
 
@@ -79,46 +102,78 @@ export function WhatWeDoSection() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section id="services" className="dv-sec dv-sec--light" style={{ paddingTop: 0 }}>
-      <div className="dv-wrap">
-        <div style={{ maxWidth: "60ch" }}>
-          <span className="dv-eyebrow">What we do</span>
-          <h2 className="dv-h2">From idea to scale. We build what your business needs.</h2>
+    <section id="services" className="w-full py-20 sm:py-28 bg-[#08090B] text-[#F5F6F7] border-b border-white/10 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Header */}
+        <div className="max-w-3xl space-y-4">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
+            What We Do
+          </span>
+          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            From idea to scale. We build what your business needs.
+          </h2>
+          <p className="text-slate-400 text-base sm:text-lg">
+            Ten specialized engineering disciplines unified under a single, accountable development partner.
+          </p>
         </div>
 
-        <div className="dv-svc">
-          {servicesData.map((s, idx) => (
-            <Link
-              key={idx}
-              href={s.slug ? `/services/${s.slug}` : "#"}
-              className="dv-svc__card group"
-            >
-              <svg className="dv-svc__ico" width="30" height="30" viewBox="0 0 24 24" fill="none">
-                <path
-                  d={s.iconPath}
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <h3 className="dv-svc__t group-hover:text-primary transition-colors">{s.title}</h3>
-              <p className="dv-svc__d">{s.desc}</p>
-              <span className="dv-svc__go flex items-center gap-1">
-                Explore <ArrowRight className="size-3.5" />
-              </span>
-            </Link>
-          ))}
+        {/* 10 Capability Cards + 1 CTA Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {servicesData.map((svc, idx) => {
+            const Icon = svc.icon;
+            return (
+              <Link
+                key={idx}
+                href={`/services/${svc.slug}`}
+                className="group relative flex flex-col justify-between p-7 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-primary/50 hover:bg-white/[0.06] transition-all duration-300 hover:-translate-y-1 shadow-lg backdrop-blur-sm"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                      <Icon className="size-6" />
+                    </div>
+                    <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+                      {svc.tag}
+                    </span>
+                  </div>
+
+                  <h3 className="font-space text-xl font-bold text-white group-hover:text-primary transition-colors">
+                    {svc.title}
+                  </h3>
+                  <p className="text-sm text-slate-400 mt-2 leading-relaxed">
+                    {svc.desc}
+                  </p>
+                </div>
+
+                <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors">
+                  <span>Explore Capabilities</span>
+                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            );
+          })}
 
           {/* 11th CTA Card */}
           <div
             onClick={() => openConsultation("custom-software")}
-            className="dv-svc__card dv-svc__card--cta cursor-pointer"
+            className="group relative flex flex-col justify-between p-8 rounded-3xl bg-gradient-to-br from-[#16191E] via-[#0E1013] to-primary/20 border border-primary/30 hover:border-primary transition-all duration-300 hover:-translate-y-1 shadow-xl cursor-pointer"
           >
-            <h3 className="dv-svc__t">Ten capabilities. One accountable team.</h3>
-            <span className="dv-link flex items-center gap-1.5" style={{ color: "var(--signal-400)" }}>
-              All services <ArrowRight className="size-4" />
-            </span>
+            <div className="space-y-4">
+              <span className="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
+                Full Ecosystem
+              </span>
+              <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-white leading-snug">
+                Ten capabilities. One accountable team.
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Ready to architect or upgrade your digital stack? Talk directly with our senior engineering team.
+              </p>
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between font-space font-semibold text-primary group-hover:text-white transition-colors">
+              <span>Start Consultation</span>
+              <ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform" />
+            </div>
           </div>
         </div>
       </div>

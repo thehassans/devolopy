@@ -1,301 +1,323 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Layers, ShieldCheck, Database, Cpu, Layout } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
+
+const beats = [
+  {
+    title: "We build digital products that move businesses forward.",
+    subtitle:
+      "Devolopy helps ambitious companies design, build, automate and scale the software their business runs on.",
+  },
+  {
+    title: "Four layers. We own all of them.",
+    subtitle:
+      "Infrastructure, data, logic, interface — designed together, not stitched together by three different vendors.",
+  },
+  {
+    title: "Your team only ever sees this one.",
+    subtitle:
+      "That is the point. The complexity stays ours. What reaches your people is something they can actually use.",
+  },
+];
+
+const layers = [
+  { id: 3, name: "Interface", desc: "What your team touches", icon: Layout },
+  { id: 2, name: "Logic", desc: "Rules, workflows, permissions", icon: Cpu },
+  { id: 1, name: "Data", desc: "The single source of truth", icon: Database },
+  { id: 0, name: "Infrastructure", desc: "Where it runs, and stays running", icon: Layers },
+];
 
 export function HeroSection() {
   const { openConsultation } = useConsultation();
-  const pinRef = useRef<HTMLDivElement>(null);
+  const [activeBeat, setActiveBeat] = useState(0);
+  const [hoveredLayer, setHoveredLayer] = useState<number | null>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const stageRef = useRef<HTMLDivElement>(null);
-  const tiltRef = useRef<HTMLDivElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
 
-  const [activeBeat, setActiveBeat] = useState<number>(0);
-  const [railActive, setRailActive] = useState<boolean>(false);
-  const [activeLayers, setActiveLayers] = useState<Record<number, boolean>>({
-    0: false,
-    1: false,
-    2: false,
-    3: false,
-  });
-
+  // Auto-cycle beats every 6 seconds if not manually selected
   useEffect(() => {
-    const pin = pinRef.current;
-    const stage = stageRef.current;
-    const tilt = tiltRef.current;
-    const fill = fillRef.current;
-    if (!pin || !stage) return;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const smallScreen = window.matchMedia("(max-width: 900px)");
-
-    if (reduceMotion) return;
-
-    const clamp = (v: number, a: number, b: number) => (v < a ? a : v > b ? b : v);
-    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
-    const map = (p: number, a: number, b: number) => clamp((p - a) / (b - a), 0, 1);
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-    let ticking = false;
-
-    const onScrollFrame = () => {
-      if (smallScreen.matches) return;
-
-      const r = pin.getBoundingClientRect();
-      const travel = pin.offsetHeight - window.innerHeight;
-      const p = travel > 0 ? clamp(-r.top / travel, 0, 1) : 0;
-
-      // BEAT 1 (p 0.10 - 0.42): stack separates
-      const open = ease(map(p, 0.1, 0.42));
-      let sp = lerp(46, 132, open);
-      let rx = lerp(56, 34, open);
-
-      // BEAT 2 (p 0.45 - 0.72): rotate face-on
-      const face = ease(map(p, 0.45, 0.72));
-      rx = lerp(rx, 6, face);
-      sp = lerp(sp, 88, face);
-
-      // BEAT 3 (p 0.75 - 1.00): collapse + recede
-      const shut = ease(map(p, 0.75, 1.0));
-      sp = lerp(sp, 30, shut);
-      rx = lerp(rx, 52, shut);
-      const sc = lerp(1, 0.82, shut);
-
-      stage.style.setProperty("--sp", sp.toFixed(2));
-      stage.style.setProperty("--rx", rx.toFixed(2));
-      stage.style.setProperty("--sc", sc.toFixed(3));
-
-      // Layer Rail
-      const showRail = p > 0.12 && p < 0.8;
-      setRailActive(showRail);
-
-      const layersState: Record<number, boolean> = {
-        0: open > 0 && p > 0.14 + (3 - 0) * 0.055 && p < 0.8,
-        1: open > 0 && p > 0.14 + (3 - 1) * 0.055 && p < 0.8,
-        2: open > 0 && p > 0.14 + (3 - 2) * 0.055 && p < 0.8,
-        3: open > 0 && p > 0.14 + (3 - 3) * 0.055 && p < 0.8,
-      };
-      setActiveLayers(layersState);
-
-      // Headline beats
-      const nextBeat = p < 0.4 ? 0 : p < 0.72 ? 1 : 2;
-      setActiveBeat(nextBeat);
-
-      // Progress bar fill
-      if (fill) {
-        fill.style.width = (p * 100).toFixed(2) + "%";
-      }
-    };
-
-    const handleScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => {
-          onScrollFrame();
-          ticking = false;
-        });
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
-    onScrollFrame();
-
-    // Mouse parallax for 3D stage
-    let tx = 0,
-      ty = 0,
-      cx = 0,
-      cy = 0,
-      raf: number | null = null;
-
-    const onMouseMove = (e: MouseEvent) => {
-      tx = ((e.clientY - window.innerHeight / 2) / window.innerHeight) * -5;
-      ty = ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 7;
-
-      const r = stage.getBoundingClientRect();
-      const mx = ((e.clientX - r.left) / r.width) * 100;
-      const my = ((e.clientY - r.top) / r.height) * 100;
-      stage.style.setProperty("--mx", Math.max(-20, Math.min(120, mx)).toFixed(1) + "%");
-      stage.style.setProperty("--my", Math.max(-20, Math.min(120, my)).toFixed(1) + "%");
-
-      if (!raf) {
-        raf = requestAnimationFrame(loop);
-      }
-    };
-
-    const loop = () => {
-      cx += (tx - cx) * 0.06;
-      cy += (ty - cy) * 0.06;
-      stage.style.setProperty("--px", cx.toFixed(2));
-      stage.style.setProperty("--py", cy.toFixed(2));
-      if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) {
-        raf = requestAnimationFrame(loop);
-      } else {
-        raf = null;
-      }
-    };
-
-    if (window.matchMedia("(hover: hover)").matches) {
-      window.addEventListener("mousemove", onMouseMove, { passive: true });
-    }
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      window.removeEventListener("mousemove", onMouseMove);
-      if (raf) cancelAnimationFrame(raf);
-    };
+    const timer = setInterval(() => {
+      setActiveBeat((prev) => (prev + 1) % beats.length);
+    }, 6500);
+    return () => clearInterval(timer);
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!stageRef.current) return;
+    const rect = stageRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -16;
+    setTilt({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
+
   return (
-    <section className="dv-pin" id="pin" ref={pinRef}>
-      <div className="dv-pin__stage">
-        <div className="dv-wrap dv-hero__grid">
-          {/* Copy Area */}
-          <div className="dv-hero__copy">
-            <span className="dv-eyebrow">Digital Product &amp; Technology Partner</span>
+    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#08090B] text-[#F5F6F7] pt-28 pb-16 lg:py-24 border-b border-white/10">
+      {/* Background Ambient Radial Glows */}
+      <div
+        className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-primary/10 blur-[140px] rounded-full"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute bottom-10 right-10 w-[400px] h-[300px] bg-[#C0703C]/10 blur-[120px] rounded-full"
+        aria-hidden="true"
+      />
 
-            <div className="dv-beats">
-              {/* Beat 0 */}
-              <div
-                className={`dv-beat ${activeBeat === 0 ? "is-on" : ""}`}
-                data-beat="0"
-                aria-hidden={activeBeat !== 0}
-              >
-                <h1 id="heroH1">We build digital products that move businesses forward.</h1>
-                <p className="dv-hero__sub">
-                  Devolopy helps ambitious companies design, build, automate and scale the software their business runs on.
-                </p>
-              </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Multi-Beat Copy & CTAs */}
+          <div className="lg:col-span-6 space-y-6">
+            {/* Eyebrow badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-sm">
+              <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
+              Digital Product &amp; Technology Partner
+            </div>
 
-              {/* Beat 1 */}
-              <div
-                className={`dv-beat ${activeBeat === 1 ? "is-on" : ""}`}
-                data-beat="1"
-                aria-hidden={activeBeat !== 1}
-              >
-                <h1>Four layers. We own all of them.</h1>
-                <p className="dv-hero__sub">
-                  Infrastructure, data, logic, interface &mdash; designed together, not stitched together by three different vendors.
-                </p>
-              </div>
+            {/* Headline Switcher Area */}
+            <div className="min-h-[190px] sm:min-h-[160px] flex flex-col justify-center">
+              <h1 className="font-space text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.08] text-white">
+                {beats[activeBeat].title}
+              </h1>
+              <p className="text-base sm:text-lg text-slate-400 mt-4 leading-relaxed max-w-xl">
+                {beats[activeBeat].subtitle}
+              </p>
+            </div>
 
-              {/* Beat 2 */}
-              <div
-                className={`dv-beat ${activeBeat === 2 ? "is-on" : ""}`}
-                data-beat="2"
-                aria-hidden={activeBeat !== 2}
-              >
-                <h1>Your team only ever sees this one.</h1>
-                <p className="dv-hero__sub">
-                  That is the point. The complexity stays ours. What reaches your people is something they can actually use.
-                </p>
-              </div>
+            {/* Beat indicator pills */}
+            <div className="flex items-center gap-2 pt-1">
+              {beats.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveBeat(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    activeBeat === idx ? "w-8 bg-[#C0703C]" : "w-2 bg-white/20 hover:bg-white/40"
+                  }`}
+                  aria-label={`View slide ${idx + 1}`}
+                />
+              ))}
             </div>
 
             {/* CTAs */}
-            <div className="dv-hero__cta">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 type="button"
                 onClick={() => openConsultation("custom-software")}
-                className="dv-btn dv-btn--primary cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-white font-semibold text-sm sm:text-base shadow-lg shadow-primary/25 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
               >
-                Start a Project
+                <span>Start a Project</span>
                 <ArrowRight className="size-4" />
               </button>
-              <Link href="#work" className="dv-btn dv-btn--ghost">
-                See our work
+
+              <Link
+                href="#work"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-white font-semibold text-sm sm:text-base border border-white/10 transition-all duration-200"
+              >
+                <span>See our work</span>
               </Link>
             </div>
 
-            <p className="dv-hero__strip">
-              Custom Software<span>&middot;</span>Odoo ERP<span>&middot;</span>Mobile Apps<span>&middot;</span>AI Automation
-            </p>
-          </div>
-
-          {/* SIGNATURE: THE BUILD STACK (3D CSS Engine) */}
-          <div className="dv-stage" id="stage" ref={stageRef} aria-hidden="true">
-            <span className="dv-stage__shadow"></span>
-            <div className="dv-stage__tilt" id="tilt" ref={tiltRef}>
-              <div className="dv-stage__spin" id="spin">
-                {/* Plane 1: Infrastructure */}
-                <div className="dv-plane dv-plane--p1" style={{ ["--i" as string]: 0 }}>
-                  <span className="dv-plane__grid"></span>
-                  <span className="dv-plane__spec"></span>
-                </div>
-
-                {/* Plane 2: Data */}
-                <div className="dv-plane dv-plane--p2" style={{ ["--i" as string]: 1 }}>
-                  <div className="dv-plane__dots">
-                    <i></i><i></i><i></i><i></i>
-                    <i></i><i></i><i></i><i></i>
-                    <i></i><i></i><i></i><i></i>
-                    <i></i><i></i><i></i><i></i>
-                  </div>
-                  <span className="dv-plane__spec"></span>
-                </div>
-
-                {/* Plane 3: Logic */}
-                <div className="dv-plane dv-plane--p3" style={{ ["--i" as string]: 2 }}>
-                  <span className="dv-plane__seam"></span>
-                  <span className="dv-plane__seam dv-plane__seam--b"></span>
-                  <span className="dv-plane__spec"></span>
-                </div>
-
-                {/* Plane 4: Interface */}
-                <div className="dv-plane dv-plane--p4" style={{ ["--i" as string]: 3 }}>
-                  <div className="dv-plane__ui">
-                    <div>
-                      <div className="dv-plane__bar dv-plane__bar--s"></div>
-                    </div>
-                    <div className="dv-plane__cols">
-                      <span className="dv-plane__cell"></span>
-                      <span className="dv-plane__cell"></span>
-                      <span className="dv-plane__cell"></span>
-                    </div>
-                  </div>
-                  <span className="dv-plane__spec"></span>
-                </div>
-
-                {/* Connector Beam & Pulsing Nodes */}
-                <span className="dv-beam"></span>
-                <span className="dv-node dv-node--1"></span>
-                <span className="dv-node dv-node--2"></span>
-                <span className="dv-node dv-node--3"></span>
-              </div>
+            {/* Technology Strip */}
+            <div className="pt-6 border-t border-white/10 flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono text-slate-400">
+              <span className="hover:text-white transition-colors">Custom Software</span>
+              <span className="text-[#C0703C]">&middot;</span>
+              <span className="hover:text-white transition-colors">Odoo ERP</span>
+              <span className="text-[#C0703C]">&middot;</span>
+              <span className="hover:text-white transition-colors">Mobile Apps</span>
+              <span className="text-[#C0703C]">&middot;</span>
+              <span className="hover:text-white transition-colors">AI Automation</span>
             </div>
           </div>
-        </div>
 
-        {/* Layer Rail */}
-        <div className={`dv-rail ${railActive ? "is-on" : ""}`} aria-hidden="true">
-          <div className={`dv-rail__i ${activeLayers[3] ? "is-lit" : ""}`} data-layer="3">
-            <span className="dv-rail__d"></span>
-            <b>Interface</b>
-            <em>What your team touches</em>
-          </div>
-          <div className={`dv-rail__i ${activeLayers[2] ? "is-lit" : ""}`} data-layer="2">
-            <span className="dv-rail__d"></span>
-            <b>Logic</b>
-            <em>Rules, workflows, permissions</em>
-          </div>
-          <div className={`dv-rail__i ${activeLayers[1] ? "is-lit" : ""}`} data-layer="1">
-            <span className="dv-rail__d"></span>
-            <b>Data</b>
-            <em>The single source of truth</em>
-          </div>
-          <div className={`dv-rail__i ${activeLayers[0] ? "is-lit" : ""}`} data-layer="0">
-            <span className="dv-rail__d"></span>
-            <b>Infrastructure</b>
-            <em>Where it runs, and stays running</em>
-          </div>
-        </div>
+          {/* Right Column: Interactive 3D Build Stack Visual & Layer Rail */}
+          <div className="lg:col-span-6 flex flex-col md:flex-row items-center justify-center gap-6">
+            {/* 3D Stack Stage */}
+            <div
+              ref={stageRef}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="relative w-full max-w-[380px] h-[380px] sm:h-[420px] flex items-center justify-center cursor-pointer select-none"
+              style={{ perspective: "1200px" }}
+            >
+              {/* Floor ambient glow shadow */}
+              <div className="absolute bottom-4 w-64 h-16 bg-black/80 blur-2xl rounded-full" />
 
-        {/* Scroll Progress Bar */}
-        <div className="dv-pin__bar">
-          <span className="dv-pin__fill" id="pinFill" ref={fillRef}></span>
+              {/* 3D Rotating Stack Container */}
+              <div
+                className="relative w-[240px] sm:w-[270px] h-[240px] sm:h-[270px] transition-transform duration-300 ease-out"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: `rotateX(${55 + tilt.y}deg) rotateY(${tilt.x}deg) rotateZ(-25deg)`,
+                }}
+              >
+                {/* Plane 1: Infrastructure (Base Layer) */}
+                <div
+                  className={`absolute inset-0 rounded-2xl border transition-all duration-500 shadow-2xl ${
+                    hoveredLayer === 0
+                      ? "border-[#2B5CFF] shadow-[#2B5CFF]/30 ring-2 ring-[#2B5CFF]/40"
+                      : "border-white/15"
+                  }`}
+                  style={{
+                    transform: "translateZ(0px)",
+                    background: "linear-gradient(145deg, #14171C, #0C0E11)",
+                  }}
+                  onMouseEnter={() => setHoveredLayer(0)}
+                  onMouseLeave={() => setHoveredLayer(null)}
+                >
+                  {/* Grid matrix pattern */}
+                  <div
+                    className="absolute inset-0 opacity-30"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
+                      backgroundSize: "20px 20px",
+                    }}
+                  />
+                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-slate-500 uppercase tracking-wider">
+                    L1 // Infra
+                  </div>
+                </div>
+
+                {/* Plane 2: Data Layer */}
+                <div
+                  className={`absolute inset-0 rounded-2xl border transition-all duration-500 shadow-2xl ${
+                    hoveredLayer === 1
+                      ? "border-[#C0703C] shadow-[#C0703C]/30 ring-2 ring-[#C0703C]/40"
+                      : "border-white/15"
+                  }`}
+                  style={{
+                    transform: "translateZ(50px)",
+                    background: "linear-gradient(145deg, rgba(28,32,39,0.95), rgba(14,16,19,0.95))",
+                  }}
+                  onMouseEnter={() => setHoveredLayer(1)}
+                  onMouseLeave={() => setHoveredLayer(null)}
+                >
+                  {/* 16 Pulsing Copper Nodes */}
+                  <div className="absolute inset-5 grid grid-cols-4 grid-rows-4 items-center justify-items-center">
+                    {Array.from({ length: 16 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="size-1.5 rounded-full bg-[#C0703C]"
+                        style={{
+                          animation: `dvPulseGlow 3s infinite ease-in-out ${i * 0.15}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-[#C0703C] uppercase tracking-wider">
+                    L2 // Data
+                  </div>
+                </div>
+
+                {/* Plane 3: Logic Layer */}
+                <div
+                  className={`absolute inset-0 rounded-2xl border transition-all duration-500 shadow-2xl ${
+                    hoveredLayer === 2
+                      ? "border-[#2B5CFF] shadow-[#2B5CFF]/30 ring-2 ring-[#2B5CFF]/40"
+                      : "border-white/20"
+                  }`}
+                  style={{
+                    transform: "translateZ(100px)",
+                    background: "linear-gradient(145deg, rgba(34,39,47,0.92), rgba(18,21,26,0.92))",
+                  }}
+                  onMouseEnter={() => setHoveredLayer(2)}
+                  onMouseLeave={() => setHoveredLayer(null)}
+                >
+                  {/* Glowing Logic Seams */}
+                  <div className="absolute top-1/3 inset-x-4 h-[1px] bg-gradient-to-r from-transparent via-[#2B5CFF] to-transparent opacity-80" />
+                  <div className="absolute bottom-1/3 inset-x-4 h-[1px] bg-gradient-to-r from-transparent via-[#C0703C] to-transparent opacity-60" />
+                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-[#2B5CFF] uppercase tracking-wider">
+                    L3 // Logic
+                  </div>
+                </div>
+
+                {/* Plane 4: Interface (Top Layer) */}
+                <div
+                  className={`absolute inset-0 rounded-2xl border backdrop-blur-sm transition-all duration-500 shadow-2xl ${
+                    hoveredLayer === 3
+                      ? "border-white shadow-white/20 ring-2 ring-white/40"
+                      : "border-white/25"
+                  }`}
+                  style={{
+                    transform: "translateZ(150px)",
+                    background: "linear-gradient(145deg, rgba(52,60,72,0.45), rgba(22,25,30,0.65))",
+                  }}
+                  onMouseEnter={() => setHoveredLayer(3)}
+                  onMouseLeave={() => setHoveredLayer(null)}
+                >
+                  {/* Etched Glass Wireframe UI */}
+                  <div className="p-4 space-y-3">
+                    <div className="h-2 w-16 bg-white/40 rounded-full" />
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="h-10 rounded-lg bg-white/15 border border-white/10 flex items-center justify-center">
+                        <div className="size-2 rounded-full bg-emerald-400" />
+                      </div>
+                      <div className="h-10 rounded-lg bg-white/15 border border-white/10 flex items-center justify-center">
+                        <div className="size-2 rounded-full bg-blue-400" />
+                      </div>
+                      <div className="h-10 rounded-lg bg-white/15 border border-white/10 flex items-center justify-center">
+                        <div className="size-2 rounded-full bg-amber-400" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-3 left-3 text-[10px] font-mono text-white/80 uppercase tracking-wider">
+                    L4 // Interface
+                  </div>
+                </div>
+
+                {/* Vertical Central Beam & Pulsing Nodes */}
+                <div
+                  className="absolute left-1/2 top-1/2 w-0.5 h-[170px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                  style={{
+                    transform: "rotateX(90deg) translateZ(0)",
+                    background: "linear-gradient(180deg, transparent, rgba(192,112,60,0.8), transparent)",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Layer Rail Selector */}
+            <div className="flex flex-col gap-2.5 w-full md:w-48">
+              {layers.map((layer) => {
+                const Icon = layer.icon;
+                const isHovered = hoveredLayer === layer.id;
+                return (
+                  <div
+                    key={layer.id}
+                    onMouseEnter={() => setHoveredLayer(layer.id)}
+                    onMouseLeave={() => setHoveredLayer(null)}
+                    className={`flex items-start gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ${
+                      isHovered
+                        ? "bg-white/10 border-primary shadow-md translate-x-1"
+                        : "bg-white/5 border-white/5 hover:border-white/15"
+                    }`}
+                  >
+                    <div
+                      className={`p-1.5 rounded-lg shrink-0 ${
+                        isHovered ? "bg-primary text-white" : "bg-white/10 text-slate-400"
+                      }`}
+                    >
+                      <Icon className="size-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+                        {layer.name}
+                      </div>
+                      <div className="text-[11px] text-slate-400 leading-tight">
+                        {layer.desc}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>
