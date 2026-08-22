@@ -1,7 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import Navbar from "@/components/navbar";
 import HoverFooter from "@/components/ui/hover-footer";
@@ -19,6 +18,7 @@ import {
   ArrowUpRight,
   Layers,
   Check,
+  Sparkles,
 } from "lucide-react";
 
 export async function generateStaticParams() {
@@ -60,20 +60,11 @@ export async function generateMetadata({
       description: service.shortDescription,
       url: serviceUrl,
       type: "website",
-      images: [
-        {
-          url: service.heroImage,
-          width: 1200,
-          height: 630,
-          alt: `${service.title} - Devolopy`,
-        },
-      ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: `${service.title} | Devolopy`,
       description: service.shortDescription,
-      images: [service.heroImage],
       creator: "@devolopy",
     },
   };
@@ -173,17 +164,17 @@ export default function ServiceDetailPage({
       <Navbar />
 
       <main className="flex-1 pt-24 sm:pt-28">
-        {/* ── Breadcrumb & Hero Banner ── */}
+        {/* ── Breadcrumb & Clean Typographic Hero Banner (NO PHOTOS) ── */}
         <section className="relative py-16 sm:py-24 bg-card border-b border-border overflow-hidden">
-          {/* Ambient glow */}
+          {/* Ambient subtle glow */}
           <div
             className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-gradient-to-b from-primary/15 via-primary/5 to-transparent blur-[140px]"
             aria-hidden="true"
           />
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-muted-foreground mb-8">
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
               <Link href="/" className="hover:text-primary transition-colors">Home</Link>
               <ChevronRight className="size-3.5" />
               <Link href="/#services" className="hover:text-primary transition-colors">Services</Link>
@@ -191,58 +182,38 @@ export default function ServiceDetailPage({
               <span className="text-primary font-semibold">{service.title}</span>
             </nav>
 
-            <div className="grid lg:grid-cols-12 gap-12 items-center">
-              {/* Left Column */}
-              <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-primary shadow-xs">
-                  <Cpu className="size-3.5" /> {service.categoryLabel}
-                </div>
-
-                <h1 className="font-space text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.08]">
-                  {service.title}
-                </h1>
-
-                <p className="text-lg sm:text-xl font-medium text-primary">
-                  {service.tagline}
-                </p>
-
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                  {service.fullDescription}
-                </p>
-
-                {/* Quick actions */}
-                <div className="pt-4 flex flex-wrap items-center gap-4">
-                  <Link
-                    href="#inquiry"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm sm:text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all cursor-pointer hover:scale-[1.02]"
-                  >
-                    <span>Request Project Proposal</span>
-                    <ArrowRight className="size-4" />
-                  </Link>
-
-                  <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground bg-secondary border border-border px-4 py-3.5 rounded-full">
-                    <Clock className="size-4 text-primary" />
-                    <span>Estimated Sprint: <strong className="text-foreground">{service.timeline}</strong></span>
-                  </div>
-                </div>
+            {/* Header Content */}
+            <div className="space-y-5">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#C0703C]/30 bg-[#C0703C]/10 px-4 py-1.5 text-xs font-mono font-semibold tracking-wider uppercase text-[#C0703C] shadow-xs">
+                <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
+                <span>{service.categoryLabel}</span>
               </div>
 
-              {/* Right Column: Hero Image Frame */}
-              <div className="lg:col-span-5">
-                <div className="relative rounded-3xl overflow-hidden border border-border dark:border-white/15 shadow-2xl bg-card">
-                  <Image
-                    src={service.heroImage}
-                    alt={service.title}
-                    width={800}
-                    height={520}
-                    className="w-full h-80 sm:h-96 object-cover object-center"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                  <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-xs font-mono">
-                    <span className="bg-card/90 backdrop-blur-md px-3 py-1 rounded-md border border-border text-foreground font-medium">Enterprise Production Grade</span>
-                    <span className="bg-primary px-3 py-1 rounded-md font-bold text-primary-foreground shadow-xs">Devolopy Verified</span>
-                  </div>
+              <h1 className="font-space text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.08]">
+                {service.title}
+              </h1>
+
+              <p className="text-lg sm:text-xl font-medium text-primary">
+                {service.tagline}
+              </p>
+
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-3xl">
+                {service.fullDescription}
+              </p>
+
+              {/* Action Buttons */}
+              <div className="pt-4 flex flex-wrap items-center gap-4">
+                <Link
+                  href="#inquiry"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm sm:text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all cursor-pointer hover:scale-[1.02]"
+                >
+                  <span>Request Project Proposal</span>
+                  <ArrowRight className="size-4" />
+                </Link>
+
+                <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground bg-secondary border border-border px-4 py-3.5 rounded-full">
+                  <Clock className="size-4 text-primary" />
+                  <span>Estimated Sprint: <strong className="text-foreground">{service.timeline}</strong></span>
                 </div>
               </div>
             </div>
