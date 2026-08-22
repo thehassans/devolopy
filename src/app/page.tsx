@@ -9,7 +9,7 @@ import AIAutomationSection from "@/components/ai-automation-section";
 import HowWeWorkSection from "@/components/how-we-work-section";
 import IndustriesSection from "@/components/industries-section";
 import WhyDevolopySection from "@/components/why-devolopy-section";
-import { MarqueeDemo } from "@/components/ui/marquee";
+import { AnimatedCarousel } from "@/components/ui/logo-carousel";
 import HomeFAQ from "@/components/home-faq";
 import FooterNewsletter from "@/components/ui/footer-newsletter";
 import HoverFooter from "@/components/ui/hover-footer";
@@ -86,6 +86,21 @@ const homeJsonLd = {
   ],
 };
 
+const partnerLogos = [
+  { src: "https://cdn.worldvectorlogo.com/logos/next-js.svg", alt: "Next.js 15" },
+  { src: "https://cdn.worldvectorlogo.com/logos/react-2.svg", alt: "React" },
+  { src: "https://cdn.worldvectorlogo.com/logos/typescript.svg", alt: "TypeScript" },
+  { src: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg", alt: "Tailwind CSS" },
+  { src: "https://cdn.worldvectorlogo.com/logos/python-5.svg", alt: "Python" },
+  { src: "https://cdn.worldvectorlogo.com/logos/postgresql.svg", alt: "PostgreSQL" },
+  { src: "https://cdn.worldvectorlogo.com/logos/redis.svg", alt: "Redis" },
+  { src: "https://cdn.worldvectorlogo.com/logos/docker.svg", alt: "Docker" },
+  { src: "https://cdn.worldvectorlogo.com/logos/aws-2.svg", alt: "AWS" },
+  { src: "https://cdn.worldvectorlogo.com/logos/stripe-4.svg", alt: "Stripe" },
+  { src: "https://cdn.worldvectorlogo.com/logos/openai-2.svg", alt: "OpenAI" },
+  { src: "https://cdn.worldvectorlogo.com/logos/figma-icon-one-color.svg", alt: "Figma" },
+];
+
 export default function HomePage() {
   return (
     <div className="relative flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground transition-colors duration-300">
@@ -103,10 +118,14 @@ export default function HomePage() {
         {/* 2. Scroll-Scrubbed 3D Build Stack Hero Section */}
         <HeroSection />
 
-        {/* 3. Tech Stack Infinite Marquee */}
-        <section aria-label="The stack we build on" className="border-y border-border bg-background">
-          <MarqueeDemo />
-        </section>
+        {/* 3. Animated Logo Carousel: Powering Modern Enterprise Systems */}
+        <AnimatedCarousel
+          title="Engineered with World-Class Foundations"
+          subtitle="Battle-tested open source frameworks and cloud infrastructure powering our high-velocity builds."
+          logos={partnerLogos}
+          autoPlay={true}
+          autoPlayInterval={2200}
+        />
 
         {/* 4. Who We Are Section & Live Count-Up Metrics */}
         <WhoWeAreSection />
@@ -117,7 +136,7 @@ export default function HomePage() {
         {/* 6. What We Build Section (Bento Grid) */}
         <WhatWeBuildSection />
 
-        {/* 7. Selected Work Section */}
+        {/* 7. Selected Work Section (Split-Screen Sticky Layout) */}
         <SelectedWorkSection />
 
         {/* 8. AI & Automation Section (Interactive Pipeline Flow) */}
