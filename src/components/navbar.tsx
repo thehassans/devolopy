@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ThemeToggle } from "./theme-toggle";
 import { useConsultation } from "./consultation-modal";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 
@@ -77,10 +76,8 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Theme Toggle & Get Started CTA */}
-          <div className="hidden sm:flex items-center gap-3.5">
-            <ThemeToggle />
-
+          {/* Get Started CTA */}
+          <div className="hidden sm:flex items-center">
             {/* Theme-Aware Get Started Button */}
             <button
               type="button"
@@ -102,7 +99,6 @@ export function Navbar() {
 
           {/* Mobile Navigation Toggle */}
           <div className="flex items-center gap-2.5 md:hidden">
-            <ThemeToggle />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
