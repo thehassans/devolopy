@@ -71,11 +71,11 @@ export function HowWeWorkSection() {
   return (
     <section id="how-we-work" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start relative">
           {/* =========================================================
               LEFT COLUMN: Truly Sticky Left Header & Stage Nav
              ========================================================= */}
-          <div className="lg:col-span-5 sticky top-28 self-start space-y-6">
+          <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-6 z-20">
             <div className="space-y-4">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
                 <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />

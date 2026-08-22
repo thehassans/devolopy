@@ -13,11 +13,7 @@ import {
   Layout,
   ShoppingCart,
   LineChart,
-  ShieldCheck,
   CheckCircle2,
-  Sparkles,
-  Zap,
-  Lock,
 } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 
@@ -145,23 +141,19 @@ export function WhatWeDoSection() {
       {/* Anchor for #solutions */}
       <div id="solutions" className="absolute -top-24 left-0" />
 
-      {/* Atmospheric Ambient Glows */}
-      <div
-        className="pointer-events-none absolute top-1/4 left-10 w-[550px] h-[450px] bg-primary/10 blur-[150px] rounded-full"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute bottom-1/4 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full"
-        aria-hidden="true"
-      />
+      {/* Atmospheric Ambient Lighting Wrapper (Overflow Clipped Locally) */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute top-1/4 left-10 w-[550px] h-[450px] bg-primary/10 blur-[150px] rounded-full" />
+        <div className="absolute bottom-1/4 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Main Grid: Left Column Sticky / Right Column Scrolling Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+        {/* Main Grid: Left Column Truly Sticky / Right Column Scrolling Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start relative">
           {/* =========================================================
               LEFT COLUMN: Truly Sticky Header & Floating CTA Card
              ========================================================= */}
-          <div className="lg:col-span-5 sticky top-28 self-start space-y-8">
+          <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-8 z-20">
             <div className="space-y-4">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
                 <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
