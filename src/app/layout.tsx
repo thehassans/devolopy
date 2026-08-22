@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ConsultationProvider } from "@/components/consultation-modal";
 import { VerticalThemeToggle } from "@/components/vertical-theme-toggle";
+import { VerticalSocialBar } from "@/components/vertical-social-bar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -274,6 +275,8 @@ export default function RootLayout({
         >
           <ConsultationProvider>
             {children}
+            {/* Ultra-Premium Vertical Social Bar Docked on Left */}
+            <VerticalSocialBar />
             {/* Ultra-Premium Vertical Theme Toggle Docked on Right */}
             <VerticalThemeToggle />
           </ConsultationProvider>
