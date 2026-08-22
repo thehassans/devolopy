@@ -4,97 +4,105 @@ import React from "react";
 import Link from "next/link";
 import {
   ArrowRight,
+  ArrowUpRight,
   Code2,
-  Globe,
   Smartphone,
-  ShoppingCart,
+  Cloud,
+  Globe,
   Database,
   Bot,
   Layout,
-  Cloud,
+  ShoppingCart,
+  LineChart,
   Users,
-  Compass,
+  ShieldCheck,
+  CheckCircle2,
+  Zap,
 } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 
-interface ServiceItem {
+interface ServiceCard {
   title: string;
+  category: string;
   desc: string;
-  icon: React.ComponentType<{ className?: string }>;
   slug: string;
-  tag: string;
+  icon: React.ComponentType<{ className?: string }>;
+  techs: string[];
+  isOffset?: boolean;
 }
 
-const servicesData: ServiceItem[] = [
+const serviceCards: ServiceCard[] = [
   {
-    title: "Custom Software",
-    desc: "Platforms and bespoke enterprise business applications engineered around your actual workflows.",
-    icon: Code2,
-    slug: "website-development",
-    tag: "Core Engineering",
-  },
-  {
-    title: "Web Development",
-    desc: "Corporate web platforms, full-stack Next.js apps, and high-conversion portals with sub-second page loads.",
-    icon: Globe,
-    slug: "website-development",
-    tag: "Next.js & React",
-  },
-  {
-    title: "Mobile Applications",
-    desc: "Native iOS, Android, and cross-platform Flutter/React Native apps built for high daily active engagement.",
-    icon: Smartphone,
+    title: "Mobile App Development",
+    category: "iOS & Android",
+    desc: "We engineer native and cross-platform mobile apps utilizing React Native and Flutter with offline sync, sub-second latency, and fluid 60 FPS animations.",
     slug: "mobile-app-development",
-    tag: "iOS & Android",
+    icon: Smartphone,
+    techs: ["Flutter", "React Native", "Swift", "Kotlin"],
+    isOffset: false,
   },
   {
-    title: "Ecommerce Systems",
-    desc: "Custom headless storefronts, marketplace engines, payment gateways, and automated inventory sync.",
-    icon: ShoppingCart,
-    slug: "e-commerce-solutions",
-    tag: "Headless Commerce",
+    title: "Cloud Infrastructure",
+    category: "DevOps & AWS",
+    desc: "Scalable, secure, and cost-efficient cloud architecture on AWS and Docker containers with automated CI/CD pipelines and 99.99% high-availability uptime.",
+    slug: "cloud-devops-architecture",
+    icon: Cloud,
+    techs: ["AWS", "Docker", "Kubernetes", "Vercel"],
+    isOffset: true, // Staggered downward for high-end masonry layout
+  },
+  {
+    title: "Web Platform Development",
+    category: "Next.js & Full-Stack",
+    desc: "Enterprise web platforms and high-conversion portals crafted with Next.js 15, React, and TypeScript for world-class speed, security, and top SEO rankings.",
+    slug: "website-development",
+    icon: Globe,
+    techs: ["Next.js", "React", "TypeScript", "Tailwind"],
+    isOffset: false,
+  },
+  {
+    title: "Product Experience Design",
+    category: "UI/UX & Design Systems",
+    desc: "Creative UI/UX architectures, user journey mapping, high-fidelity interactive prototypes, and scalable Figma design token systems that maximize conversion.",
+    slug: "ui-ux-design-systems",
+    icon: Layout,
+    techs: ["Figma", "Design Tokens", "Wireframing", "WCAG AA"],
+    isOffset: true,
   },
   {
     title: "Odoo & ERP Systems",
-    desc: "Enterprise Odoo 17/18 implementation, custom Python modules, financial accounting, and operational automation.",
-    icon: Database,
+    category: "Enterprise Operations",
+    desc: "Full-scale Odoo 17/18 implementation, custom Python business modules, multi-branch POS, financial accounting, and official ZATCA Phase 2 e-invoicing.",
     slug: "odoo-development",
-    tag: "ERP Integration",
+    icon: Database,
+    techs: ["Odoo 18", "Python", "ZATCA Phase 2", "PostgreSQL"],
+    isOffset: false,
   },
   {
-    title: "AI & Autonomous Automation",
-    desc: "Practical AI copilots, intelligent OCR document extractors, and automated n8n business workflows.",
-    icon: Bot,
+    title: "AI & Autonomous Workflows",
+    category: "Agentic AI & n8n",
+    desc: "Practical enterprise AI copilots, intelligent OCR document processors, localized vector RAG systems, and automated n8n business pipelines.",
     slug: "ai-agentic-automation",
-    tag: "AI & Workflows",
+    icon: Bot,
+    techs: ["n8n", "OpenAI GPT-4o", "Claude 3.5", "pgvector"],
+    isOffset: true,
   },
   {
-    title: "UI/UX Design Systems",
-    desc: "In-depth user research, interactive wireframing, high-fidelity prototypes, and scalable Figma design systems.",
-    icon: Layout,
-    slug: "ui-ux-design-systems",
-    tag: "Product Design",
+    title: "E-Commerce Solutions",
+    category: "Headless Commerce",
+    desc: "Headless storefronts, custom checkout funnels, automated inventory synchronization, and localized payment gateway rails with Stripe and Mada.",
+    slug: "e-commerce-solutions",
+    icon: ShoppingCart,
+    techs: ["Shopify Plus", "Stripe", "Mada", "Redis"],
+    isOffset: false,
   },
   {
-    title: "Cloud & DevOps Architecture",
-    desc: "Scalable AWS & Docker infrastructure, Kubernetes clusters, automated CI/CD pipelines, and 99.99% uptime.",
-    icon: Cloud,
-    slug: "cloud-devops-architecture",
-    tag: "AWS & Kubernetes",
-  },
-  {
-    title: "Dedicated Engineering Teams",
-    desc: "Senior full-stack developers and solutions architects embedded directly into your daily standups and roadmap.",
-    icon: Users,
+    title: "Data & Telemetry Analytics",
+    category: "Business Intelligence",
+    desc: "Transform raw transactional records into real-time operational intelligence with high-throughput database pipelines and custom executive dashboards.",
     slug: "custom-crm-client-portals",
-    tag: "Staff Augmentation",
-  },
-  {
-    title: "Technology Consulting",
-    desc: "Enterprise system audits, scalable architectural roadmaps, security compliance, and vendor evaluations.",
-    icon: Compass,
-    slug: "conversion-rate-optimization-cro",
-    tag: "Advisory",
+    icon: LineChart,
+    techs: ["PostgreSQL", "Redis", "GraphQL", "Python"],
+    isOffset: true,
   },
 ];
 
@@ -102,77 +110,148 @@ export function WhatWeDoSection() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section id="services" className="w-full py-20 sm:py-28 bg-background text-foreground border-b border-border transition-colors duration-300 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Header */}
-        <div className="max-w-3xl space-y-4">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20">
-            What We Do
-          </span>
-          <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
-            From idea to scale. We build what your business needs.
-          </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
-            Ten specialized engineering disciplines unified under a single, accountable development partner.
-          </p>
-        </div>
+    <section
+      id="services"
+      className="w-full py-24 sm:py-32 bg-background text-foreground border-b border-border transition-colors duration-300 relative overflow-hidden"
+    >
+      {/* Target anchor for #solutions */}
+      <div id="solutions" className="absolute -top-24 left-0" />
 
-        {/* 10 Capability Cards + 1 CTA Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {servicesData.map((svc, idx) => {
-            const Icon = svc.icon;
-            return (
-              <Link
-                key={idx}
-                href={`/services/${svc.slug}`}
-                className="group relative flex flex-col justify-between p-7 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/60 dark:hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-lg backdrop-blur-sm"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="p-3 rounded-2xl bg-secondary dark:bg-white/5 border border-border dark:border-white/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                      <Icon className="size-6" />
-                    </div>
-                    <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider bg-secondary/80 dark:bg-white/5 px-2.5 py-1 rounded-full border border-border/60 dark:border-white/10">
-                      {svc.tag}
-                    </span>
-                  </div>
+      {/* Atmospheric Mesh Lighting */}
+      <div
+        className="pointer-events-none absolute top-1/4 left-10 w-[550px] h-[450px] bg-primary/10 blur-[150px] rounded-full"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute bottom-1/4 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full"
+        aria-hidden="true"
+      />
 
-                  <h3 className="font-space text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                    {svc.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                    {svc.desc}
-                  </p>
-                </div>
-
-                <div className="pt-6 mt-6 border-t border-border/60 dark:border-white/10 flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
-                  <span>Explore Capabilities</span>
-                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            );
-          })}
-
-          {/* 11th CTA Card */}
-          <div
-            onClick={() => openConsultation("custom-software")}
-            className="group relative flex flex-col justify-between p-8 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-primary/20 dark:from-[#16191E] dark:via-[#0E1013] dark:to-primary/20 border border-primary/30 hover:border-primary transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-xl cursor-pointer"
-          >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+          {/* =========================================================
+              LEFT COLUMN: Sticky Title, Value Proposition & CTA Card
+             ========================================================= */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32 space-y-8">
             <div className="space-y-4">
-              <span className="inline-block text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
-                Full Ecosystem
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
+                <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
+                Reimagining Brands with Technology
               </span>
-              <h3 className="font-space text-2xl sm:text-3xl font-extrabold text-foreground leading-snug">
-                Ten capabilities. One accountable team.
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Ready to architect or upgrade your digital stack? Talk directly with our senior engineering team.
+
+              <h2 className="font-space text-4xl sm:text-5xl lg:text-[50px] font-extrabold tracking-tight text-foreground leading-[1.08]">
+                Top-Notch Software Development Services
+              </h2>
+
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed pt-2">
+                From <strong>full-cycle software development</strong> to <strong>product experience design</strong> and <strong>technology consulting</strong>, we engineer the systems that power your business growth.
               </p>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-border/60 dark:border-white/10 flex items-center justify-between font-space font-semibold text-primary group-hover:translate-x-1 transition-transform">
-              <span>Start Consultation</span>
-              <ArrowRight className="size-4" />
+            {/* Value Highlights */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-3 text-sm font-medium text-foreground">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span>100% Full Source Code &amp; IP Ownership</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm font-medium text-foreground">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span>Senior Dedicated Engineers &mdash; No Rotating Pools</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm font-medium text-foreground">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span>Milestone-Based Transparent Delivery Sprints</span>
+              </div>
+            </div>
+
+            {/* Luxury "Have a project?" CTA Card */}
+            <div className="p-7 sm:p-8 rounded-3xl bg-card border-2 border-border dark:border-white/15 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group">
+              {/* Background subtle gradient sheen */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-[#C0703C]/5 group-hover:from-primary/10 transition-colors pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                <div>
+                  <h3 className="font-space text-2xl font-bold text-foreground">
+                    Have a project?
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                    Talk directly with our solutions architects.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => openConsultation("custom-software")}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-200 hover:scale-[1.03] shrink-0 cursor-pointer"
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* =========================================================
+              RIGHT COLUMN: Staggered Masonry Grid of Ultra-Premium Cards
+             ========================================================= */}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-7">
+              {serviceCards.map((service, idx) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={idx}
+                    className={`group relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 shadow-sm hover:shadow-xl dark:shadow-2xl backdrop-blur-md ${
+                      service.isOffset ? "sm:translate-y-6" : ""
+                    }`}
+                  >
+                    <div>
+                      {/* Top Bar: Icon + Category Badge */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="size-13 rounded-2xl bg-secondary dark:bg-white/5 border border-border dark:border-white/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 flex items-center justify-center shadow-xs">
+                          <Icon className="size-6" />
+                        </div>
+                        <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 px-2.5 py-1 rounded-full border border-[#C0703C]/20">
+                          {service.category}
+                        </span>
+                      </div>
+
+                      {/* Service Title */}
+                      <h3 className="font-space text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                        {service.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-sm text-muted-foreground mt-3.5 leading-relaxed">
+                        {service.desc}
+                      </p>
+
+                      {/* Tech Chips */}
+                      <div className="flex flex-wrap gap-1.5 mt-5">
+                        {service.techs.map((tech, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-secondary text-muted-foreground border border-border/60"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Action Button: Read More / View Details */}
+                    <div className="pt-6 mt-6 border-t border-border/60 dark:border-white/10">
+                      <Link
+                        href={`/services/${service.slug}`}
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground text-foreground font-semibold text-xs uppercase tracking-wider transition-all duration-200 group/btn shadow-xs"
+                      >
+                        <span>View Details</span>
+                        <ArrowUpRight className="size-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

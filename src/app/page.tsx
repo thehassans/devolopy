@@ -3,7 +3,6 @@ import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
 import WhoWeAreSection from "@/components/who-we-are-section";
 import WhatWeDoSection from "@/components/what-we-do-section";
-import SolutionsCardsSection from "@/components/solutions-cards-section";
 import WhatWeBuildSection from "@/components/what-we-build-section";
 import SelectedWorkSection from "@/components/selected-work-section";
 import AIAutomationSection from "@/components/ai-automation-section";
@@ -113,45 +112,40 @@ export default function HomePage() {
         {/* 4. Who We Are Section & Live Count-Up Metrics */}
         <WhoWeAreSection />
 
-        {/* 5. What We Do Section (10 Services + 1 CTA Card) */}
+        {/* 5. What We Do & Our Solutions Section (Unified Ultra-Premium Layout) */}
         <WhatWeDoSection />
 
-        {/* 6. Solutions Cards Section (8 Cards Grid matching user design reference) */}
-        <div id="solutions">
-          <SolutionsCardsSection />
-        </div>
-
-        {/* 7. What We Build Section (Bento Grid) */}
+        {/* 6. What We Build Section (Bento Grid) */}
         <WhatWeBuildSection />
 
-        {/* 8. Selected Work Section */}
+        {/* 7. Selected Work Section */}
         <SelectedWorkSection />
 
-        {/* 9. AI & Automation Section (Interactive Pipeline Flow) */}
+        {/* 8. AI & Automation Section (Interactive Pipeline Flow) */}
         <AIAutomationSection />
 
-        {/* 10. How We Work Section (Sticky 6-Stage Process Track) */}
+        {/* 9. How We Work Section (Sticky 6-Stage Process Track) */}
         <HowWeWorkSection />
 
-        {/* 11. Modern Technology Stack Grid */}
+        {/* 10. Modern Technology Stack Grid */}
         <TechStackSection />
 
-        {/* 12. Industries Grid */}
+        {/* 11. Industries Grid */}
         <IndustriesSection />
 
-        {/* 13. Why Devolopy & Engagement Models */}
+        {/* 12. Why Devolopy & Engagement Models */}
         <WhyDevolopySection />
 
-        {/* 14. Comprehensive FAQ Section */}
+        {/* 13. Comprehensive FAQ Section */}
         <HomeFAQ />
 
-        {/* 15. Newsletter & Final Call to Action */}
+        {/* 14. Newsletter & Final Call to Action */}
         <div id="newsletter">
           <FooterNewsletter />
         </div>
       </main>
 
-      {/* 16. Devolopy Interactive Hover Footer */}
+      {/* 15. Devolopy Interactive Hover Footer */}
       <HoverFooter />
     </div>
   );
