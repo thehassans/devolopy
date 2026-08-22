@@ -20,7 +20,7 @@ export function VerticalThemeToggle() {
   return (
     <aside
       aria-label="Theme Switcher"
-      className="fixed right-3 sm:right-6 top-24 sm:top-24 z-50 flex flex-col items-center"
+      className="fixed right-3 sm:right-6 top-32 sm:top-36 z-50 flex flex-col items-center"
     >
       <div
         className="relative flex flex-col items-center p-1 rounded-full bg-card/90 dark:bg-[#090d16]/90 backdrop-blur-xl border border-border dark:border-white/15 shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-primary/40 select-none group"
