@@ -1,6 +1,7 @@
 export interface ServiceDetail {
   id: string;
   slug: string;
+  aliases?: string[];
   title: string;
   tagline: string;
   shortDescription: string;
@@ -22,6 +23,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "website-development",
     slug: "website-development",
+    aliases: ["web-development", "custom-web-development"],
     title: "Website Development",
     tagline: "Ultra-Fast, SEO-Dominant Next.js Web Applications",
     shortDescription:
@@ -69,6 +71,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "mobile-app-development",
     slug: "mobile-app-development",
+    aliases: ["mobile-development", "mobile-apps", "app-development"],
     title: "Mobile App Development",
     tagline: "Cross-Platform iOS & Android Native Experiences",
     shortDescription:
@@ -115,6 +118,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "odoo-development",
     slug: "odoo-development",
+    aliases: ["odoo-erp", "odoo-erp-systems", "enterprise-erp"],
     title: "Odoo Development",
     tagline: "Enterprise ERP Customization & Financial Automation",
     shortDescription:
@@ -159,8 +163,9 @@ export const ALL_SERVICES: ServiceDetail[] = [
     ],
   },
   {
-    id: "e-commerce",
-    slug: "e-commerce",
+    id: "e-commerce-solutions",
+    slug: "e-commerce-solutions",
+    aliases: ["e-commerce", "ecommerce", "online-store"],
     title: "E-Commerce Solutions",
     tagline: "High-Conversion Headless & Shopify Online Stores",
     shortDescription:
@@ -206,6 +211,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "n8n-development",
     slug: "n8n-development",
+    aliases: ["n8n", "workflow-automation"],
     title: "N8N Development",
     tagline: "Autonomous Enterprise Workflow Automation",
     shortDescription:
@@ -250,6 +256,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "seo",
     slug: "seo",
+    aliases: ["seo-optimization", "search-engine-optimization"],
     title: "SEO & Search Dominance",
     tagline: "Technical SEO, Core Web Vitals & Google Top Rankings",
     shortDescription:
@@ -294,6 +301,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "ai-agentic-automation",
     slug: "ai-agentic-automation",
+    aliases: ["ai-automation", "ai-agents", "artificial-intelligence"],
     title: "AI & Agentic Automation",
     tagline: "Autonomous LLM Copilots & Enterprise RAG Systems",
     shortDescription:
@@ -336,8 +344,9 @@ export const ALL_SERVICES: ServiceDetail[] = [
     ],
   },
   {
-    id: "cloud-devops",
-    slug: "cloud-devops",
+    id: "cloud-devops-architecture",
+    slug: "cloud-devops-architecture",
+    aliases: ["cloud-devops", "cloud-infrastructure", "devops"],
     title: "Cloud & DevOps Architecture",
     tagline: "Resilient Multi-Cloud Topology & Automated CI/CD",
     shortDescription:
@@ -382,6 +391,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "ui-ux-design-systems",
     slug: "ui-ux-design-systems",
+    aliases: ["ui-ux-design", "ui-ux", "design-systems", "product-design"],
     title: "UI/UX & Design Systems",
     tagline: "World-Class Interaction Design & Scalable Design Tokens",
     shortDescription:
@@ -426,6 +436,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "api-microservices",
     slug: "api-microservices",
+    aliases: ["apis", "microservices"],
     title: "API & Microservices Architecture",
     tagline: "High-Throughput REST & GraphQL Microservices",
     shortDescription:
@@ -470,6 +481,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "custom-crm-portals",
     slug: "custom-crm-portals",
+    aliases: ["custom-crm-client-portals", "client-portals", "crm-development"],
     title: "Custom CRM & Client Portals",
     tagline: "Bespoke Multi-Tenant Dashboards & Operational Software",
     shortDescription:
@@ -514,6 +526,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
   {
     id: "conversion-optimization",
     slug: "conversion-optimization",
+    aliases: ["cro", "conversion-rate-optimization"],
     title: "Conversion Rate Optimization (CRO)",
     tagline: "Scientific A/B Testing & Funnel Revenue Acceleration",
     shortDescription:
@@ -557,6 +570,22 @@ export const ALL_SERVICES: ServiceDetail[] = [
   },
 ];
 
+export function getAllServiceSlugs(): string[] {
+  const slugs: string[] = [];
+  for (const s of ALL_SERVICES) {
+    slugs.push(s.slug);
+    if (s.aliases) {
+      slugs.push(...s.aliases);
+    }
+  }
+  return Array.from(new Set(slugs));
+}
+
 export function getServiceBySlug(slug: string): ServiceDetail | undefined {
-  return ALL_SERVICES.find((s) => s.slug === slug || s.id === slug);
+  return ALL_SERVICES.find(
+    (s) =>
+      s.slug === slug ||
+      s.id === slug ||
+      (s.aliases && s.aliases.includes(slug))
+  );
 }
