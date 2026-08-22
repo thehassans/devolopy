@@ -27,7 +27,6 @@ const defaultLogos: LogoItem[] = [
   { src: "https://cdn.worldvectorlogo.com/logos/react-2.svg", alt: "React 19", name: "React" },
   { src: "https://cdn.worldvectorlogo.com/logos/typescript.svg", alt: "TypeScript", name: "TypeScript" },
   { src: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg", alt: "Tailwind CSS", name: "Tailwind" },
-  { src: "https://cdn.worldvectorlogo.com/logos/python-5.svg", alt: "Python", name: "Python" },
   { src: "https://cdn.worldvectorlogo.com/logos/postgresql.svg", alt: "PostgreSQL", name: "PostgreSQL" },
   { src: "https://cdn.worldvectorlogo.com/logos/redis.svg", alt: "Redis", name: "Redis" },
   { src: "https://cdn.worldvectorlogo.com/logos/docker.svg", alt: "Docker", name: "Docker" },
@@ -44,12 +43,12 @@ export const AnimatedCarousel = ({
   logos = null,
   containerClassName = "",
   titleClassName = "",
-  speedSeconds = 28,
+  speedSeconds = 30,
   padding = "py-14 sm:py-20",
 }: AnimatedCarouselProps) => {
   const logoItems: (string | LogoItem)[] = logos || defaultLogos;
 
-  // Duplicate items 4x for continuous seamless loop without seams
+  // Quadruple array for perfectly continuous seamless marquee loop
   const duplicatedLogos = [...logoItems, ...logoItems, ...logoItems, ...logoItems];
 
   return (
@@ -78,10 +77,10 @@ export const AnimatedCarousel = ({
         </div>
       </div>
 
-      {/* Infinite Continuous Moving Marquee (No blocks, No box background) */}
+      {/* Infinite Continuous Moving Marquee (Strictly Capped Dimensions) */}
       <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)] dark:[mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
         <div
-          className="flex w-max items-center gap-14 sm:gap-20 animate-marquee"
+          className="flex w-max items-center gap-12 sm:gap-16 animate-marquee py-2"
           style={{ animationDuration: `${speedSeconds}s` }}
         >
           {duplicatedLogos.map((logo, index) => {
@@ -92,16 +91,26 @@ export const AnimatedCarousel = ({
             return (
               <div
                 key={index}
-                className="flex items-center gap-3 shrink-0 opacity-70 hover:opacity-100 transition-all duration-300 cursor-default group"
+                className="flex items-center gap-3 shrink-0 h-10 max-h-10 opacity-75 hover:opacity-100 transition-all duration-300 cursor-default group"
               >
-                <img
-                  src={src}
-                  alt={alt}
-                  loading="lazy"
-                  className="h-8 sm:h-9 w-auto max-w-[130px] object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 dark:invert"
-                />
+                <div className="h-8 w-8 sm:h-9 sm:w-9 shrink-0 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={src}
+                    alt={alt}
+                    loading="lazy"
+                    width={36}
+                    height={36}
+                    style={{
+                      height: "32px",
+                      width: "auto",
+                      maxHeight: "32px",
+                      maxWidth: "40px",
+                    }}
+                    className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 dark:invert"
+                  />
+                </div>
                 {name && (
-                  <span className="font-space font-bold text-sm text-foreground/80 group-hover:text-primary transition-colors tracking-tight">
+                  <span className="font-space font-bold text-sm text-foreground/80 group-hover:text-primary transition-colors tracking-tight whitespace-nowrap">
                     {name}
                   </span>
                 )}

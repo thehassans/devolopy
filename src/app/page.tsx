@@ -87,18 +87,17 @@ const homeJsonLd = {
 };
 
 const partnerLogos = [
-  { src: "https://cdn.worldvectorlogo.com/logos/next-js.svg", alt: "Next.js 15" },
-  { src: "https://cdn.worldvectorlogo.com/logos/react-2.svg", alt: "React" },
-  { src: "https://cdn.worldvectorlogo.com/logos/typescript.svg", alt: "TypeScript" },
-  { src: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg", alt: "Tailwind CSS" },
-  { src: "https://cdn.worldvectorlogo.com/logos/python-5.svg", alt: "Python" },
-  { src: "https://cdn.worldvectorlogo.com/logos/postgresql.svg", alt: "PostgreSQL" },
-  { src: "https://cdn.worldvectorlogo.com/logos/redis.svg", alt: "Redis" },
-  { src: "https://cdn.worldvectorlogo.com/logos/docker.svg", alt: "Docker" },
-  { src: "https://cdn.worldvectorlogo.com/logos/aws-2.svg", alt: "AWS" },
-  { src: "https://cdn.worldvectorlogo.com/logos/stripe-4.svg", alt: "Stripe" },
-  { src: "https://cdn.worldvectorlogo.com/logos/openai-2.svg", alt: "OpenAI" },
-  { src: "https://cdn.worldvectorlogo.com/logos/figma-icon-one-color.svg", alt: "Figma" },
+  { src: "https://cdn.worldvectorlogo.com/logos/next-js.svg", alt: "Next.js 15", name: "Next.js" },
+  { src: "https://cdn.worldvectorlogo.com/logos/react-2.svg", alt: "React 19", name: "React" },
+  { src: "https://cdn.worldvectorlogo.com/logos/typescript.svg", alt: "TypeScript", name: "TypeScript" },
+  { src: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg", alt: "Tailwind CSS", name: "Tailwind" },
+  { src: "https://cdn.worldvectorlogo.com/logos/postgresql.svg", alt: "PostgreSQL", name: "PostgreSQL" },
+  { src: "https://cdn.worldvectorlogo.com/logos/redis.svg", alt: "Redis", name: "Redis" },
+  { src: "https://cdn.worldvectorlogo.com/logos/docker.svg", alt: "Docker", name: "Docker" },
+  { src: "https://cdn.worldvectorlogo.com/logos/aws-2.svg", alt: "AWS Cloud", name: "AWS" },
+  { src: "https://cdn.worldvectorlogo.com/logos/stripe-4.svg", alt: "Stripe", name: "Stripe" },
+  { src: "https://cdn.worldvectorlogo.com/logos/openai-2.svg", alt: "OpenAI", name: "OpenAI" },
+  { src: "https://cdn.worldvectorlogo.com/logos/figma-icon-one-color.svg", alt: "Figma", name: "Figma" },
 ];
 
 export default function HomePage() {
@@ -123,8 +122,7 @@ export default function HomePage() {
           title="Engineered with World-Class Foundations"
           subtitle="Battle-tested open source frameworks and cloud infrastructure powering our high-velocity builds."
           logos={partnerLogos}
-          autoPlay={true}
-          autoPlayInterval={2200}
+          speedSeconds={32}
         />
 
         {/* 4. Who We Are Section & Live Count-Up Metrics */}
