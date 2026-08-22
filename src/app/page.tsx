@@ -1,19 +1,19 @@
 import React from "react";
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/hero-section";
-import ServicesSection from "@/components/services-section";
-import LandingAccordionItem from "@/components/ui/interactive-image-accordion";
-import DevolopyBelieve from "@/components/ui/devolopy-believe";
-import HighlightTextDemo from "@/components/ui/highlight-text-demo";
-import Integrations from "@/components/ui/integrations-4-2";
-import GridFeatureCardsSection from "@/components/ui/grid-feature-cards";
-import FeatureSections from "@/components/ui/feature-sections";
+import WhoWeAreSection from "@/components/who-we-are-section";
+import WhatWeDoSection from "@/components/what-we-do-section";
+import WhatWeBuildSection from "@/components/what-we-build-section";
+import SelectedWorkSection from "@/components/selected-work-section";
+import AIAutomationSection from "@/components/ai-automation-section";
+import HowWeWorkSection from "@/components/how-we-work-section";
+import TechStackSection from "@/components/tech-stack-section";
+import IndustriesSection from "@/components/industries-section";
+import WhyDevolopySection from "@/components/why-devolopy-section";
 import { MarqueeDemo } from "@/components/ui/marquee";
 import HomeFAQ from "@/components/home-faq";
 import FooterNewsletter from "@/components/ui/footer-newsletter";
 import HoverFooter from "@/components/ui/hover-footer";
-import { CheckCircle2, ArrowRight, Code2 } from "lucide-react";
-import Link from "next/link";
 
 const homeJsonLd = {
   "@context": "https://schema.org",
@@ -22,9 +22,9 @@ const homeJsonLd = {
       "@type": "WebPage",
       "@id": "https://devolopy.com/#webpage",
       url: "https://devolopy.com",
-      name: "Devolopy - Full-Spectrum Digital Engineering Studio",
+      name: "Devolopy - Digital Product & Technology Partner",
       description:
-        "High-performance website development, mobile apps, Odoo ERP customization, autonomous n8n workflows, and SEO dominance.",
+        "We build digital products that move businesses forward. Custom software, web development, mobile applications, Odoo ERP, and practical AI automation.",
       inLanguage: "en-US",
       isPartOf: {
         "@type": "WebSite",
@@ -36,34 +36,50 @@ const homeJsonLd = {
       mainEntity: [
         {
           "@type": "Question",
-          name: "What makes Devolopy different from standard web agencies?",
+          name: "How do you price a project?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Devolopy is a full-spectrum digital engineering studio. We architect end-to-end ecosystems comprising custom Next.js web applications, native mobile apps, enterprise Odoo ERP backbones with financial automation, and autonomous n8n workflows.",
+            text: "After a discovery call we give a range, not a single number. Once scope is written down and agreed, the range becomes a fixed price with milestones. If scope changes mid-project, we price the change before we build it — never after.",
           },
         },
         {
           "@type": "Question",
-          name: "How fast can you deliver an enterprise-grade web or ERP project?",
+          name: "Who owns the code?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Our modular architecture and CI/CD pipelines allow us to deploy production-ready MVP websites in 2 to 3 weeks, complex custom web platforms in 4 to 6 weeks, and full-scale Odoo ERP deployments in 6 to 10 weeks.",
+            text: "You do. Source code, repositories, infrastructure accounts and domains are transferred to your ownership on final payment. We do not hold client systems hostage, and we do not license you your own software. This is written into every contract.",
           },
         },
         {
           "@type": "Question",
-          name: "Do you guarantee 100/100 Google Lighthouse and Core Web Vitals?",
+          name: "Do you sign NDAs?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yes. Every web platform we build undergoes strict performance audits on Edge networks, ensuring sub-second First Contentful Paint (FCP), zero Cumulative Layout Shift (CLS < 0.05), and perfect SEO accessibility scores.",
+            text: "Yes, before any commercially sensitive discussion. Send yours or use ours.",
           },
         },
         {
           "@type": "Question",
-          name: "Can you customize Odoo ERP for complex multi-entity business operations?",
+          name: "Can you work with our existing team?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Absolutely. We engineer custom Odoo 17 & 18 modules, multi-currency accounting engines, real-time inventory synchronization, automated PDF report generators, and secure payment and bank reconciliation APIs.",
+            text: "Yes. Under the dedicated team model our engineers join your standups, your board and your repository. We can also take a defined module while your team owns the rest — that requires agreeing interfaces and ownership up front.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do you provide support after launch?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Support is a separate agreement with defined response times, not an informal favour.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do you work with clients outside Saudi Arabia?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. We work across the GCC and internationally. Contracts, invoicing and communication are handled in English or Arabic.",
           },
         },
       ],
@@ -80,125 +96,56 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
 
-      {/* Navigation */}
+      {/* 1. Header (Preserving existing Navbar) */}
       <Navbar />
 
       {/* Main Content Area */}
       <main id="main-content" className="flex-1 flex flex-col">
-        {/* 1. Hero Section with Filmstrip Carousel */}
+        {/* 2. Scroll-Scrubbed 3D Build Stack Hero Section */}
         <HeroSection />
 
-        {/* 2. Comprehensive Services Section (With 12 detailed dedicated pages) */}
-        <ServicesSection />
-
-        {/* 3. Interactive AI & Autonomous Systems Accordion Showcase */}
-        <LandingAccordionItem />
-
-        {/* 4. Devolopy Believes Manifesto Section */}
-        <DevolopyBelieve />
-
-        {/* 5. Highlight Text Philosophy Banner */}
-        <HighlightTextDemo />
-
-        {/* 6. Seamless Integrations Section */}
-        <Integrations />
-
-        {/* 7. Grid Feature Cards Section */}
-        <div id="features">
-          <GridFeatureCardsSection />
-        </div>
-
-        {/* 8. Enterprise Architecture & Interactive Solutions Highlights */}
-        <section id="solutions" aria-labelledby="solutions-title" className="py-24 bg-secondary/20 border-t border-border">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
-              <div className="lg:col-span-6 space-y-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-mono font-semibold text-primary">
-                  <Code2 className="size-3.5" /> High-Performance Standards
-                </div>
-                <h2 id="solutions-title" className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-foreground">
-                  Architected For High-Impact Digital Products
-                </h2>
-                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-                  Every project at Devolopy is built using modular TypeScript architecture, strict design system tokens, automated CI/CD pipelines, and deep SEO infrastructure.
-                </p>
-
-                <div className="space-y-3 pt-2">
-                  {[
-                    "Custom Website & Full-Stack Next.js App Router Architecture",
-                    "Native Cross-Platform iOS & Android Mobile Engineering",
-                    "Enterprise Odoo 17/18 ERP Customization & Financial Automation",
-                    "High-Conversion Headless & Shopify E-Commerce Storefronts",
-                    "Autonomous N8N & AI Agentic Workflow Automations",
-                    "Aggressive Technical SEO, Core Web Vitals & Schema.org Rich Snippets",
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle2 className="size-5 text-primary shrink-0 mt-0.5" />
-                      <span className="text-sm sm:text-base font-medium text-foreground">{item}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-4">
-                  <Link
-                    href="#services"
-                    className="inline-flex items-center gap-2 rounded-xl bg-primary text-primary-foreground px-6 py-3.5 text-sm sm:text-base font-semibold hover:bg-primary/90 transition-all shadow-md"
-                  >
-                    <span>Browse All Services</span>
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6">
-                <div className="relative rounded-3xl border border-border bg-card/90 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-                  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
-                    <div className="flex items-center gap-2">
-                      <div className="size-3 rounded-full bg-red-500/80" />
-                      <div className="size-3 rounded-full bg-amber-500/80" />
-                      <div className="size-3 rounded-full bg-emerald-500/80" />
-                    </div>
-                    <span className="font-mono text-xs text-muted-foreground">devolopy.enterprise.ts</span>
-                  </div>
-
-                  <pre className="font-mono text-xs sm:text-sm text-foreground/90 overflow-x-auto leading-relaxed bg-background/70 p-5 rounded-2xl border border-border/50">
-{`// Devolopy Enterprise Stack Manifest
-export const servicesArchitecture = {
-  web: ["Next.js 14/15", "React", "TypeScript", "Tailwind CSS"],
-  mobile: ["React Native", "Flutter", "iOS Swift", "Android Kotlin"],
-  erp: ["Odoo 17/18", "Python", "PostgreSQL", "API Microservices"],
-  ecommerce: ["Next.js Commerce", "Shopify Plus", "Stripe", "Apple Pay"],
-  automation: ["n8n Enterprise", "Webhooks", "AI Agent Copilots"],
-  growth: {
-    seo: "Schema.org Rich Snippets + 100 Core Web Vitals",
-    cro: "A/B Multivariate Testing & Funnel Optimization",
-  },
-};`}
-                  </pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 9. Tech Stack Infinite Marquee Showcase */}
-        <section aria-label="Enterprise Technologies" className="border-t border-border bg-background">
+        {/* 3. Tech Stack Infinite Marquee */}
+        <section aria-label="The stack we build on" className="border-y border-border bg-background">
           <MarqueeDemo />
         </section>
 
-        {/* 10. Powerful Feature Sections (Positioned directly above FAQ) */}
-        <FeatureSections />
+        {/* 4. Who We Are Section & Live Count-Up Metrics */}
+        <WhoWeAreSection />
 
-        {/* 11. Comprehensive FAQ Section */}
+        {/* 5. What We Do Section (10 Services + 1 CTA Card) */}
+        <WhatWeDoSection />
+
+        {/* 6. What We Build Section (Bento Grid) */}
+        <WhatWeBuildSection />
+
+        {/* 7. Selected Work Section */}
+        <SelectedWorkSection />
+
+        {/* 8. AI & Automation Section (Interactive Pipeline Flow) */}
+        <AIAutomationSection />
+
+        {/* 9. How We Work Section (Sticky 6-Stage Process Track) */}
+        <HowWeWorkSection />
+
+        {/* 10. Modern Technology Stack Grid */}
+        <TechStackSection />
+
+        {/* 11. Industries Grid */}
+        <IndustriesSection />
+
+        {/* 12. Why Devolopy & Engagement Models */}
+        <WhyDevolopySection />
+
+        {/* 13. Comprehensive FAQ Section */}
         <HomeFAQ />
 
-        {/* 12. Newsletter & Call to Action */}
-        <div id="about">
+        {/* 14. Newsletter & Final Call to Action */}
+        <div id="newsletter">
           <FooterNewsletter />
         </div>
       </main>
 
-      {/* 13. Devolopy Interactive Hover Footer */}
+      {/* 15. Devolopy Interactive Hover Footer */}
       <HoverFooter />
     </div>
   );
