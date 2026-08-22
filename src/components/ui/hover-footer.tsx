@@ -51,12 +51,12 @@ export const TextHoverEffect = ({
   }, [cursor]);
 
   return (
-    <div className="relative w-full overflow-hidden flex items-center justify-center py-6 select-none">
+    <div className="relative w-full overflow-hidden flex items-center justify-center py-4 select-none opacity-85 hover:opacity-100 transition-opacity">
       <svg
         ref={svgRef}
         width="100%"
         height="100%"
-        viewBox="0 0 1200 240"
+        viewBox="0 0 1200 220"
         xmlns="http://www.w3.org/2000/svg"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
@@ -67,7 +67,7 @@ export const TextHoverEffect = ({
         className={cn("w-full max-w-7xl h-auto overflow-visible cursor-pointer", className)}
       >
         <defs>
-          {/* Ultra-luminous multi-color gradient */}
+          {/* Luminous multi-color gradient */}
           <linearGradient
             id="devolopyTextGradient"
             gradientUnits="userSpaceOnUse"
@@ -77,24 +77,23 @@ export const TextHoverEffect = ({
             y2="100%"
           >
             <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="20%" stopColor="#6366f1" />
-            <stop offset="40%" stopColor="#a855f7" />
-            <stop offset="60%" stopColor="#ec4899" />
-            <stop offset="80%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#10b981" />
+            <stop offset="25%" stopColor="#6366f1" />
+            <stop offset="50%" stopColor="#a855f7" />
+            <stop offset="75%" stopColor="#ec4899" />
+            <stop offset="100%" stopColor="#3b82f6" />
           </linearGradient>
 
           {/* Smooth radial cursor reveal mask */}
           <motion.radialGradient
             id="devolopyRevealMask"
             gradientUnits="userSpaceOnUse"
-            r="30%"
+            r="28%"
             initial={{ cx: "50%", cy: "50%" }}
             animate={maskPosition}
             transition={{ duration: duration ?? 0, ease: "easeOut" }}
           >
             <stop offset="0%" stopColor="white" />
-            <stop offset="70%" stopColor="white" stopOpacity="0.85" />
+            <stop offset="70%" stopColor="white" stopOpacity="0.8" />
             <stop offset="100%" stopColor="black" />
           </motion.radialGradient>
 
@@ -109,38 +108,38 @@ export const TextHoverEffect = ({
           </mask>
         </defs>
 
-        {/* 1. Base subtle outline text (Space Grotesk font with clean unified contours - No internal overlap in D, V, P) */}
+        {/* 1. Base subtle outline text (Exact logo font & reduced opacity) */}
         <text
           x="50%"
-          y="58%"
+          y="56%"
           textAnchor="middle"
           dominantBaseline="middle"
-          strokeWidth="1.2"
-          letterSpacing="0.12em"
+          strokeWidth="1"
+          letterSpacing="-0.03em"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
             fontWeight: 800,
             textRendering: "geometricPrecision",
           }}
-          className="fill-white/[0.02] stroke-white/20 dark:stroke-white/15 text-[125px] sm:text-[140px] transition-all duration-300"
+          className="fill-white/[0.01] stroke-white/10 dark:stroke-white/10 text-[130px] sm:text-[150px] transition-all duration-300"
         >
           {text}
         </text>
 
-        {/* 2. Animated primary stroke path (Clean outline with no overlapping stems) */}
+        {/* 2. Subtle animated stroke path (Subtle opacity, exact logo geometry) */}
         <motion.text
           x="50%"
-          y="58%"
+          y="56%"
           textAnchor="middle"
           dominantBaseline="middle"
-          strokeWidth="1.4"
-          letterSpacing="0.12em"
+          strokeWidth="1.2"
+          letterSpacing="-0.03em"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
             fontWeight: 800,
             textRendering: "geometricPrecision",
           }}
-          className="fill-transparent stroke-primary/70 text-[125px] sm:text-[140px]"
+          className="fill-transparent stroke-primary/30 text-[130px] sm:text-[150px]"
           initial={{ strokeDashoffset: 2000, strokeDasharray: 2000 }}
           animate={{
             strokeDashoffset: 0,
@@ -157,21 +156,21 @@ export const TextHoverEffect = ({
         {/* 3. Interactive iridescent hover reveal layer */}
         <text
           x="50%"
-          y="58%"
+          y="56%"
           textAnchor="middle"
           dominantBaseline="middle"
           stroke="url(#devolopyTextGradient)"
           fill="url(#devolopyTextGradient)"
-          strokeWidth="2"
-          letterSpacing="0.12em"
+          strokeWidth="1.6"
+          letterSpacing="-0.03em"
           mask="url(#devolopyTextMask)"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
             fontWeight: 800,
-            opacity: hovered ? 1 : 0,
+            opacity: hovered ? 0.85 : 0,
             textRendering: "geometricPrecision",
           }}
-          className="text-[125px] sm:text-[140px] transition-opacity duration-200"
+          className="text-[130px] sm:text-[150px] transition-opacity duration-200"
         >
           {text}
         </text>
@@ -195,20 +194,20 @@ export const FooterBackgroundGradient = () => {
 
 export function HoverFooter() {
   const serviceLinks = [
-    { label: "Website Development", href: "#services" },
-    { label: "Mobile App Development", href: "#services" },
-    { label: "Odoo ERP Solutions", href: "#services" },
-    { label: "E-Commerce Systems", href: "#services" },
-    { label: "N8N Workflow Automation", href: "#services" },
-    { label: "SEO & Search Dominance", href: "#services" },
+    { label: "Website Development", href: "/services/website-development" },
+    { label: "Mobile App Development", href: "/services/mobile-app-development" },
+    { label: "Odoo ERP Solutions", href: "/services/odoo-development" },
+    { label: "E-Commerce Systems", href: "/services/e-commerce-solutions" },
+    { label: "AI & Automation", href: "/services/ai-agentic-automation" },
+    { label: "Cloud & DevOps", href: "/services/cloud-devops-architecture" },
   ];
 
-  const companyLinks = [
-    { label: "Core Philosophy", href: "#manifesto" },
-    { label: "Performance Standards", href: "#solutions" },
-    { label: "Featured Showcase", href: "#features" },
-    { label: "Architecture Manifest", href: "#solutions" },
-    { label: "Careers & Team", href: "#contact" },
+  const industryLinks = [
+    { label: "Retail & Multi-Branch", href: "/industries/retail-multibranch" },
+    { label: "Food & Beverage", href: "/industries/food-beverage" },
+    { label: "Logistics & Fleet", href: "/industries/logistics-fleet" },
+    { label: "Healthcare & Clinics", href: "/industries/healthcare-clinics" },
+    { label: "Venture Startups", href: "/industries/venture-startups" },
   ];
 
   const contactInfo = [
@@ -274,7 +273,7 @@ export function HoverFooter() {
           {/* Solutions Links (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-sm font-mono uppercase tracking-wider text-white/90 font-bold">
-              Solutions & Services
+              Capabilities
             </h4>
             <ul className="space-y-2.5 text-sm">
               {serviceLinks.map((link) => (
@@ -291,13 +290,13 @@ export function HoverFooter() {
             </ul>
           </div>
 
-          {/* Company & Architecture (2 cols) */}
+          {/* Industries (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="text-sm font-mono uppercase tracking-wider text-white/90 font-bold">
-              Company
+              Industries
             </h4>
             <ul className="space-y-2.5 text-sm">
-              {companyLinks.map((link) => (
+              {industryLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
@@ -369,14 +368,15 @@ export function HoverFooter() {
           </p>
 
           <div className="flex items-center gap-5 text-white/50">
-            <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
-            <Link href="/terms" className="hover:underline">Terms of Service</Link>
+            <Link href="/blog" className="hover:underline">Blog</Link>
+            <Link href="/privacy" className="hover:underline">Privacy</Link>
+            <Link href="/terms" className="hover:underline">Terms</Link>
             <Link href="/sitemap.xml" className="hover:underline">Sitemap</Link>
           </div>
         </div>
 
-        {/* ── Massive Ultra-Premium Centerpiece Text Hover Effect ── */}
-        <div className="pt-8 sm:pt-12 flex justify-center items-center">
+        {/* ── Massive Centerpiece Text Hover Effect with Subtler Opacity & Exact Logo Font ── */}
+        <div className="pt-6 sm:pt-10 flex justify-center items-center">
           <TextHoverEffect text="DEVOLOPY" />
         </div>
       </div>

@@ -18,6 +18,19 @@ import {
   Layers,
   BarChart3,
   ArrowRight,
+  BookOpen,
+  Store,
+  Utensils,
+  Truck,
+  HeartPulse,
+  GraduationCap,
+  Building2,
+  Hotel,
+  Plane,
+  Factory,
+  Briefcase,
+  Rocket,
+  Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -73,11 +86,77 @@ const servicesDropdownList = [
   },
 ];
 
+const industriesDropdownList = [
+  {
+    title: "Retail & Multi-Branch",
+    desc: "Centralized Odoo POS & barcode telemetry",
+    slug: "retail-multibranch",
+    icon: Store,
+  },
+  {
+    title: "Food & Beverage",
+    desc: "Aggregator webhooks & live Kitchen Display (KDS)",
+    slug: "food-beverage",
+    icon: Utensils,
+  },
+  {
+    title: "E-Commerce Brands",
+    desc: "Headless sub-second checkout & 3PL dispatch",
+    slug: "ecommerce-brands",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Logistics & Fleet",
+    desc: "Driver dispatch app & live GPS geofencing",
+    slug: "logistics-fleet",
+    icon: Truck,
+  },
+  {
+    title: "Healthcare & Clinics",
+    desc: "HIPAA-ready patient portal & WhatsApp reminders",
+    slug: "healthcare-clinics",
+    icon: HeartPulse,
+  },
+  {
+    title: "Education & Academies",
+    desc: "Student portal & automated fee installments",
+    slug: "education-academies",
+    icon: GraduationCap,
+  },
+  {
+    title: "Real Estate & Assets",
+    desc: "Interactive 3D tours & automated CRM leads",
+    slug: "real-estate-assets",
+    icon: Building2,
+  },
+  {
+    title: "Hospitality & Resorts",
+    desc: "Direct booking engine & zero OTA commission",
+    slug: "hospitality-resorts",
+    icon: Hotel,
+  },
+  {
+    title: "Manufacturing Plants",
+    desc: "Shop floor IoT telemetry & Odoo MRP ledgers",
+    slug: "manufacturing-plants",
+    icon: Factory,
+  },
+  {
+    title: "Venture Startups",
+    desc: "Rapid 4-week production MVP sprint in TypeScript",
+    slug: "venture-startups",
+    icon: Rocket,
+    badge: "4-Wk MVP",
+  },
+];
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [industriesOpen, setIndustriesOpen] = useState(false);
+  const servicesDropdownRef = useRef<HTMLDivElement | null>(null);
+  const industriesDropdownRef = useRef<HTMLDivElement | null>(null);
   const { openConsultation } = useConsultation();
 
   useEffect(() => {
@@ -88,11 +167,20 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        servicesDropdownRef.current &&
+        !servicesDropdownRef.current.contains(e.target as Node)
+      ) {
         setServicesOpen(false);
+      }
+      if (
+        industriesDropdownRef.current &&
+        !industriesDropdownRef.current.contains(e.target as Node)
+      ) {
+        setIndustriesOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -101,7 +189,6 @@ export function Navbar() {
 
   const navLinks = [
     { label: "How We Work", href: "/#how-we-work" },
-    { label: "Industries", href: "/#industries" },
     { label: "Why Us", href: "/#why-devolopy" },
   ];
 
@@ -142,18 +229,21 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-7 lg:gap-8">
-            {/* Services Mega Dropdown */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            {/* 1. Services Mega Dropdown */}
             <div
-              ref={dropdownRef}
+              ref={servicesDropdownRef}
               className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
+              onMouseEnter={() => {
+                setServicesOpen(true);
+                setIndustriesOpen(false);
+              }}
               onMouseLeave={() => setServicesOpen(false)}
             >
               <button
                 type="button"
                 onClick={() => setServicesOpen(!servicesOpen)}
-                className={`inline-flex items-center gap-1.5 text-sm lg:text-base font-medium transition-colors cursor-pointer ${
+                className={`inline-flex items-center gap-1.5 text-sm lg:text-base font-medium transition-colors cursor-pointer py-1 ${
                   servicesOpen ? "text-primary font-semibold" : "text-foreground/80 hover:text-primary"
                 }`}
                 aria-expanded={servicesOpen}
@@ -166,7 +256,6 @@ export function Navbar() {
                 />
               </button>
 
-              {/* Dropdown Menu Panel */}
               <AnimatePresence>
                 {servicesOpen && (
                   <motion.div
@@ -174,10 +263,9 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full -left-28 w-[640px] pt-3 z-50"
+                    className="absolute top-full -left-20 w-[640px] pt-3 z-50"
                   >
                     <div className="rounded-3xl bg-card border border-border p-6 shadow-2xl backdrop-blur-2xl space-y-4">
-                      {/* Top Header */}
                       <div className="flex items-center justify-between border-b border-border/70 pb-3">
                         <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
                           Enterprise Engineering Capabilities
@@ -192,7 +280,6 @@ export function Navbar() {
                         </Link>
                       </div>
 
-                      {/* 2-Column Services Grid */}
                       <div className="grid grid-cols-2 gap-3">
                         {servicesDropdownList.map((svc) => {
                           const Icon = svc.icon;
@@ -231,7 +318,104 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Standard Navlinks */}
+            {/* 2. Industries Mega Dropdown */}
+            <div
+              ref={industriesDropdownRef}
+              className="relative"
+              onMouseEnter={() => {
+                setIndustriesOpen(true);
+                setServicesOpen(false);
+              }}
+              onMouseLeave={() => setIndustriesOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setIndustriesOpen(!industriesOpen)}
+                className={`inline-flex items-center gap-1.5 text-sm lg:text-base font-medium transition-colors cursor-pointer py-1 ${
+                  industriesOpen ? "text-primary font-semibold" : "text-foreground/80 hover:text-primary"
+                }`}
+                aria-expanded={industriesOpen}
+              >
+                <span>Industries</span>
+                <ChevronDown
+                  className={`size-4 transition-transform duration-200 ${
+                    industriesOpen ? "rotate-180 text-primary" : "text-muted-foreground"
+                  }`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {industriesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full -left-36 w-[660px] pt-3 z-50"
+                  >
+                    <div className="rounded-3xl bg-card border border-border p-6 shadow-2xl backdrop-blur-2xl space-y-4 max-h-[80vh] overflow-y-auto">
+                      <div className="flex items-center justify-between border-b border-border/70 pb-3">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
+                          Domain Specialization &amp; Architecture
+                        </span>
+                        <Link
+                          href="/#industries"
+                          onClick={() => setIndustriesOpen(false)}
+                          className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
+                        >
+                          <span>All Industries</span>
+                          <ArrowRight className="size-3" />
+                        </Link>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        {industriesDropdownList.map((ind) => {
+                          const Icon = ind.icon;
+                          return (
+                            <Link
+                              key={ind.slug}
+                              href={`/industries/${ind.slug}`}
+                              onClick={() => setIndustriesOpen(false)}
+                              className="group flex items-start gap-3 p-3 rounded-2xl hover:bg-secondary/70 transition-all duration-200 border border-transparent hover:border-border/80"
+                            >
+                              <div className="size-9 rounded-xl bg-secondary group-hover:bg-primary group-hover:text-primary-foreground text-foreground border border-border flex items-center justify-center shrink-0 transition-colors shadow-xs">
+                                <Icon className="size-4.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="font-space text-sm font-bold text-foreground group-hover:text-primary transition-colors block truncate">
+                                    {ind.title}
+                                  </span>
+                                  {ind.badge && (
+                                    <span className="px-1.5 py-0.2 rounded-sm bg-[#C0703C]/15 text-[#C0703C] font-mono text-[9px] font-bold shrink-0">
+                                      {ind.badge}
+                                    </span>
+                                  )}
+                                </div>
+                                <span className="text-[11px] text-muted-foreground line-clamp-1 block mt-0.5">
+                                  {ind.desc}
+                                </span>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* 3. Blogs Link with Clean Icon */}
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-1.5 text-sm lg:text-base font-medium text-foreground/80 hover:text-primary transition-colors group"
+            >
+              <BookOpen className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              <span>Blogs</span>
+            </Link>
+
+            {/* 4. Standard Navlinks */}
             {navLinks.map((link) => (
               <Link
                 key={link.label}
@@ -275,20 +459,20 @@ export function Navbar() {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-3 rounded-2xl bg-background/95 backdrop-blur-xl border border-border p-6 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
-            {/* Mobile Services Accordion */}
+            {/* Mobile Services */}
             <div className="space-y-2">
               <span className="text-xs font-mono font-bold uppercase text-[#C0703C] tracking-wider px-2 block">
-                Services &amp; Solutions
+                Services &amp; Capabilities
               </span>
-              <div className="grid grid-cols-1 gap-1.5">
-                {servicesDropdownList.map((svc) => {
+              <div className="grid grid-cols-1 gap-1">
+                {servicesDropdownList.slice(0, 6).map((svc) => {
                   const Icon = svc.icon;
                   return (
                     <Link
                       key={svc.slug}
                       href={`/services/${svc.slug}`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-muted text-foreground transition-colors"
+                      className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted text-foreground transition-colors"
                     >
                       <Icon className="size-4 text-primary shrink-0" />
                       <span className="text-sm font-semibold">{svc.title}</span>
@@ -298,8 +482,39 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* Other Mobile Links */}
+            {/* Mobile Industries */}
+            <div className="pt-2 border-t border-border space-y-2">
+              <span className="text-xs font-mono font-bold uppercase text-[#C0703C] tracking-wider px-2 block">
+                Industries
+              </span>
+              <div className="grid grid-cols-1 gap-1">
+                {industriesDropdownList.slice(0, 6).map((ind) => {
+                  const Icon = ind.icon;
+                  return (
+                    <Link
+                      key={ind.slug}
+                      href={`/industries/${ind.slug}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted text-foreground transition-colors"
+                    >
+                      <Icon className="size-4 text-primary shrink-0" />
+                      <span className="text-sm font-semibold">{ind.title}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Blogs & Other Mobile Links */}
             <div className="pt-2 border-t border-border flex flex-col space-y-1.5">
+              <Link
+                href="/blog"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2.5 text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-muted"
+              >
+                <BookOpen className="size-4 text-primary" />
+                <span>Blogs &amp; Case Studies</span>
+              </Link>
               {navLinks.map((link) => (
                 <Link
                   key={link.label}

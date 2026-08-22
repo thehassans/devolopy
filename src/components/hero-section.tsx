@@ -206,8 +206,8 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: 3D Isometric Build Stack & Interactive Inspector */}
-          <div className="lg:col-span-6 flex flex-col md:flex-row items-center justify-center gap-6 sm:gap-8">
+          {/* Right Column: 3D Isometric Build Stack & Interactive Inspector (Shifted Right) */}
+          <div className="lg:col-span-6 flex flex-col md:flex-row items-center justify-center lg:justify-end gap-6 sm:gap-8 lg:translate-x-8 xl:translate-x-12">
             {/* 3D Stack Stage Canvas */}
             <div
               ref={stageRef}

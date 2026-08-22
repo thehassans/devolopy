@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -21,6 +22,7 @@ import { useConsultation } from "@/components/consultation-modal";
 
 interface IndustryItem {
   id: string;
+  slug: string;
   num: string;
   name: string;
   badge: string;
@@ -32,6 +34,7 @@ interface IndustryItem {
 const industriesList: IndustryItem[] = [
   {
     id: "retail",
+    slug: "retail-multibranch",
     num: "01",
     name: "Retail & Multi-Branch",
     badge: "POS & Multi-Store",
@@ -41,6 +44,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "fnb",
+    slug: "food-beverage",
     num: "02",
     name: "Food & Beverage",
     badge: "Aggregator Sync",
@@ -50,6 +54,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "ecommerce",
+    slug: "ecommerce-brands",
     num: "03",
     name: "E-Commerce & Brands",
     badge: "Headless Commerce",
@@ -59,6 +64,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "logistics",
+    slug: "logistics-fleet",
     num: "04",
     name: "Logistics & Fleet",
     badge: "Real-Time Telemetry",
@@ -68,6 +74,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "healthcare",
+    slug: "healthcare-clinics",
     num: "05",
     name: "Healthcare & Clinics",
     badge: "Patient Portals",
@@ -77,6 +84,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "education",
+    slug: "education-academies",
     num: "06",
     name: "Education & Academies",
     badge: "EdTech & LMS",
@@ -86,6 +94,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "realestate",
+    slug: "real-estate-assets",
     num: "07",
     name: "Real Estate & Assets",
     badge: "Property & Lead Hub",
@@ -95,6 +104,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "hospitality",
+    slug: "hospitality-resorts",
     num: "08",
     name: "Hospitality & Resorts",
     badge: "Direct Booking",
@@ -104,6 +114,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "travel",
+    slug: "travel-tours",
     num: "09",
     name: "Travel & Custom Tours",
     badge: "Dynamic Itineraries",
@@ -113,6 +124,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "manufacturing",
+    slug: "manufacturing-plants",
     num: "10",
     name: "Manufacturing Plants",
     badge: "Shop Floor IoT",
@@ -122,6 +134,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "proservices",
+    slug: "professional-services",
     num: "11",
     name: "Professional Services",
     badge: "Agency Operations",
@@ -131,6 +144,7 @@ const industriesList: IndustryItem[] = [
   },
   {
     id: "startups",
+    slug: "venture-startups",
     num: "12",
     name: "Venture Startups",
     badge: "4-Week MVP Sprint",
@@ -210,17 +224,18 @@ export function IndustriesSection() {
           </div>
 
           {/* =========================================================
-              RIGHT COLUMN: Ultra-Minimalistic Luxury Industry Cards
+              RIGHT COLUMN: Ultra-Minimalistic Luxury Industry Cards (Clickable Direct Links)
              ========================================================= */}
           <div className="lg:col-span-7 space-y-5">
             {industriesList.map((ind) => {
               const Icon = ind.icon;
               const isSelected = selectedIndustry === ind.id;
               return (
-                <div
+                <Link
                   key={ind.id}
-                  onClick={() => setSelectedIndustry(ind.id)}
-                  className={`p-6 sm:p-7 rounded-3xl border transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-2xl cursor-pointer ${
+                  href={`/industries/${ind.slug}`}
+                  onMouseEnter={() => setSelectedIndustry(ind.id)}
+                  className={`block p-6 sm:p-7 rounded-3xl border transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-2xl cursor-pointer group ${
                     isSelected
                       ? "bg-card border-primary ring-1 ring-primary/40 -translate-y-1"
                       : "bg-card/70 dark:bg-white/[0.02] border-border/80 dark:border-white/10 hover:border-border"
@@ -229,10 +244,10 @@ export function IndustriesSection() {
                   {/* Header Row: Icon + Title + Badge */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="size-11 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shadow-xs">
+                      <div className="size-11 rounded-2xl bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center shadow-xs transition-colors">
                         <Icon className="size-5" />
                       </div>
-                      <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground">
+                      <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
                         {ind.name}
                       </h3>
                     </div>
@@ -259,19 +274,12 @@ export function IndustriesSection() {
                       ))}
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openConsultation("custom-software");
-                      }}
-                      className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary hover:underline cursor-pointer"
-                    >
-                      <span>Explore</span>
-                      <ArrowUpRight className="size-3.5" />
-                    </button>
+                    <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary group-hover:underline">
+                      <span>Explore Blueprint</span>
+                      <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
