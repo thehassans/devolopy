@@ -3,12 +3,10 @@
 import * as React from "react";
 import {
   AnimatePresence,
-  animate,
   motion,
-  useMotionValue,
   useReducedMotion,
 } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowUpRight, CheckCircle2, Layers } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useConsultation } from "@/components/consultation-modal";
 
@@ -76,63 +74,51 @@ export function HeroCarousel({
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       className={cn(
-        "relative w-full rounded-3xl overflow-hidden bg-slate-950 text-white shadow-2xl border border-border/60 transition-all duration-500",
+        "relative w-full rounded-3xl overflow-hidden bg-card text-foreground shadow-xl dark:shadow-2xl border border-border transition-colors duration-300",
         className
       )}
     >
-      {/* ── Dynamic Ambient Atmospheric Canvas ── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* ── Ambient Soft Glow (Adaptive across Light/Dark) ── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <AnimatePresence mode="wait">
           <motion.div
             key={active.id ?? index}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 0.6 }}
             className="absolute inset-0"
           >
-            {/* Ambient colored lighting gradient */}
             <div
-              className="absolute -top-1/4 -right-1/4 w-[700px] h-[700px] rounded-full blur-[160px] opacity-35"
+              className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full blur-[160px] opacity-15 dark:opacity-25"
               style={{ backgroundColor: active.accent }}
             />
             <div
-              className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] rounded-full blur-[160px] opacity-25"
+              className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] rounded-full blur-[160px] opacity-10 dark:opacity-20"
               style={{ backgroundColor: active.accent }}
-            />
-
-            {/* Subtle background image with gradient overlay */}
-            <img
-              src={active.image}
-              alt=""
-              aria-hidden
-              className="absolute inset-0 w-full h-full object-cover opacity-15 mix-blend-luminosity filter blur-xs"
             />
           </motion.div>
         </AnimatePresence>
-
-        {/* Crisp dark gradient vignette for perfect contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/60" />
       </div>
 
       {/* ── Top Bar ── */}
-      <div className="relative z-10 flex items-center justify-between px-6 sm:px-10 pt-6 sm:pt-8 border-b border-white/10 pb-5">
+      <div className="relative z-10 flex items-center justify-between px-6 sm:px-10 pt-6 sm:pt-8 border-b border-border pb-5">
         <div className="flex items-center gap-3">
           <span
-            className="size-2.5 rounded-full animate-pulse shadow-sm"
+            className="size-2.5 rounded-full animate-pulse shadow-xs"
             style={{ backgroundColor: active.accent }}
           />
-          <span className="text-xs font-mono font-bold tracking-wider uppercase text-white/80">
-            Featured Case Study // {String(index + 1).padStart(2, "0")} of {String(items.length).padStart(2, "0")}
+          <span className="text-xs font-mono font-bold tracking-wider uppercase text-muted-foreground">
+            Featured System // {String(index + 1).padStart(2, "0")} of {String(items.length).padStart(2, "0")}
           </span>
         </div>
 
-        {/* Carousel Navigation Buttons */}
+        {/* Carousel Navigation Arrow Controls */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={prev}
-            className="size-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white transition-all cursor-pointer hover:scale-105 active:scale-95"
+            className="size-9 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground border border-border flex items-center justify-center text-foreground transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
             aria-label="Previous Case Study"
           >
             <ChevronLeft className="size-4" />
@@ -140,7 +126,7 @@ export function HeroCarousel({
           <button
             type="button"
             onClick={next}
-            className="size-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white transition-all cursor-pointer hover:scale-105 active:scale-95"
+            className="size-9 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground border border-border flex items-center justify-center text-foreground transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
             aria-label="Next Case Study"
           >
             <ChevronRight className="size-4" />
@@ -150,22 +136,22 @@ export function HeroCarousel({
 
       {/* ── Main Showcase Stage: 2-Column Split View ── */}
       <div className="relative z-10 p-6 sm:p-10 lg:p-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column: Narrative, Metrics & CTA */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Narrative, Outcomes & CTA */}
           <div className="lg:col-span-6 space-y-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id ?? index}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.45 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.4 }}
                 className="space-y-5"
               >
                 {/* Client & Category Badge */}
                 <div className="flex items-center gap-2.5">
                   <span
-                    className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border"
+                    className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border shadow-xs"
                     style={{
                       borderColor: `${active.accent}40`,
                       backgroundColor: `${active.accent}15`,
@@ -174,45 +160,45 @@ export function HeroCarousel({
                   >
                     {active.category}
                   </span>
-                  <span className="text-xs font-mono text-white/50 uppercase">
+                  <span className="text-xs font-mono text-muted-foreground uppercase font-medium">
                     Client // {active.client}
                   </span>
                 </div>
 
                 {/* Main Headline */}
-                <h3 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.08] tracking-tight">
+                <h3 className="font-space text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-foreground leading-[1.1] tracking-tight">
                   {active.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                   {active.desc}
                 </p>
 
-                {/* Quantified Impact Banner */}
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-3.5">
+                {/* Quantified Production Result Card */}
+                <div className="p-4 rounded-2xl bg-secondary/80 dark:bg-white/[0.03] border border-border flex items-center gap-3.5 shadow-xs">
                   <div
-                    className="size-8 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${active.accent}25`, color: active.accent }}
+                    className="size-8 rounded-xl flex items-center justify-center shrink-0 shadow-xs"
+                    style={{ backgroundColor: `${active.accent}20`, color: active.accent }}
                   >
                     <CheckCircle2 className="size-5" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono font-bold uppercase text-white/50 block">
+                    <span className="text-[10px] font-mono font-bold uppercase text-muted-foreground block">
                       Production Result
                     </span>
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-sm font-semibold text-foreground">
                       {active.impact}
                     </span>
                   </div>
                 </div>
 
                 {/* Tech Chips */}
-                <div className="flex flex-wrap gap-1.5 pt-2">
+                <div className="flex flex-wrap gap-1.5 pt-1">
                   {active.techs.map((tech, tIdx) => (
                     <span
                       key={tIdx}
-                      className="text-[11px] font-mono px-3 py-1 rounded-md bg-white/10 border border-white/15 text-white/90"
+                      className="text-[11px] font-mono px-3 py-1 rounded-md bg-secondary text-muted-foreground border border-border/60"
                     >
                       {tech}
                     </span>
@@ -220,7 +206,7 @@ export function HeroCarousel({
                 </div>
 
                 {/* Action CTA */}
-                <div className="pt-3">
+                <div className="pt-2">
                   <button
                     type="button"
                     onClick={() => openConsultation("custom-software")}
@@ -235,38 +221,38 @@ export function HeroCarousel({
           </div>
 
           {/* Right Column: High-Fidelity UI Frame & Filmstrip Selector */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-5">
             {/* Main Interactive Screen Frame */}
-            <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/60 aspect-[16/10] group">
+            <div className="relative rounded-2xl overflow-hidden border border-border shadow-lg bg-card aspect-[16/10] group">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={active.id ?? index}
                   src={active.image}
                   alt={active.title}
-                  initial={{ opacity: 0, scale: 1.05 }}
+                  initial={{ opacity: 0, scale: 1.04 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.45 }}
                   className="w-full h-full object-cover object-center"
                 />
               </AnimatePresence>
 
               {/* Glass Header Bar on Image Frame */}
-              <div className="absolute top-0 inset-x-0 p-3 bg-black/60 backdrop-blur-md border-b border-white/10 flex items-center justify-between text-[11px] font-mono text-white/80">
+              <div className="absolute top-0 inset-x-0 p-3 bg-background/85 dark:bg-black/75 backdrop-blur-md border-b border-border flex items-center justify-between text-[11px] font-mono text-foreground">
                 <div className="flex items-center gap-1.5">
                   <span className="size-2 rounded-full bg-red-500/80" />
                   <span className="size-2 rounded-full bg-amber-500/80" />
                   <span className="size-2 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 opacity-70">devolopy.internal/{active.id}</span>
+                  <span className="ml-2 text-muted-foreground font-mono">devolopy.internal/{active.id}</span>
                 </div>
-                <span className="px-2 py-0.5 rounded-sm bg-white/10 text-[10px] text-white/90">
+                <span className="px-2 py-0.5 rounded-sm bg-secondary text-[10px] text-foreground font-semibold border border-border/60">
                   Live Production
                 </span>
               </div>
             </div>
 
             {/* Filmstrip Interactive Thumbnail Rail */}
-            <div className="grid grid-cols-5 gap-2.5 pt-2">
+            <div className="grid grid-cols-5 gap-2.5 pt-1">
               {items.map((item, i) => (
                 <button
                   key={item.id ?? i}
@@ -274,8 +260,8 @@ export function HeroCarousel({
                   onClick={() => go(i)}
                   className={`relative rounded-xl overflow-hidden aspect-[4/3] border transition-all duration-300 cursor-pointer ${
                     i === index
-                      ? "ring-2 ring-primary border-transparent scale-105 shadow-lg opacity-100"
-                      : "border-white/15 opacity-40 hover:opacity-80"
+                      ? "ring-2 ring-primary border-transparent scale-105 shadow-md opacity-100"
+                      : "border-border opacity-50 hover:opacity-90"
                   }`}
                   aria-label={`Select ${item.title}`}
                 >
@@ -284,8 +270,8 @@ export function HeroCarousel({
                     alt=""
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <span className="absolute bottom-1 left-1.5 text-[9px] font-mono font-bold text-white truncate max-w-[90%]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+                  <span className="absolute bottom-1 left-1.5 text-[9px] font-mono font-bold text-foreground truncate max-w-[90%]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </button>
@@ -296,7 +282,7 @@ export function HeroCarousel({
       </div>
 
       {/* ── Bottom Progress Bar ── */}
-      <div className="relative h-1 w-full bg-white/10">
+      <div className="relative h-1 w-full bg-secondary">
         <motion.div
           className="absolute inset-y-0 bg-primary"
           style={{ width: `${100 / items.length}%` }}
