@@ -22,10 +22,9 @@ export function Navbar() {
 
   const navLinks = [
     { label: "Services", href: "#services" },
-    { label: "Solutions", href: "#solutions" },
     { label: "AI & Automation", href: "#ai-automation" },
     { label: "How We Work", href: "#how-we-work" },
-    { label: "Technology", href: "#technology" },
+    { label: "Industries", href: "#industries" },
     { label: "Why Us", href: "#why-devolopy" },
   ];
 

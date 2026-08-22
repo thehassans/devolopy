@@ -16,8 +16,6 @@ import {
   Factory,
   Briefcase,
   Rocket,
-  AlertCircle,
-  CheckCircle2,
 } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 
@@ -25,10 +23,8 @@ interface IndustryItem {
   id: string;
   num: string;
   name: string;
-  category: string;
   badge: string;
-  bottleneck: string;
-  solution: string;
+  summary: string;
   tags: string[];
   icon: React.ComponentType<{ className?: string }>;
 }
@@ -37,133 +33,109 @@ const industriesList: IndustryItem[] = [
   {
     id: "retail",
     num: "01",
-    name: "Retail & Multi-Branch Chains",
-    category: "Commerce",
+    name: "Retail & Multi-Branch",
     badge: "POS & Multi-Store",
-    bottleneck: "Stock counts that never match legacy systems across multiple physical branches and warehouses.",
-    solution: "Centralized Odoo ERP sync, automated reordering triggers, barcode telemetry, and unified cloud POS.",
-    tags: ["Odoo POS", "Barcode Telemetry", "ZATCA Phase 2", "Multi-Store Sync"],
+    summary: "Centralized Odoo POS, barcode telemetry, and automated stock replenishment across physical store networks.",
+    tags: ["Odoo POS", "Barcode Telemetry", "ZATCA Phase 2"],
     icon: Store,
   },
   {
     id: "fnb",
     num: "02",
-    name: "Food & Beverage Operations",
-    category: "Commerce",
+    name: "Food & Beverage",
     badge: "Aggregator Sync",
-    bottleneck: "Manual branch costing in spreadsheets and delivery aggregator orders re-keyed by hand.",
-    solution: "Automated aggregator webhook routing, live Kitchen Display (KDS), and batch ingredient cost ledgers.",
-    tags: ["Webhook Router", "Kitchen Display (KDS)", "Recipe Costing", "Real-Time Ledger"],
+    summary: "Automated aggregator webhook routing, live Kitchen Display (KDS), and recipe batch cost ledgers.",
+    tags: ["Webhook Router", "Kitchen Display", "Real-Time Ledger"],
     icon: Utensils,
   },
   {
     id: "ecommerce",
     num: "03",
-    name: "E-Commerce & Digital Brands",
-    category: "Commerce",
+    name: "E-Commerce & Brands",
     badge: "Headless Commerce",
-    bottleneck: "Catalogue updates taking days to sync across channels and disconnected shipping fulfillment rails.",
-    solution: "Sub-second Next.js headless storefronts with 1-click Mada and Stripe checkout and auto courier dispatch.",
-    tags: ["Next.js 15", "Stripe & Mada", "Shopify Plus", "Redis Cache"],
+    summary: "Sub-second Next.js headless storefronts with 1-click Mada/Stripe checkout and automated dispatch.",
+    tags: ["Next.js 15", "Stripe & Mada", "Shopify Plus"],
     icon: ShoppingBag,
   },
   {
     id: "logistics",
     num: "04",
-    name: "Logistics & Fleet Dispatch",
-    category: "Operations",
+    name: "Logistics & Fleet",
     badge: "Real-Time Telemetry",
-    bottleneck: "Driver dispatches coordinated over chat groups with zero end-to-end shipment visibility.",
-    solution: "Custom mobile dispatcher app, live GPS geofencing, driver route telemetry, and automated customer SMS.",
-    tags: ["Flutter Driver App", "Live GPS Geofence", "WhatsApp Bot", "Route Optimization"],
+    summary: "Custom driver dispatcher mobile apps, live GPS geofencing, and automated shipment tracking notifications.",
+    tags: ["Flutter Driver App", "Live GPS Geofence", "WhatsApp Bot"],
     icon: Truck,
   },
   {
     id: "healthcare",
     num: "05",
-    name: "Healthcare & Specialized Clinics",
-    category: "Services",
+    name: "Healthcare & Clinics",
     badge: "Patient Portals",
-    bottleneck: "Fragmented patient records across legacy tools and high appointment no-show rates.",
-    solution: "Unified EHR portal, doctor shift scheduler, automated WhatsApp reminders, and secure telehealth.",
-    tags: ["HIPAA Ready", "Telehealth Portal", "WhatsApp Reminders", "EHR Sync"],
+    summary: "HIPAA-ready patient portal, doctor shift scheduling, and automated WhatsApp appointment reminders.",
+    tags: ["HIPAA Ready", "Telehealth Portal", "WhatsApp Reminders"],
     icon: HeartPulse,
   },
   {
     id: "education",
     num: "06",
-    name: "Education, Schools & Academies",
-    category: "Services",
+    name: "Education & Academies",
     badge: "EdTech & LMS",
-    bottleneck: "Student enrollment, LMS courses, and tuition fee ledgers disconnected across multiple silos.",
-    solution: "Unified student lifecycle portal with automated fee installment plans and dedicated mobile parent app.",
-    tags: ["LMS Platform", "Automated Billing", "Parent Mobile App", "Student CRM"],
+    summary: "Unified student lifecycle portal with automated fee installments and mobile parent communications.",
+    tags: ["LMS Platform", "Automated Billing", "Parent Mobile App"],
     icon: GraduationCap,
   },
   {
     id: "realestate",
     num: "07",
-    name: "Real Estate & Asset Developers",
-    category: "Services",
-    badge: "Lead & Property Hub",
-    bottleneck: "Listings duplicated across five marketing portals and high lead slippage between broker spreadsheets.",
-    solution: "Custom property search platform with interactive floorplans, 3D tours, and instant CRM lead capture.",
-    tags: ["Searchable Engine", "Lead Capture", "Odoo CRM Sync", "Interactive Maps"],
+    name: "Real Estate & Assets",
+    badge: "Property & Lead Hub",
+    summary: "Searchable property platform with interactive floorplans, 3D tours, and automated CRM lead capture.",
+    tags: ["Searchable Engine", "Lead Capture", "Odoo CRM Sync"],
     icon: Building2,
   },
   {
     id: "hospitality",
     num: "08",
-    name: "Hospitality & Boutique Resorts",
-    category: "Services",
+    name: "Hospitality & Resorts",
     badge: "Direct Booking",
-    bottleneck: "Direct room reservations losing out to heavy 25%+ third-party OTA commission fees.",
-    solution: "High-converting direct booking engine with guest experience portal and localized payment rails.",
-    tags: ["Direct Booking", "Channel Manager", "Guest Web App", "Mada Gateway"],
+    summary: "High-converting direct booking engine with guest experience portal and zero OTA commissions.",
+    tags: ["Direct Booking", "Channel Manager", "Guest Web App"],
     icon: Hotel,
   },
   {
     id: "travel",
     num: "09",
-    name: "Travel & Custom Tour Operators",
-    category: "Services",
+    name: "Travel & Custom Tours",
     badge: "Dynamic Itineraries",
-    bottleneck: "Manual itinerary building in Word documents and seasonal rate updating friction.",
-    solution: "Dynamic visual itinerary builder with live supplier flight and hotel API feeds.",
-    tags: ["Supplier APIs", "Itinerary Builder", "Dynamic Pricing", "Multi-Currency"],
+    summary: "Dynamic visual itinerary builder integrated with live supplier flight and hotel API feeds.",
+    tags: ["Supplier APIs", "Itinerary Builder", "Dynamic Pricing"],
     icon: Plane,
   },
   {
     id: "manufacturing",
     num: "10",
-    name: "Manufacturing & Industrial Plants",
-    category: "Operations",
+    name: "Manufacturing Plants",
     badge: "Shop Floor IoT",
-    bottleneck: "Paper-based shop floor logs and reactive machine maintenance downtime.",
-    solution: "IoT sensor telemetry dashboard, automated work orders, and predictive maintenance alerts.",
-    tags: ["IoT Telemetry", "Odoo MRP", "Automated Work Orders", "Predictive Maintenance"],
+    summary: "IoT sensor telemetry dashboard, automated shop floor work orders, and predictive maintenance alerts.",
+    tags: ["IoT Telemetry", "Odoo MRP", "Automated Work Orders"],
     icon: Factory,
   },
   {
     id: "proservices",
     num: "11",
-    name: "Professional Services & Agencies",
-    category: "Enterprise",
+    name: "Professional Services",
     badge: "Agency Operations",
-    bottleneck: "Billable hours estimated at month-end and unmeasured project profitability margins.",
-    solution: "Automated timesheet telemetry, client milestone invoicing, and real-time margin analytics.",
-    tags: ["Timesheet Tracking", "Milestone Billing", "Margin Analytics", "Client Portals"],
+    summary: "Automated timesheet telemetry, client milestone invoicing, and real-time project margin analytics.",
+    tags: ["Timesheet Tracking", "Milestone Billing", "Margin Analytics"],
     icon: Briefcase,
   },
   {
     id: "startups",
     num: "12",
-    name: "High-Growth Venture Startups",
-    category: "Enterprise",
+    name: "Venture Startups",
     badge: "4-Week MVP Sprint",
-    bottleneck: "Investor product timelines shorter than typical agency build estimates.",
-    solution: "Rapid 4-week production MVP sprint with modular TypeScript codebase ready to scale.",
-    tags: ["4-Week MVP Sprint", "TypeScript Stack", "Next.js + Postgres", "Scalable Schema"],
+    summary: "Rapid 4-week production MVP sprint with modular TypeScript codebase ready for venture scale.",
+    tags: ["4-Week MVP Sprint", "TypeScript Stack", "Next.js + Postgres"],
     icon: Rocket,
   },
 ];
@@ -183,10 +155,9 @@ export function IndustriesSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Split-Screen Master Layout Matching Services & How We Work */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start relative">
           {/* =========================================================
-              LEFT COLUMN: Truly Sticky Header & Quick Sector Selector
+              LEFT COLUMN: Sticky Header & Quick Sector Selector
              ========================================================= */}
           <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-6 z-20">
             <div className="space-y-4">
@@ -200,7 +171,7 @@ export function IndustriesSection() {
               </h2>
 
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                Every sector has its own operational bottleneck. Here is how we engineer custom software and ERP workflows around your exact domain.
+                Every sector has its own operational workflow. Here is how we engineer software around your exact domain.
               </p>
             </div>
 
@@ -221,7 +192,7 @@ export function IndustriesSection() {
                     {ind.num} // {ind.badge}
                   </span>
                   <span className="text-xs font-space font-medium truncate max-w-[180px]">
-                    {ind.name.split(" ")[0]} {ind.name.split(" ")[1]}
+                    {ind.name.split(" ")[0]} {ind.name.split(" ")[1] || ""}
                   </span>
                 </button>
               ))}
@@ -239,9 +210,9 @@ export function IndustriesSection() {
           </div>
 
           {/* =========================================================
-              RIGHT COLUMN: Full-Width Luxury Industry Cards Stack
+              RIGHT COLUMN: Ultra-Minimalistic Luxury Industry Cards
              ========================================================= */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-5">
             {industriesList.map((ind) => {
               const Icon = ind.icon;
               const isSelected = selectedIndustry === ind.id;
@@ -249,59 +220,34 @@ export function IndustriesSection() {
                 <div
                   key={ind.id}
                   onClick={() => setSelectedIndustry(ind.id)}
-                  className={`p-7 sm:p-8 rounded-3xl border transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-2xl cursor-pointer ${
+                  className={`p-6 sm:p-7 rounded-3xl border transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-2xl cursor-pointer ${
                     isSelected
                       ? "bg-card border-primary ring-1 ring-primary/40 -translate-y-1"
                       : "bg-card/70 dark:bg-white/[0.02] border-border/80 dark:border-white/10 hover:border-border"
                   }`}
                 >
-                  {/* Top Bar: Icon + Number + Badge */}
-                  <div className="flex items-center justify-between mb-5">
+                  {/* Header Row: Icon + Title + Badge */}
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="size-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shadow-xs">
-                        <Icon className="size-6" />
+                      <div className="size-11 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shadow-xs">
+                        <Icon className="size-5" />
                       </div>
-                      <div>
-                        <span className="text-[11px] font-mono font-bold text-[#C0703C] uppercase tracking-wider block">
-                          Sector // {ind.category}
-                        </span>
-                        <h3 className="font-space text-2xl font-bold text-foreground">
-                          {ind.name}
-                        </h3>
-                      </div>
+                      <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground">
+                        {ind.name}
+                      </h3>
                     </div>
-                    <span className="text-[11px] font-mono font-bold text-[#C0703C] uppercase tracking-wider bg-[#C0703C]/10 px-3 py-1 rounded-full border border-[#C0703C]/20 hidden sm:inline">
+                    <span className="text-[10px] font-mono font-bold text-[#C0703C] uppercase tracking-wider bg-[#C0703C]/10 px-3 py-1 rounded-full border border-[#C0703C]/20 hidden sm:inline">
                       {ind.badge}
                     </span>
                   </div>
 
-                  {/* Bottleneck vs Solution 2-Column Comparison */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-5">
-                    {/* The Bottleneck */}
-                    <div className="p-4 rounded-2xl bg-destructive/5 dark:bg-destructive/10 border border-destructive/15 flex flex-col justify-start">
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-destructive mb-1.5">
-                        <AlertCircle className="size-3.5 shrink-0" />
-                        <span>The Bottleneck</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        {ind.bottleneck}
-                      </p>
-                    </div>
+                  {/* Single Clean Summary Line */}
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4 pl-0 sm:pl-14">
+                    {ind.summary}
+                  </p>
 
-                    {/* Our Engineered System */}
-                    <div className="p-4 rounded-2xl bg-primary/5 dark:bg-primary/10 border border-primary/15 flex flex-col justify-start">
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-primary mb-1.5">
-                        <CheckCircle2 className="size-3.5 shrink-0" />
-                        <span>Our Engineered System</span>
-                      </div>
-                      <p className="text-xs text-foreground/90 leading-relaxed font-medium">
-                        {ind.solution}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Tech & Compliance Chips */}
-                  <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-border/60 dark:border-white/10 items-center justify-between">
+                  {/* Bottom Row: Minimal Tech Tags + Explore Link */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-border/60 dark:border-white/10 pl-0 sm:pl-14">
                     <div className="flex flex-wrap gap-1.5">
                       {ind.tags.map((tag, tIdx) => (
                         <span
@@ -319,9 +265,9 @@ export function IndustriesSection() {
                         e.stopPropagation();
                         openConsultation("custom-software");
                       }}
-                      className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary hover:underline cursor-pointer pt-2 sm:pt-0"
+                      className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary hover:underline cursor-pointer"
                     >
-                      <span>Explore Architecture</span>
+                      <span>Explore</span>
                       <ArrowUpRight className="size-3.5" />
                     </button>
                   </div>
