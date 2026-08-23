@@ -134,8 +134,8 @@ export function HeroSection() {
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-4 items-center">
           {/* Left Column: Multi-Beat Copy & CTAs */}
           <div className="lg:col-span-5 space-y-7">
             {/* Ultra-Premium Shimmering Eyebrow Badge */}
@@ -206,8 +206,8 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: 3D Isometric Build Stack & Interactive Inspector (Shifted Right) */}
-          <div className="lg:col-span-7 flex flex-col md:flex-row items-center justify-center lg:justify-end gap-6 sm:gap-8 lg:translate-x-12 xl:translate-x-16">
+          {/* Right Column: 3D Isometric Build Stack & Interactive Inspector (Shifted Far Right) */}
+          <div className="lg:col-span-7 flex flex-col md:flex-row items-center justify-center lg:justify-end gap-6 sm:gap-8 lg:translate-x-16 xl:translate-x-24">
             {/* 3D Stack Stage Canvas */}
             <div
               ref={stageRef}
