@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,16 +13,12 @@ import {
   Twitter,
   Github,
   Dribbble,
-  Workflow,
-  Globe,
   Zap,
   ArrowUpRight,
-  Sparkles,
 } from "lucide-react";
 
 export const TextHoverEffect = ({
   text = "DEVOLOPY",
-  duration,
   className,
 }: {
   text?: string;
@@ -31,186 +26,80 @@ export const TextHoverEffect = ({
   automatic?: boolean;
   className?: string;
 }) => {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const [cursor, setCursor] = useState<{ x: number | null; y: number | null }>({
-    x: null,
-    y: null,
-  });
-  const [hovered, setHovered] = useState(false);
-  const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
-      const svgRect = svgRef.current.getBoundingClientRect();
-      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
-      setMaskPosition({
-        cx: `${cxPercentage}%`,
-        cy: `${cyPercentage}%`,
-      });
-    }
-  }, [cursor]);
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setCursor({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   return (
-    <div className="relative w-full overflow-hidden flex flex-col items-center justify-center pt-10 pb-4 select-none group/watermark">
-      {/* Ambient Atmospheric Floor Glow */}
+    <div
+      ref={containerRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setCursor(null);
+      }}
+      onMouseMove={handleMouseMove}
+      className={cn(
+        "relative w-full py-8 sm:py-12 flex items-center justify-center overflow-hidden select-none group cursor-pointer",
+        className
+      )}
+    >
+      {/* Background Interactive Luminescence Spotlight */}
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl h-36 bg-gradient-to-t from-primary/15 via-indigo-500/10 to-transparent blur-3xl opacity-60 group-hover/watermark:opacity-90 transition-opacity duration-700"
-        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-out"
+        style={{
+          opacity: isHovered && cursor ? 1 : 0,
+          background: cursor
+            ? `radial-gradient(500px circle at ${cursor.x}px ${cursor.y}px, rgba(59, 130, 246, 0.16), rgba(168, 85, 247, 0.08), transparent 70%)`
+            : "none",
+        }}
       />
 
-      <svg
-        ref={svgRef}
-        width="100%"
-        height="100%"
-        viewBox="0 0 1400 200"
-        xmlns="http://www.w3.org/2000/svg"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => {
-          setHovered(false);
-          setCursor({ x: null, y: null });
-        }}
-        onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-        className={cn("w-full max-w-7xl h-auto overflow-visible cursor-pointer relative z-10", className)}
-      >
-        <defs>
-          {/* Luxury Metallic & Electric Blue Gradient */}
-          <linearGradient
-            id="devolopyLuxuryStroke"
-            gradientUnits="userSpaceOnUse"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
-            <stop offset="30%" stopColor="rgba(56,189,248,0.4)" />
-            <stop offset="50%" stopColor="rgba(129,140,248,0.5)" />
-            <stop offset="70%" stopColor="rgba(192,112,60,0.4)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.25)" />
-          </linearGradient>
-
-          {/* Frosted Glass Fill Gradient */}
-          <linearGradient
-            id="devolopyGlassFill"
-            gradientUnits="userSpaceOnUse"
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="rgba(255,255,255,0.04)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.005)" />
-          </linearGradient>
-
-          {/* Luminous Multi-Spectrum Iridescent Hover Gradient */}
-          <linearGradient
-            id="devolopyHoverSpectrum"
-            gradientUnits="userSpaceOnUse"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="25%" stopColor="#6366f1" />
-            <stop offset="50%" stopColor="#a855f7" />
-            <stop offset="75%" stopColor="#ec4899" />
-            <stop offset="100%" stopColor="#38bdf8" />
-          </linearGradient>
-
-          {/* Smooth Radial Cursor Reveal Spotlight */}
-          <motion.radialGradient
-            id="devolopyCursorSpotlight"
-            gradientUnits="userSpaceOnUse"
-            r="32%"
-            initial={{ cx: "50%", cy: "50%" }}
-            animate={maskPosition}
-            transition={{ duration: duration ?? 0, ease: "easeOut" }}
-          >
-            <stop offset="0%" stopColor="white" />
-            <stop offset="55%" stopColor="white" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="black" />
-          </motion.radialGradient>
-
-          <mask id="devolopyCursorMask">
-            <rect
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
-              fill="url(#devolopyCursorSpotlight)"
-            />
-          </mask>
-        </defs>
-
-        {/* 1. Base Luxury Proportional Outline & Frosted Fill */}
-        <text
-          x="50%"
-          y="58%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          strokeWidth="1.2"
-          letterSpacing="0.06em"
+      {/* Base Ultra-Minimalist Geometric Outline Text (100% Un-distorted Proportions) */}
+      <div className="relative z-10 w-full text-center px-2 sm:px-4">
+        <span
+          className="font-space text-[12.5vw] sm:text-[13.5vw] md:text-[14.5vw] font-black uppercase tracking-[0.14em] sm:tracking-[0.18em] leading-none inline-block transition-all duration-300"
           style={{
-            fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 800,
+            WebkitTextStroke: "1px rgba(255, 255, 255, 0.18)",
+            color: "transparent",
             textRendering: "geometricPrecision",
-          }}
-          className="fill-[url(#devolopyGlassFill)] stroke-[url(#devolopyLuxuryStroke)] text-[150px] sm:text-[175px] md:text-[195px] lg:text-[210px] transition-all duration-300"
-        >
-          {text}
-        </text>
-
-        {/* 2. Micro Edge Highlight Stroke */}
-        <motion.text
-          x="50%"
-          y="58%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          strokeWidth="1"
-          letterSpacing="0.06em"
-          style={{
-            fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 800,
-            textRendering: "geometricPrecision",
-          }}
-          className="fill-transparent stroke-white/20 dark:stroke-white/30 text-[150px] sm:text-[175px] md:text-[195px] lg:text-[210px]"
-          initial={{ strokeDashoffset: 2500, strokeDasharray: 2500 }}
-          animate={{
-            strokeDashoffset: 0,
-            strokeDasharray: 2500,
-          }}
-          transition={{
-            duration: 3,
-            ease: "easeInOut",
           }}
         >
           {text}
-        </motion.text>
+        </span>
+      </div>
 
-        {/* 3. Interactive Iridescent Liquid Light Spotlight Layer */}
-        <text
-          x="50%"
-          y="58%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          stroke="url(#devolopyHoverSpectrum)"
-          fill="url(#devolopyHoverSpectrum)"
-          strokeWidth="1.8"
-          letterSpacing="0.06em"
-          mask="url(#devolopyCursorMask)"
+      {/* Iridescent Cursor Spotlight Reveal Layer */}
+      {isHovered && cursor && (
+        <div
+          className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-200"
           style={{
-            fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 800,
-            opacity: hovered ? 0.95 : 0,
-            textRendering: "geometricPrecision",
+            maskImage: `radial-gradient(350px circle at ${cursor.x}px ${cursor.y}px, black 30%, transparent 75%)`,
+            WebkitMaskImage: `radial-gradient(350px circle at ${cursor.x}px ${cursor.y}px, black 30%, transparent 75%)`,
           }}
-          className="text-[150px] sm:text-[175px] md:text-[195px] lg:text-[210px] transition-opacity duration-200"
         >
-          {text}
-        </text>
-      </svg>
+          <div className="w-full text-center px-2 sm:px-4">
+            <span
+              className="font-space text-[12.5vw] sm:text-[13.5vw] md:text-[14.5vw] font-black uppercase tracking-[0.14em] sm:tracking-[0.18em] leading-none inline-block bg-gradient-to-r from-blue-400 via-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
+              style={{
+                WebkitTextStroke: "1.2px rgba(96, 165, 250, 0.85)",
+                textRendering: "geometricPrecision",
+              }}
+            >
+              {text}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -275,7 +164,7 @@ export function HoverFooter() {
     <footer
       id="contact"
       aria-label="Devolopy Platform Footer"
-      className="relative bg-[#07090e] text-white border-t border-white/10 overflow-hidden mt-20 pt-16 sm:pt-20 pb-6"
+      className="relative bg-[#07090e] text-white border-t border-white/10 overflow-hidden mt-20 pt-16 sm:pt-20 pb-4"
     >
       <FooterBackgroundGradient />
 
@@ -411,8 +300,8 @@ export function HoverFooter() {
           </div>
         </div>
 
-        {/* ── Ultra-Premium Centerpiece Cinematic Watermark ── */}
-        <div className="pt-4 flex justify-center items-center w-full overflow-hidden">
+        {/* ── Ultra-Premium Minimalist Centerpiece Brandmark (Natural Space Grotesk Lettering) ── */}
+        <div className="pt-2 flex justify-center items-center w-full overflow-hidden">
           <TextHoverEffect text="DEVOLOPY" />
         </div>
       </div>
