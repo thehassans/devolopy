@@ -19,6 +19,9 @@ import {
   Layers,
   Check,
   Sparkles,
+  HelpCircle,
+  Lock,
+  Workflow,
 } from "lucide-react";
 
 export async function generateStaticParams() {
@@ -50,7 +53,8 @@ export async function generateMetadata({
       "Devolopy Services",
       "Full-Stack Architecture",
       "Custom Software",
-      "Saudi Arabia Tech Partner",
+      "Next.js Engineering",
+      "Odoo ERP Partner",
     ],
     alternates: {
       canonical: serviceUrl,
@@ -60,12 +64,21 @@ export async function generateMetadata({
       description: service.shortDescription,
       url: serviceUrl,
       type: "website",
+      siteName: "Devolopy",
+      images: [
+        {
+          url: "/DevolopyDarkTheme.png",
+          width: 1200,
+          height: 630,
+          alt: `${service.title} - Devolopy`,
+        },
+      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${service.title} | Devolopy`,
       description: service.shortDescription,
-      creator: "@devolopy",
+      images: ["/DevolopyDarkTheme.png"],
     },
   };
 }
@@ -99,10 +112,12 @@ export default function ServiceDetailPage({
           url: siteUrl,
           logo: `${siteUrl}/DevolopyDarkTheme.png`,
         },
-        areaServed: {
-          "@type": "AdministrativeArea",
-          name: "Global",
-        },
+        areaServed: [
+          { "@type": "Country", name: "Saudi Arabia" },
+          { "@type": "Country", name: "United Arab Emirates" },
+          { "@type": "Country", name: "GCC" },
+          { "@type": "Country", name: "Global" },
+        ],
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: `${service.title} Deliverables`,
@@ -129,7 +144,7 @@ export default function ServiceDetailPage({
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: `${siteUrl}/#services`,
+            item: `${siteUrl}/services`,
           },
           {
             "@type": "ListItem",
@@ -163,8 +178,8 @@ export default function ServiceDetailPage({
 
       <Navbar />
 
-      <main className="flex-1 pt-24 sm:pt-28">
-        {/* ── Breadcrumb & Clean Typographic Hero Banner (NO PHOTOS) ── */}
+      <main className="flex-1 pt-24 sm:pt-28 pb-20">
+        {/* ── Breadcrumb & Clean Typographic Hero Banner ── */}
         <section className="relative py-16 sm:py-24 bg-card border-b border-border overflow-hidden">
           {/* Ambient subtle glow */}
           <div
@@ -176,9 +191,9 @@ export default function ServiceDetailPage({
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
               <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-              <ChevronRight className="size-3.5" />
-              <Link href="/#services" className="hover:text-primary transition-colors">Services</Link>
-              <ChevronRight className="size-3.5" />
+              <ChevronRight className="size-3.5 text-muted-foreground/50" />
+              <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
+              <ChevronRight className="size-3.5 text-muted-foreground/50" />
               <span className="text-primary font-semibold">{service.title}</span>
             </nav>
 
@@ -197,7 +212,7 @@ export default function ServiceDetailPage({
                 {service.tagline}
               </p>
 
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-3xl">
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-3xl font-normal">
                 {service.fullDescription}
               </p>
 
@@ -302,12 +317,66 @@ export default function ServiceDetailPage({
           </div>
         </section>
 
+        {/* ── Multi-Layer Architecture Breakdown (If Available) ── */}
+        {service.architecturalLayers && service.architecturalLayers.length > 0 && (
+          <section className="py-20 sm:py-24 bg-card border-y border-border">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+              <div className="space-y-2 border-b border-border pb-4">
+                <span className="text-xs font-mono uppercase tracking-wider text-primary font-bold">
+                  System Architecture
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-space font-bold text-foreground">
+                  Multi-Layer Architectural Blueprint
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {service.architecturalLayers.map((layer, idx) => (
+                  <div
+                    key={idx}
+                    className="p-6 sm:p-7 rounded-3xl bg-background border border-border space-y-4 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-bold">
+                          {layer.layer}
+                        </span>
+                        <Layers className="size-4 text-muted-foreground" />
+                      </div>
+                      <h3 className="font-space text-base font-bold text-foreground">
+                        {layer.tech}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                        {layer.description}
+                      </p>
+                    </div>
+
+                    {layer.capabilities && layer.capabilities.length > 0 && (
+                      <div className="pt-3 border-t border-border/60 space-y-1.5">
+                        <span className="text-[10px] font-mono text-muted-foreground font-bold block uppercase">
+                          Key Capabilities:
+                        </span>
+                        {layer.capabilities.map((cap, cIdx) => (
+                          <div key={cIdx} className="flex items-center gap-1.5 text-xs text-foreground/90">
+                            <CheckCircle2 className="size-3 text-emerald-500 shrink-0" />
+                            <span>{cap}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* ── 4-Phase Delivery Engineering Process ── */}
-        <section className="py-20 sm:py-28 bg-secondary/30 border-y border-border">
+        <section className="py-20 sm:py-28 bg-secondary/30 border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div className="text-center max-w-3xl mx-auto space-y-4">
               <span className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase text-primary">
-                <Layers className="size-3.5" /> Engineering Methodology
+                <Workflow className="size-3.5" /> Engineering Methodology
               </span>
               <h2 className="font-space text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                 How We Deliver Your Project
@@ -336,10 +405,43 @@ export default function ServiceDetailPage({
           </div>
         </section>
 
+        {/* ── Security, Governance & Compliance (If Available) ── */}
+        {service.securityAndCompliance && service.securityAndCompliance.length > 0 && (
+          <section className="py-20 bg-background">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+              <div className="space-y-2 border-b border-border pb-4">
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-500 font-bold">
+                  Security &amp; Hardening
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-space font-bold text-foreground">
+                  Security Rails Built Into {service.title}
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {service.securityAndCompliance.map((sec, idx) => (
+                  <div key={idx} className="p-6 rounded-3xl bg-card border border-border space-y-2 shadow-xs">
+                    <div className="flex items-center gap-2 text-sm font-space font-bold text-foreground">
+                      <ShieldCheck className="size-4 text-emerald-500 shrink-0" />
+                      <span>{sec.standard}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {sec.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* ── Frequently Asked Questions ── */}
-        <section className="py-20 sm:py-28 bg-background">
+        <section className="py-20 sm:py-28 bg-card border-t border-border">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             <div className="text-center space-y-4">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#C0703C] font-bold">
+                Technical Due Diligence
+              </span>
               <h2 className="font-space text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                 Frequently Asked Questions
               </h2>
@@ -350,11 +452,12 @@ export default function ServiceDetailPage({
 
             <div className="space-y-4">
               {service.faqs.map((faq, i) => (
-                <div key={i} className="p-6 rounded-2xl bg-card border border-border space-y-2">
+                <div key={i} className="p-6 rounded-2xl bg-background border border-border space-y-2 shadow-xs">
                   <h3 className="font-space text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
-                    <span className="text-primary font-mono text-sm">Q:</span> {faq.question}
+                    <HelpCircle className="size-4 text-primary shrink-0" />
+                    <span>{faq.question}</span>
                   </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-5">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-6">
                     {faq.answer}
                   </p>
                 </div>
@@ -364,7 +467,7 @@ export default function ServiceDetailPage({
         </section>
 
         {/* ── Direct Service Inquiry Form ── */}
-        <section id="inquiry" className="py-20 sm:py-28 bg-card border-t border-border relative">
+        <section id="inquiry" className="py-20 sm:py-28 bg-background border-t border-border relative">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <div className="text-center space-y-3">
               <span className="text-xs font-mono uppercase tracking-widest text-[#C0703C] font-bold">
@@ -378,7 +481,7 @@ export default function ServiceDetailPage({
               </p>
             </div>
 
-            <form className="p-8 sm:p-10 rounded-3xl bg-background border border-border shadow-xl space-y-5">
+            <form className="p-8 sm:p-10 rounded-3xl bg-card border border-border shadow-xl space-y-5">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-foreground mb-1.5">Full Name</label>
@@ -386,7 +489,7 @@ export default function ServiceDetailPage({
                     type="text"
                     required
                     placeholder="e.g. Sarah Connor"
-                    className="w-full px-4 py-3 rounded-xl bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <div>
@@ -395,7 +498,7 @@ export default function ServiceDetailPage({
                     type="email"
                     required
                     placeholder="sarah@company.com"
-                    className="w-full px-4 py-3 rounded-xl bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -406,7 +509,7 @@ export default function ServiceDetailPage({
                   rows={4}
                   required
                   placeholder={`Describe your goals, requirements, or timeline for ${service.title}...`}
-                  className="w-full px-4 py-3 rounded-xl bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -425,11 +528,11 @@ export default function ServiceDetailPage({
         </section>
 
         {/* ── Explore Related Services ── */}
-        <section className="py-20 bg-background border-t border-border">
+        <section className="py-20 bg-card border-t border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <div className="flex items-center justify-between">
               <h2 className="font-space text-2xl font-bold text-foreground">Explore Other Solutions</h2>
-              <Link href="/#services" className="text-xs sm:text-sm text-primary hover:underline font-semibold">
+              <Link href="/services" className="text-xs sm:text-sm text-primary hover:underline font-semibold">
                 View All Services &rarr;
               </Link>
             </div>
@@ -439,7 +542,7 @@ export default function ServiceDetailPage({
                 <Link
                   key={rel.id}
                   href={`/services/${rel.slug}`}
-                  className="p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 group shadow-xs flex flex-col justify-between"
+                  className="p-6 rounded-2xl bg-background border border-border hover:border-primary/50 transition-all duration-300 group shadow-xs flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold">{rel.categoryLabel}</span>

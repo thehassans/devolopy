@@ -10,6 +10,22 @@ export interface ServiceDetail {
   categoryLabel: string;
   technologies: string[];
   features: string[];
+  architecturalLayers?: {
+    layer: string;
+    tech: string;
+    description: string;
+    capabilities: string[];
+  }[];
+  implementationRoadmap?: {
+    stage: string;
+    duration: string;
+    title: string;
+    details: string;
+  }[];
+  securityAndCompliance?: {
+    standard: string;
+    description: string;
+  }[];
   deliverables: string[];
   timeline: string;
   heroImage: string;
@@ -29,32 +45,63 @@ export const ALL_SERVICES: ServiceDetail[] = [
     shortDescription:
       "We design and develop websites that are not only visually appealing but also user-friendly and optimized for search engines.",
     fullDescription:
-      "Devolopy engineers bespoke websites and web platforms using Next.js App Router, React 19, TypeScript, and Tailwind CSS. We optimize every millisecond of rendering performance, enforce semantic schema markup, and implement conversion-focused design systems that captivate visitors and rank effortlessly on search engines.",
+      "Devolopy engineers bespoke websites and high-concurrency web platforms using Next.js 15 App Router, React 19, TypeScript, and Tailwind CSS. We optimize every millisecond of rendering performance, enforce semantic schema markup, and implement conversion-focused design systems that captivate visitors and rank effortlessly on search engines.",
     category: "engineering",
     categoryLabel: "Engineering & Web",
-    technologies: ["Next.js 14/15", "React 19", "TypeScript", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Node.js", "Sanity CMS"],
+    technologies: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Node.js", "Sanity CMS", "Vercel Edge"],
     features: [
-      "Custom responsive UI/UX engineered with pixel-perfect design system tokens",
-      "Sub-second First Contentful Paint (FCP) and 100/100 Core Web Vitals",
-      "Semantic HTML5 structure, OpenGraph cards & Schema.org JSON-LD microdata",
-      "Headless CMS integration (Sanity, Strapi, WordPress, Contentful)",
-      "Global CDN edge caching and automated zero-downtime deployment",
+      "Partial Prerendering (PPR) and streaming Suspense for sub-300ms Largest Contentful Paint (LCP)",
+      "Custom responsive UI/UX engineered with pixel-perfect design system tokens and WCAG 2.1 AA compliance",
+      "Semantic HTML5 structure, automated OpenGraph social cards, and Schema.org JSON-LD microdata",
+      "Headless CMS integration (Sanity, Strapi, WordPress, Contentful) for frictionless non-technical editing",
+      "Global multi-region CDN edge caching with automated stale-while-revalidate invalidation",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Client & Presentation",
+        tech: "React 19 Server Components + Tailwind CSS",
+        description: "Zero-bundle server components delivering instant static HTML with interactive client islands.",
+        capabilities: ["Fluid responsive typography", "Hardware-accelerated CSS animations", "Automatic image WebP/AVIF transcoding", "Dark/Light theme tokens"],
+      },
+      {
+        layer: "Edge Routing & Caching",
+        tech: "Next.js 15 App Router + Vercel Edge Network",
+        description: "Sub-50ms TTFB routing with incremental static regeneration (ISR) on content updates.",
+        capabilities: ["Tag-based cache invalidation", "Edge middleware geolocation routing", "Dynamic OpenGraph image generation"],
+      },
+      {
+        layer: "Content & Data Layer",
+        tech: "Sanity Studio / Headless CMS + GraphQL",
+        description: "Real-time visual content studio with instant live preview and structured schema types.",
+        capabilities: ["Visual live editing", "Multi-language localization (i18n)", "Automated SEO meta auditing"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "Information Architecture & User Journeys", details: "Audit competitors, define sitemap hierarchy, conversion funnels, and wireframe structural layout." },
+      { stage: "Stage 02", duration: "Week 2", title: "High-Fidelity Figma UI & Design Tokens", details: "Craft pixel-perfect desktop and mobile prototypes with comprehensive component tokens." },
+      { stage: "Stage 03", duration: "Week 3", title: "Next.js 15 Frontend & CMS Engineering", details: "Implement modular React 19 components, integrate headless CMS schema, and configure Server Actions." },
+      { stage: "Stage 04", duration: "Week 4", title: "Technical SEO Audit & Zero-Downtime Launch", details: "Execute Core Web Vitals optimization (100/100 Lighthouse), configure DNS/SSL, and go live." },
+    ],
+    securityAndCompliance: [
+      { standard: "OWASP Web Security Hardening", description: "Strict Content Security Policy (CSP), CORS headers, and anti-CSRF token verification on all mutations." },
+      { standard: "Zero Vulnerable Plugins", description: "Modern headless architecture eliminating WordPress security exploit vectors." },
+      { standard: "Automated SSL & Edge DDoS Shield", description: "TLS 1.3 encryption with Cloudflare / Vercel enterprise DDoS traffic mitigation." },
     ],
     deliverables: [
-      "Complete production Next.js repository with clean TypeScript types",
-      "Automated CI/CD deployment pipelines on Vercel or AWS",
-      "Technical SEO configuration (XML sitemaps, robots.txt, canonical tags)",
-      "Admin CMS dashboard and team handover documentation",
-      "30-day post-launch warranty and performance monitoring",
+      "Complete production Next.js 15 repository with strict TypeScript types and clean architecture",
+      "Automated CI/CD deployment pipelines on Vercel or AWS with preview branch environments",
+      "Comprehensive technical SEO configuration (XML sitemaps, robots.txt, canonical tags, JSON-LD)",
+      "Headless CMS administrative dashboard and comprehensive team handover training",
+      "60-day post-launch warranty and real-time uptime/error monitoring",
     ],
     timeline: "2 - 4 Weeks",
     heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
     accentColor: "from-blue-500 to-cyan-500",
     metrics: [
       { value: "100/100", label: "Lighthouse Performance" },
-      { value: "< 0.6s", label: "Average Page Load" },
-      { value: "+300%", label: "SEO Organic Reach" },
-      { value: "99.99%", label: "Uptime SLA" },
+      { value: "< 0.4s", label: "Average Page Load" },
+      { value: "+300%", label: "SEO Organic Reach Lift" },
+      { value: "99.99%", label: "Edge Uptime SLA" },
     ],
     processSteps: [
       { step: "01", title: "Discovery & Architecture", description: "Deep analysis of your target audience, competitors, user flows, and technical stack selection." },
@@ -63,9 +110,10 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "SEO Audit & Deployment", description: "Comprehensive Core Web Vitals benchmarking, security audit, and zero-downtime go-live." },
     ],
     faqs: [
-      { question: "Why do you build with Next.js instead of WordPress?", answer: "Next.js provides unprecedented page speed, server-side rendering (SSR), unmatched security without vulnerable plugins, and significantly higher Google search rankings." },
-      { question: "Can our team easily update text and images?", answer: "Yes! We integrate modern visual headless CMS platforms (Sanity, Strapi, Notion) so non-technical team members can publish and edit content with zero code." },
-      { question: "Do you handle custom domain and hosting setup?", answer: "Absolutely. We configure your DNS records, SSL encryption certificates, and edge caching on Vercel, AWS, or your preferred cloud provider." },
+      { question: "Why do you build with Next.js instead of traditional WordPress or PHP?", answer: "Next.js provides unprecedented page speed, server-side rendering (SSR), unmatched security without vulnerable plugins, sub-second edge delivery, and significantly higher Google search rankings." },
+      { question: "Can non-technical team members easily update text, products, and images?", answer: "Yes! We integrate modern visual headless CMS platforms (Sanity, Strapi, Notion) so marketing and operations staff can publish and edit content with zero code in real time." },
+      { question: "Do you handle custom domain, SSL, and hosting configuration?", answer: "Absolutely. We configure your DNS records, SSL encryption certificates, and global edge caching on Vercel, AWS, or your preferred cloud provider." },
+      { question: "How do you guarantee 100/100 Google Core Web Vitals scores?", answer: "By utilizing Server Components, automatic font subsetting, Next.js Image optimization (AVIF/WebP), and CSS-in-Tailwind zero-runtime styling, our bundles eliminate JavaScript execution bloat." },
     ],
   },
   {
@@ -80,20 +128,50 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "We architect high-performance mobile applications that deliver native 60fps animations, offline-first synchronization, and seamless user experiences across iOS and Android. Built on React Native and Flutter, your app shares a single maintainable codebase without compromising device-level hardware capabilities.",
     category: "mobile",
     categoryLabel: "Mobile & Apps",
-    technologies: ["React Native", "Flutter", "iOS (Swift)", "Android (Kotlin)", "Expo", "Firebase", "GraphQL", "PostgreSQL"],
+    technologies: ["React Native", "Flutter", "iOS (Swift)", "Android (Kotlin)", "Expo EAS", "Firebase", "GraphQL", "PostgreSQL", "SQLite"],
     features: [
-      "Cross-platform compilation for simultaneous iOS & Android App Store deployments",
-      "Offline-first local caching with background database synchronization",
-      "Push notification systems via Firebase Cloud Messaging & OneSignal",
-      "Native device hardware integration (Camera, GPS, Bluetooth, Biometrics)",
-      "In-app purchases, Stripe mobile SDK, and Apple Pay/Google Pay",
+      "Cross-platform compilation for simultaneous iOS & Android App Store deployments with 100% native performance",
+      "Offline-first local caching with encrypted SQLite storage and background synchronization",
+      "Push notification pipelines via Firebase Cloud Messaging & OneSignal with deep-linking",
+      "Native device hardware integration (Camera, GPS geofencing, Bluetooth BLE, Biometrics)",
+      "In-app purchases, Stripe mobile SDK, and Apple Pay/Google Pay one-touch checkout",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Native Client",
+        tech: "React Native (Fabric & TurboModules) / Flutter (Impeller)",
+        description: "Direct native GPU compilation delivering silky-smooth 60/120fps UI animations.",
+        capabilities: ["Biometric FaceID / Fingerprint auth", "Haptic feedback engines", "Gesture-driven navigation", "Dynamic theme tokens"],
+      },
+      {
+        layer: "Local Data & Offline Sync",
+        tech: "SQLite + WatermelonDB + MMKV Key-Value",
+        description: "Zero-latency local database persistence with background differential server synchronization.",
+        capabilities: ["Offline mutation queuing", "Encrypted key storage", "Conflict resolution heuristics"],
+      },
+      {
+        layer: "Backend Gateway & Push",
+        tech: "FastAPI / Node.js + Firebase Cloud Messaging",
+        description: "High-concurrency mobile API endpoints and personalized automated push campaigns.",
+        capabilities: ["Deep-link routing", "Automated app update alerts", "Crashlytics real-time telemetry"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1 - 2", title: "Mobile UX Mapping & Design System", details: "Figma mobile prototypes testing navigation flows, tab architectures, and gestures." },
+      { stage: "Stage 02", duration: "Week 3 - 5", title: "Native Core & Hardware Bridge Build", details: "Code cross-platform frontend, implement SQLite caching, and integrate device sensors." },
+      { stage: "Stage 03", duration: "Week 6", title: "API Integration & Push Telemetry", details: "Connect backend endpoints, authentication, in-app purchases, and push notifications." },
+      { stage: "Stage 04", duration: "Week 7 - 8", title: "App Store & Play Store Approval", details: "Prepare store assets, privacy disclosures, signing keys, and submit for 100% verified approval." },
+    ],
+    securityAndCompliance: [
+      { standard: "Apple App Store & Google Play Guidelines", description: "Strict compliance with App Tracking Transparency (ATT) and Google Play security policies." },
+      { standard: "AES-256 On-Device Encryption", description: "All cached user tokens and local database records encrypted using hardware-backed iOS Keychain and Android Keystore." },
     ],
     deliverables: [
-      "iOS (.ipa) and Android (.aab) signed production builds",
-      "App Store & Google Play submission and review approval support",
-      "RESTful API / GraphQL backend integration",
-      "Crashlytics error tracking and user analytics integration",
-      "Modular source code repository with automated CI builds",
+      "iOS (.ipa) and Android (.aab) signed production binaries ready for distribution",
+      "Full App Store & Google Play submission, metadata optimization, and review approval guarantee",
+      "Complete RESTful API / GraphQL backend integration and webhook listeners",
+      "Real-time Crashlytics error tracking and user retention telemetry integration",
+      "Modular source code repository with automated Expo EAS / Fastlane CI build pipelines",
     ],
     timeline: "4 - 8 Weeks",
     heroImage: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1600&q=80",
@@ -101,8 +179,8 @@ export const ALL_SERVICES: ServiceDetail[] = [
     metrics: [
       { value: "60 FPS", label: "Fluid Native Motion" },
       { value: "iOS & Android", label: "Single Codebase" },
-      { value: "100%", label: "App Store Approval" },
-      { value: "< 20MB", label: "Optimized Binary Size" },
+      { value: "100%", label: "App Store Approval Rate" },
+      { value: "< 25MB", label: "Optimized Binary Size" },
     ],
     processSteps: [
       { step: "01", title: "Product Strategy & Wireframing", description: "Mobile journey mapping, gesture interactions, and technical device compatibility matrix." },
@@ -111,8 +189,9 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "App Store Launch", description: "Signing keys, screenshots, metadata compliance, and full store launch review." },
     ],
     faqs: [
-      { question: "Will my app feel as smooth as a native iOS/Android app?", answer: "Yes! Modern React Native with the New Architecture (JSI / Fabric) compiles directly to native UI components running at 60fps." },
-      { question: "How long does App Store review take?", answer: "Apple typically reviews apps in 24-48 hours, while Google Play takes 1-3 business days. We handle all compliance questions directly." },
+      { question: "Will my app feel as fast and smooth as a native iOS/Android app?", answer: "Yes! Modern React Native with the New Architecture (JSI / Fabric) and Flutter compile directly to native UI components running at a locked 60fps." },
+      { question: "How long does App Store review take?", answer: "Apple typically reviews apps in 24-48 hours, while Google Play takes 1-3 business days. We handle all compliance questions, metadata, and privacy disclosures directly." },
+      { question: "Can users use the app when they have no internet connection?", answer: "Yes. We engineer offline-first architectures that save data to an encrypted local SQLite database and sync with cloud servers the moment connectivity returns." },
     ],
   },
   {
@@ -127,29 +206,59 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Devolopy empowers growing companies and enterprises with end-to-end Odoo ERP implementation, bespoke module development, third-party software bridges, and automated financial accounting. Streamline your accounting, supply chain, inventory, and human resources inside one unified ecosystem.",
     category: "erp-automation",
     categoryLabel: "ERP & Automation",
-    technologies: ["Odoo 17/18", "Python", "PostgreSQL", "XML-RPC", "Docker", "REST API", "Ubuntu Linux", "Redis"],
+    technologies: ["Odoo 17/18", "Python", "PostgreSQL", "XML-RPC", "Docker", "REST API", "Ubuntu Linux", "Redis", "ZATCA E-Invoice"],
     features: [
-      "Bespoke Odoo ERP module engineering tailored to unique business logic",
-      "Automated multi-currency financial accounting & invoicing pipelines",
-      "Real-time Inventory, POS, Manufacturing, CRM & Accounting synchronization",
-      "Legacy ERP data migration with zero data loss or downtime",
-      "Automated database backup, rollback, and load-balancing",
+      "Bespoke Odoo ERP module engineering tailored to complex proprietary business logic",
+      "Automated multi-currency financial accounting, localized tax rules & invoicing pipelines",
+      "Real-time Inventory, POS, Manufacturing, CRM & Accounting synchronization across branches",
+      "ZATCA Phase 2 cryptographic e-invoicing clearance integrated directly into checkout flows",
+      "Legacy ERP data migration with zero data loss, ledger reconciliation, and zero downtime",
+    ],
+    architecturalLayers: [
+      {
+        layer: "ERP Core & Business Logic",
+        tech: "Odoo 18 Enterprise / Community + Python ORM",
+        description: "Extensible business models with custom views, automated action rules, and inheritance overrides.",
+        capabilities: ["Custom Python models", "Automated email triggers", "Approval workflows", "Multi-company ledger isolation"],
+      },
+      {
+        layer: "Database & Performance",
+        tech: "PostgreSQL 16 + Redis Query Caching",
+        description: "Optimized relational database with custom indexing, connection pooling, and automated backups.",
+        capabilities: ["PgBouncer connection pool", "Read replica offloading", "Point-in-time recovery snapshots"],
+      },
+      {
+        layer: "Fiscal Compliance Module",
+        tech: "ZATCA Phase 2 Cryptographic XML Engine",
+        description: "Automated cryptographic signing of UBL 2.1 invoices with real-time Fatoora clearance.",
+        capabilities: ["ECDSA secp256k1 keys", "Sequential invoice hash chaining", "Cryptographic QR codes"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1 - 2", title: "Business Process & Chart of Accounts Audit", details: "Map current operational workflows, fiscal ledgers, inventory routes, and user permission matrices." },
+      { stage: "Stage 02", duration: "Week 3 - 4", title: "Custom Module Engineering & Sandbox Setup", details: "Code bespoke Python modules, configure ZATCA e-invoicing, and set up Dockerized staging environments." },
+      { stage: "Stage 03", duration: "Week 5", title: "Historical Data Migration & Reconciliation", details: "Sanitize, map, and import historical customer, vendor, product, and financial transaction records." },
+      { stage: "Stage 04", duration: "Week 6+", title: "Staff Training & Live Production Cutover", details: "Run live departmental workshops, execute zero-downtime cutover, and provide 24/7 dedicated support." },
+    ],
+    securityAndCompliance: [
+      { standard: "ZATCA Phase 2 Mandate", description: "Cryptographically compliant UBL 2.1 electronic invoices with sequential hashing." },
+      { standard: "Role-Based Access Control (RBAC)", description: "Strict permission matrices with immutable audit trails for every financial entry." },
     ],
     deliverables: [
-      "Hardened, production-ready Odoo Community or Enterprise instance",
-      "Custom business workflow modules and invoice PDF report templates",
-      "Automated financial reconciliation and reporting pipelines",
-      "Comprehensive staff training manuals and role permission matrix",
-      "24/7 database monitoring and security patching",
+      "Hardened, production-ready Odoo Community or Enterprise instance deployed on cloud infrastructure",
+      "Custom business workflow modules, automated accounting ledgers, and branded invoice PDF reports",
+      "Automated ZATCA Phase 2 e-invoicing integration with real-time tax authority reporting",
+      "Comprehensive staff training manuals, video documentation, and role permission matrix",
+      "24/7 database monitoring, automatic daily backups, and continuous security patching",
     ],
     timeline: "3 - 6 Weeks",
     heroImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
     accentColor: "from-emerald-500 to-teal-500",
     metrics: [
       { value: "100%", label: "ERP Financial Accuracy" },
-      { value: "5x", label: "Faster Bookkeeping" },
+      { value: "5x", label: "Faster Bookkeeping Reconciliations" },
       { value: "Zero", label: "Data Loss Migrations" },
-      { value: "Real-Time", label: "Inventory Tracking" },
+      { value: "Real-Time", label: "Multi-Store Inventory Sync" },
     ],
     processSteps: [
       { step: "01", title: "Business Process Audit", description: "Mapping your current chart of accounts, sales workflows, warehouse routes, and approval hierarchies." },
@@ -158,8 +267,9 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "Data Migration & Go-Live", description: "Importing historical transactions, running staff workshops, and flipping to live operations." },
     ],
     faqs: [
-      { question: "Can Odoo integrate with our existing website and payment gateways?", answer: "Yes! We build XML-RPC and REST API webhooks between Odoo and Shopify, Next.js, Stripe, Amazon, or local banks." },
-      { question: "Is Odoo scalable for multi-company operations?", answer: "Odoo natively supports multi-company, multi-currency, and multi-warehouse structures across international subsidiaries." },
+      { question: "Can Odoo integrate with our website, POS, and third-party delivery apps?", answer: "Yes! We build robust XML-RPC, REST API, and webhook connectors between Odoo and Next.js, Shopify, Stripe, Amazon, Jahez, HungerStation, or local banks." },
+      { question: "Is Odoo scalable for multi-company and international branch operations?", answer: "Odoo natively supports multi-company, multi-currency, and multi-warehouse structures across international subsidiaries with consolidated financial reporting." },
+      { question: "How do you ensure zero data loss during migration from legacy ERPs?", answer: "We execute dry-run migrations in staging, sanitize data schemas, verify ledger balances against trial balance reports, and execute cutovers during off-peak windows." },
     ],
   },
   {
@@ -174,28 +284,57 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "We design and build e-commerce experiences engineered to maximize average order value (AOV) and conversion rates. From high-speed headless Next.js Commerce setups to customized Shopify Plus stores, we integrate secure multi-currency payment gateways (Stripe, Apple Pay, Tamara, Tabby) and automated logistics workflows.",
     category: "engineering",
     categoryLabel: "Engineering & Web",
-    technologies: ["Shopify Plus", "Next.js Commerce", "Stripe", "Apple Pay", "Tamara", "Tabby", "PostgreSQL", "Redis", "Algolia"],
+    technologies: ["Shopify Plus", "Next.js Commerce", "Stripe", "Apple Pay", "Tamara", "Tabby", "Mada", "PostgreSQL", "Redis", "Algolia"],
     features: [
-      "1-Click frictionless checkout flows with accelerated mobile payment methods",
-      "Multi-currency & multi-language localization with automatic geo-detection",
-      "Instant faceted product search and AI-driven personalized recommendations",
-      "Real-time inventory synchronization with physical retail POS and warehouses",
-      "Automated abandoned cart email/SMS recovery campaigns",
+      "1-Click frictionless checkout flows with accelerated mobile payment methods (Mada, Apple Pay, Google Pay)",
+      "Multi-currency & multi-language localization with automatic geolocation detection",
+      "Instant faceted product search and AI-driven personalized product recommendations",
+      "Real-time inventory synchronization with physical retail POS and 3PL fulfillment warehouses",
+      "Automated abandoned cart email/WhatsApp recovery campaigns and conversion funnel telemetry",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Storefront & Edge Catalog",
+        tech: "Next.js 15 Commerce / Shopify Liquid",
+        description: "Sub-second product catalog browsing with instant faceted filtering.",
+        capabilities: ["Instant search with Algolia", "Cart drawer slide-out", "Dynamic bundle discounts", "PWA mobile experience"],
+      },
+      {
+        layer: "Checkout & Regional Payments",
+        tech: "Stripe, Mada, Tabby, Tamara SDKs",
+        description: "Localized payment checkout optimized for zero cart abandonment.",
+        capabilities: ["Split-payment BNPL integrations", "Automated fraud checks", "Direct tokenized Apple Pay"],
+      },
+      {
+        layer: "Fulfillment & ERP Sync",
+        tech: "n8n Webhook Middleware + 3PL Courier APIs",
+        description: "Automated Airway Bill generation and SMS tracking dispatch.",
+        capabilities: ["Instant courier booking (Aramex, DHL, SMSA)", "Real-time tracking notifications", "Multi-warehouse routing"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1 - 2", title: "Commerce Strategy & UX Prototyping", details: "Structure product catalog taxonomy, payment gateway selection, and Figma PDP wireframes." },
+      { stage: "Stage 02", duration: "Week 3 - 4", title: "Storefront & Checkout Architecture", details: "Engineer headless Next.js frontend, integrate payment SDKs, and configure discount engines." },
+      { stage: "Stage 03", duration: "Week 5", title: "Courier Integration & Analytics Tracking", details: "Connect 3PL logistics APIs, automated tracking bots, and GA4 Enhanced E-commerce tracking." },
+      { stage: "Stage 04", duration: "Week 6+", title: "Stress Testing & Public Launch", details: "Simulate flash-sale traffic loads, test payment sandboxes, and launch with continuous monitoring." },
+    ],
+    securityAndCompliance: [
+      { standard: "PCI-DSS Level 1 Compliance", description: "Direct tokenization with zero plain-text cardholder data exposure." },
     ],
     deliverables: [
-      "Custom responsive online store with lightning-fast catalog browsing",
-      "Configured payment gateways, shipping zones, and tax rules",
-      "Product catalog migration and SEO-optimized metadata taxonomy",
-      "Google Enhanced Ecommerce Analytics 4 & Facebook CAPI tracking",
-      "Store owner training documentation",
+      "Custom responsive online storefront with lightning-fast catalog browsing",
+      "Configured regional payment gateways (Mada, Apple Pay, Tabby, Tamara, Stripe)",
+      "Automated courier dispatch pipeline and real-time customer tracking notifications",
+      "Google Enhanced Ecommerce Analytics 4 & Meta CAPI telemetry tracking",
+      "Comprehensive store management training and documentation",
     ],
     timeline: "3 - 5 Weeks",
     heroImage: "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1600&q=80",
     accentColor: "from-amber-500 to-orange-500",
     metrics: [
-      { value: "+45%", label: "Average Conversion Rate" },
-      { value: "< 1s", label: "Instant Product Filtering" },
-      { value: "PCI-DSS", label: "Compliant Security" },
+      { value: "+45%", label: "Average Conversion Rate Lift" },
+      { value: "< 0.4s", label: "Instant Product Filter Response" },
+      { value: "PCI-DSS", label: "Compliant Payment Security" },
       { value: "100%", label: "Mobile Cart Retention" },
     ],
     processSteps: [
@@ -205,7 +344,8 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "Stress Test & Launch", description: "Simulating flash-sale traffic loads, payment sandbox verification, and public launch." },
     ],
     faqs: [
-      { question: "Should we choose Shopify Plus or custom Next.js Commerce?", answer: "Shopify Plus is phenomenal for fast catalog management, while custom Next.js provides complete design freedom and sub-second load times. We help you choose what best fits your revenue goals." },
+      { question: "Should we choose Shopify Plus or custom Next.js Headless Commerce?", answer: "Shopify Plus is great for quick catalog launches, while custom Next.js Headless provides absolute design freedom, sub-second load times, and custom ERP integration without transaction percentage fees." },
+      { question: "Do you support Buy Now Pay Later (BNPL) providers like Tabby and Tamara?", answer: "Yes! We integrate Tabby and Tamara natively into product pages, cart drawers, and checkouts with dynamic installment price calculators." },
     ],
   },
   {
@@ -220,19 +360,41 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Devolopy builds self-hosted, scalable n8n automation architectures that connect hundreds of SaaS applications, eliminate manual repetitive work, and orchestrate intelligent data pipelines. Free your team from data entry with automated webhook listeners, AI data extraction, and CRM updates.",
     category: "erp-automation",
     categoryLabel: "ERP & Automation",
-    technologies: ["n8n Enterprise", "Webhooks", "REST APIs", "Node.js", "Docker", "OpenAI API", "PostgreSQL", "Slack API"],
+    technologies: ["n8n Enterprise", "Webhooks", "REST APIs", "Node.js", "Docker", "OpenAI API", "PostgreSQL", "Slack API", "Redis Queue"],
     features: [
-      "Complex multi-step workflow triggers across 400+ SaaS apps and internal databases",
-      "Custom TypeScript n8n nodes for proprietary company APIs",
-      "AI-powered document parsing, invoice OCR, and automatic support routing",
-      "Self-hosted enterprise deployment with zero monthly per-execution fees",
-      "Automated error monitoring and instant Slack / Email alert webhooks",
+      "Complex multi-step workflow triggers across 400+ SaaS applications and internal PostgreSQL databases",
+      "Custom TypeScript n8n community nodes built for proprietary internal APIs",
+      "AI-powered document parsing, invoice OCR, and automatic support routing using vision models",
+      "Self-hosted enterprise deployment on private cloud clusters with zero per-task execution fees",
+      "Automated error monitoring, exponential backoff retries, and instant Slack/Email alert webhooks",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Automation Orchestration",
+        tech: "n8n Queue Mode + Redis + Docker Swarm",
+        description: "Distributed execution workers handling high-volume background webhook tasks.",
+        capabilities: ["Queue concurrency scaling", "Dead-letter error queues", "Sub-second webhook response"],
+      },
+      {
+        layer: "Data Transform & AI",
+        tech: "TypeScript / Node.js + OpenAI Vision Models",
+        description: "Intelligent unstructured data extraction, JSON validation, and entity mapping.",
+        capabilities: ["PDF document OCR", "Schema normalization", "Fuzzy record deduplication"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "Manual Bottlenecks Audit & Flow Mapping", details: "Audit repetitive data entry tasks across CRM, billing, email, and ERP systems." },
+      { stage: "Stage 02", duration: "Week 2", title: "Workflow Building & Custom Node Coding", details: "Construct resilient visual pipelines with conditional branching and fallback triggers." },
+      { stage: "Stage 03", duration: "Week 3", title: "Cluster Hardening & Live Deployment", details: "Deploy secure self-hosted Docker cluster with monitoring and Slack alerting." },
+    ],
+    securityAndCompliance: [
+      { standard: "Self-Hosted Data Sovereignty", description: "Private cloud deployment where company data never traverses third-party automation servers." },
     ],
     deliverables: [
-      "Operational n8n workflow blueprints with full error handling",
-      "Self-hosted Dockerized n8n cloud cluster on AWS / DigitalOcean",
+      "Operational n8n workflow blueprints with full error handling and retry logic",
+      "Self-hosted Dockerized n8n cloud cluster on AWS or DigitalOcean with auto-scaling",
       "Secure API credentials vault with encrypted environment variables",
-      "Testing sandbox and visual flow documentation",
+      "Testing sandbox environment and interactive flow documentation",
     ],
     timeline: "1 - 3 Weeks",
     heroImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
@@ -250,7 +412,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "Hardening & Monitoring", description: "Stress testing edge cases, setting up webhook retries, and deploying to production." },
     ],
     faqs: [
-      { question: "Why n8n over Zapier or Make?", answer: "n8n is open-source and self-hostable, meaning your private customer data never leaves your secure server, and you incur zero expensive per-task subscription fees." },
+      { question: "Why should we choose n8n over Zapier or Make?", answer: "n8n is self-hosted and open-source, meaning your confidential customer and financial data never leaves your secure server, and you incur zero expensive per-task subscription fees." },
     ],
   },
   {
@@ -265,26 +427,48 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "We execute data-driven SEO campaigns that systematically elevate your brand to the top of Google search results. By combining deep technical code audits, Schema.org rich snippet injection, high-intent keyword clustering, and sub-second load times, we turn search engine traffic into consistent revenue.",
     category: "growth",
     categoryLabel: "Growth & SEO",
-    technologies: ["Google Search Console", "Schema.org", "Ahrefs", "Semrush", "Google Analytics 4", "Lighthouse", "PostHog"],
+    technologies: ["Google Search Console", "Schema.org JSON-LD", "Ahrefs", "Semrush", "Google Analytics 4", "Lighthouse", "PostHog"],
     features: [
       "Deep technical code auditing (crawling, canonicals, indexing barriers, redirect chains)",
-      "Automated Schema.org JSON-LD microdata for Google Rich Snippets & FAQs",
+      "Automated Schema.org JSON-LD microdata for Google Rich Snippets, Breadcrumbs & FAQs",
       "High-intent keyword mapping and semantic search topical authority clusters",
-      "Core Web Vitals acceleration targeting 100/100 performance scores",
+      "Core Web Vitals acceleration targeting 100/100 performance scores across mobile and desktop",
       "Local SEO, Google Business Profile optimization, and high-authority link acquisition",
     ],
+    architecturalLayers: [
+      {
+        layer: "Technical Core & Crawlability",
+        tech: "Semantic HTML5 + Dynamic XML Sitemaps + Edge Bot Rules",
+        description: "Zero indexation barriers ensuring search engine spiders crawl 100% of high-value pages.",
+        capabilities: ["Robots.txt directive tuning", "Canonical link enforcement", "Hreflang international tags"],
+      },
+      {
+        layer: "Structured Microdata",
+        tech: "Schema.org JSON-LD Entities",
+        description: "Rich snippet graph markup for Google search result dominance.",
+        capabilities: ["FAQPage rich snippets", "BreadcrumbList markup", "Organization entity graph"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "Comprehensive Technical Crawl Audit", details: "Diagnose crawl budget issues, 404s, redirect loops, and Core Web Vitals bottlenecks." },
+      { stage: "Stage 02", duration: "Week 2", title: "Keyword Matrix & Semantic Topic Clusters", details: "Target high-intent transactional search terms and architect topic pillar pages." },
+      { stage: "Stage 03", duration: "Week 3 - 4", title: "Code Implementation & Schema Injection", details: "Deploy structured JSON-LD data, heading optimizations, and internal linking networks." },
+    ],
+    securityAndCompliance: [
+      { standard: "Google Search Essentials & Quality Guidelines", description: "100% white-hat algorithmic compliance protecting your domain from penalties." },
+    ],
     deliverables: [
-      "Technical SEO audit and implementation pull requests",
-      "Keyword research matrix and editorial content roadmap",
-      "Live Google Search Console and GA4 conversion dashboard",
-      "Bi-weekly keyword movement and organic revenue growth reports",
+      "Technical SEO audit and direct code implementation pull requests",
+      "Keyword research matrix and editorial content cluster roadmap",
+      "Live Google Search Console and GA4 conversion telemetry dashboard",
+      "Monthly keyword ranking movement and organic revenue growth reports",
     ],
     timeline: "Ongoing / Sprint",
     heroImage: "https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?auto=format&fit=crop&w=1600&q=80",
     accentColor: "from-green-500 to-emerald-500",
     metrics: [
       { value: "#1", label: "Top Page Rankings" },
-      { value: "+400%", label: "Organic Impressions" },
+      { value: "+400%", label: "Organic Impressions Lift" },
       { value: "100%", label: "Clean Technical Health" },
       { value: "0", label: "Search Indexing Errors" },
     ],
@@ -310,18 +494,40 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Transform your operational efficiency with custom AI agents and Retrieval-Augmented Generation (RAG) knowledge copilots. We connect frontier models (GPT-4o, Claude 3.5 Sonnet) securely to your company databases, enabling autonomous customer support, instant document synthesis, and automated business decisions.",
     category: "ai-cloud",
     categoryLabel: "AI & Cloud",
-    technologies: ["OpenAI GPT-4o", "Claude 3.5 Sonnet", "LangChain", "LlamaIndex", "Pinecone", "Qdrant", "Python", "FastAPI"],
+    technologies: ["OpenAI GPT-4o", "Claude 3.5 Sonnet", "LangChain", "LlamaIndex", "Pinecone", "Qdrant", "PostgreSQL pgvector", "Python", "FastAPI"],
     features: [
-      "Custom enterprise RAG knowledge bases queried via natural language",
-      "Autonomous 24/7 AI customer support copilots with guardrails",
-      "Automated document processing, contract summarization & data extraction",
-      "Multi-agent reasoning architectures with human-in-the-loop validation",
-      "Strict data privacy ensuring zero model training on company confidential data",
+      "Custom enterprise RAG knowledge bases queried via natural language across private documentation",
+      "Autonomous 24/7 AI customer support copilots with deterministic business logic guardrails",
+      "Automated document processing, invoice OCR, and contract synthesis with multi-modal vision models",
+      "Multi-agent reasoning architectures with human-in-the-loop validation triggers",
+      "Strict data privacy ensuring zero model training on proprietary company confidential data",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Agent Reasoning & Orchestration",
+        tech: "LangChain / LlamaIndex + FastAPI",
+        description: "Autonomous reasoning loops with tool-calling capabilities and output guardrails.",
+        capabilities: ["Deterministic fallback logic", "Tool-calling APIs", "Human-in-the-loop escalation"],
+      },
+      {
+        layer: "Vector Memory & Hybrid Search",
+        tech: "PostgreSQL (pgvector) + Pinecone",
+        description: "Hybrid retrieval combining keyword tsvector search with semantic vector embeddings.",
+        capabilities: ["Cosine similarity ranking", "Document chunking pipelines", "Sub-50ms query responses"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "Data Ingestion & Knowledge Mapping", details: "Ingest, clean, chunk, and embed internal SOPs, product documentation, and database schemas." },
+      { stage: "Stage 02", duration: "Week 2 - 3", title: "Prompt Engineering & Tool Integrations", details: "Engineer agent reasoning tools, connect internal APIs, and establish safety guardrails." },
+      { stage: "Stage 03", duration: "Week 4", title: "Telemetry & Live Deployment", details: "Deploy agent to web, Slack, or WhatsApp with hallucination telemetry tracking." },
+    ],
+    securityAndCompliance: [
+      { standard: "Zero-Data Retention Enterprise APIs", description: "Zero training on private customer data using dedicated enterprise cloud endpoints." },
     ],
     deliverables: [
-      "Custom trained AI agent pipeline and vector database setup",
-      "Interactive web widget, Slack bot, or WhatsApp integration",
-      "Admin control center for prompt management and audit logs",
+      "Custom trained AI agent pipeline and private vector database setup",
+      "Interactive web widget, Slack bot, or WhatsApp customer service integration",
+      "Admin control center for prompt management, test evaluations, and audit logs",
       "Token usage & cloud cost monitoring dashboard",
     ],
     timeline: "2 - 5 Weeks",
@@ -329,7 +535,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
     accentColor: "from-violet-500 to-purple-500",
     metrics: [
       { value: "90%", label: "First Contact Resolution" },
-      { value: "< 2s", label: "Semantic AI Response Time" },
+      { value: "< 1.5s", label: "Semantic AI Response Time" },
       { value: "100%", label: "Data Privacy Guarantee" },
       { value: "24/7", label: "Autonomous Availability" },
     ],
@@ -340,7 +546,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "Deployment & Telemetry", description: "Monitoring hallucination metrics, latency, and automated model evaluations." },
     ],
     faqs: [
-      { question: "Will our proprietary business data be secure?", answer: "Yes. We use zero-retention enterprise API endpoints with private vector databases, ensuring your data is never used to train public LLM models." },
+      { question: "Will our proprietary company data be secure and private?", answer: "Yes. We use zero-retention enterprise API endpoints with private vector databases, guaranteeing that your data is never used to train public LLM models." },
     ],
   },
   {
@@ -357,17 +563,39 @@ export const ALL_SERVICES: ServiceDetail[] = [
     categoryLabel: "AI & Cloud",
     technologies: ["AWS", "Google Cloud", "Docker", "Kubernetes", "Terraform", "GitHub Actions", "Prometheus", "Grafana"],
     features: [
-      "Infrastructure as Code (IaC) with automated multi-region replication",
-      "Zero-downtime blue/green and canary deployment pipelines",
-      "Cloudflare WAF, DDoS mitigation, and SSL hardening",
-      "Real-time server telemetry, Prometheus metrics, and automated Slack paging",
-      "Cloud cost auditing and compute instance right-sizing",
+      "Infrastructure as Code (IaC) with automated multi-region replication and instant rollbacks",
+      "Zero-downtime blue/green and canary deployment pipelines via GitHub Actions",
+      "Cloudflare WAF, DDoS mitigation, rate limiting, and SSL/TLS 1.3 hardening",
+      "Real-time server telemetry, Prometheus metrics, and automated Slack paging alerts",
+      "Cloud cost auditing and compute instance right-sizing reducing bills by 30% to 50%",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Compute & Container Cluster",
+        tech: "Docker + Kubernetes / AWS ECS Fargate",
+        description: "Auto-scaling container nodes adjusting capacity to live traffic demand.",
+        capabilities: ["Horizontal Pod Autoscaling", "Zero-downtime rolling updates", "Health check probes"],
+      },
+      {
+        layer: "Infrastructure as Code",
+        tech: "Terraform + GitHub Actions CI/CD",
+        description: "Version-controlled cloud provisioning with automated security scanning.",
+        capabilities: ["Reproducible staging environments", "State locking in S3", "Secret encryption"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "Infrastructure Audit & Topology Design", details: "Audit existing cloud expenses, security gaps, and draft multi-region Terraform blueprints." },
+      { stage: "Stage 02", duration: "Week 2 - 3", title: "Terraform Provisioning & CI/CD Pipeline", details: "Deploy container clusters, automated testing workflows, and database replication." },
+      { stage: "Stage 03", duration: "Week 4", title: "Zero-Downtime Migration & Monitoring", details: "Cut over live DNS, verify SSL certificates, and configure 24/7 Grafana monitoring alerts." },
+    ],
+    securityAndCompliance: [
+      { standard: "SOC 2 & ISO 27001 Infrastructure Standards", description: "Encrypted data volumes, least-privilege IAM roles, and centralized cloud audit logs." },
     ],
     deliverables: [
-      "Modular Terraform infrastructure blueprints",
-      "Hardened Docker container images and CI/CD workflows",
+      "Modular Terraform infrastructure blueprints and documentation",
+      "Hardened Docker container images and automated CI/CD workflows",
       "Disaster recovery runbook with automatic daily backup snapshots",
-      "Security compliance certification and load testing report",
+      "Security compliance certification and load testing performance report",
     ],
     timeline: "2 - 4 Weeks",
     heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80",
@@ -375,7 +603,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
     metrics: [
       { value: "99.99%", label: "Uptime Reliability" },
       { value: "0", label: "Downtime Deployments" },
-      { value: "-40%", label: "Average Cloud Bill" },
+      { value: "-40%", label: "Average Cloud Bill Drop" },
       { value: "< 5min", label: "Disaster Recovery RTO" },
     ],
     processSteps: [
@@ -385,7 +613,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
       { step: "04", title: "Migration & Hardening", description: "Switching DNS with zero downtime, configuring firewalls, and setting up alerts." },
     ],
     faqs: [
-      { question: "Can you help lower our monthly AWS/GCP cloud bill?", answer: "Yes! Our cloud cost optimization audit typically reduces infrastructure overhead by 30% to 50% through right-sizing and caching." },
+      { question: "Can you help lower our monthly AWS or GCP cloud bill?", answer: "Yes! Our cloud cost optimization audit typically reduces infrastructure overhead by 30% to 50% through instance right-sizing, reserved capacity planning, and edge caching." },
     ],
   },
   {
@@ -402,11 +630,11 @@ export const ALL_SERVICES: ServiceDetail[] = [
     categoryLabel: "Engineering & Web",
     technologies: ["Figma", "Design Tokens", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Storybook", "Principle"],
     features: [
-      "Complete Figma atomic design systems with nested auto-layout components",
+      "Complete Figma atomic design systems with nested auto-layout components and variables",
       "Interactive click-through prototypes for user testing and stakeholder alignment",
       "WCAG 2.1 AA accessibility compliance across contrast, typography, and focus states",
-      "Direct design-to-code token synchronization with Tailwind CSS and React",
-      "Comprehensive UX journey mapping and conversion funnel analysis",
+      "Direct design-to-code token synchronization with Tailwind CSS and React components",
+      "Comprehensive UX journey mapping and conversion funnel usability analysis",
     ],
     deliverables: [
       "Master Figma design file with organized typography, color, and spacing styles",
@@ -447,8 +675,8 @@ export const ALL_SERVICES: ServiceDetail[] = [
     categoryLabel: "Engineering & Web",
     technologies: ["Node.js / Express", "FastAPI / Python", "GraphQL", "PostgreSQL", "Redis", "Docker", "Swagger / OpenAPI 3.0", "Kafka"],
     features: [
-      "High-concurrency RESTful and GraphQL API gateways with rate limiting",
-      "Redis in-memory caching layers slashing database response times to &lt;10ms",
+      "High-concurrency RESTful and GraphQL API gateways with rate limiting and API key management",
+      "Redis in-memory caching layers slashing database response times to &lt;15ms",
       "Role-Based Access Control (RBAC), JWT authentication, and OAuth2 security",
       "Event-driven message queues (RabbitMQ, Kafka, AWS SQS) for async background tasks",
       "Interactive Swagger UI / OpenAPI 3.0 self-documenting endpoints",
