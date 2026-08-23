@@ -4,16 +4,30 @@ export interface IndustryDetail {
   num: string;
   name: string;
   badge: string;
+  category: string;
   headline: string;
   summary: string;
   overview: string;
+  operationalContext: string[];
   challenges: {
     problem: string;
     impact: string;
+    resolution: string;
   }[];
   architecturalStack: {
     layer: string;
     tech: string;
+    description: string;
+    capabilities: string[];
+  }[];
+  implementationStages: {
+    stage: string;
+    duration: string;
+    title: string;
+    details: string;
+  }[];
+  complianceAndSecurity: {
+    standard: string;
     description: string;
   }[];
   deliverables: string[];
@@ -35,47 +49,103 @@ export const industriesData: IndustryDetail[] = [
     num: "01",
     name: "Retail & Multi-Branch",
     badge: "POS & Multi-Store",
-    headline: "Centralized Multi-Location Retail Engines with Real-Time Stock Telemetry",
+    category: "Commerce & Retail",
+    headline: "High-Throughput Multi-Location Retail Architecture & Real-Time Stock Telemetry",
     summary: "Centralized Odoo POS, barcode telemetry, and automated stock replenishment across physical store networks.",
     overview:
       "We design and deploy robust multi-branch retail infrastructure connecting high-volume POS terminals, automated warehouse replenishment triggers, and unified customer loyalty across hundreds of physical and digital storefronts.",
+    operationalContext: [
+      "Modern multi-branch retail requires instantaneous bi-directional synchronization between physical cash registers, central distribution warehouses, and localized e-commerce nodes.",
+      "Our architecture isolates individual store POS nodes with local SQLite caching so checkout continues uninterrupted during internet outages, synchronizing fiscal journals and inventory ledgers the moment connectivity returns.",
+      "Integrated with regional e-invoicing mandates (including Saudi Arabia ZATCA Phase 2 clearance) to guarantee zero compliance risk during high-volume sales seasons.",
+    ],
     challenges: [
       {
         problem: "Inventory discrepancies across stores and central warehouse.",
         impact: "Overstocking, stockouts, and revenue loss from manual sync lag.",
+        resolution: "Event-driven inventory ledgers using PostgreSQL `pg_notify` and Redis streams for sub-second barcode scan reconciliation.",
       },
       {
-        problem: "POS latency during peak shopping hours.",
-        impact: "Customer queue abandonment and missed sales transactions.",
+        problem: "POS cashier latency and queue abandonment during peak traffic.",
+        impact: "Customer queue abandonment, lost sales, and cashier operational friction.",
+        resolution: "Offline-first indexed local caching with sub-250ms barcode lookup and asynchronous transaction clearance.",
       },
       {
-        problem: "ZATCA Phase 2 compliance & localized fiscal integration.",
-        impact: "Regulatory fines and delayed electronic invoicing audits.",
+        problem: "ZATCA Phase 2 compliance & localized fiscal tax integration.",
+        impact: "Regulatory penalties, audit delays, and potential store operational suspension.",
+        resolution: "Embedded ECDSA cryptographic signing engine generating UBL 2.1 XML invoices with automated Fatoora API clearance.",
       },
     ],
     architecturalStack: [
       {
-        layer: "Point of Sale",
-        tech: "Odoo 18 POS + Offline SQLite Engine",
+        layer: "Point of Sale (POS)",
+        tech: "Odoo 18 POS + Offline Indexed SQLite Engine",
         description: "Zero-downtime offline transaction queuing with instant cloud reconciliation.",
+        capabilities: ["Offline receipt signing", "Barcode gun telemetry", "Multi-drawer cash tracking", "1-click split payments"],
       },
       {
-        layer: "Warehouse Telemetry",
-        tech: "PostgreSQL + pg_notify + Redis Queue",
+        layer: "Warehouse & ERP",
+        tech: "PostgreSQL 16 + Redis Queue + Odoo Inventory",
         description: "Sub-second barcode scan sync and automated inter-branch transfer triggers.",
+        capabilities: ["Min-max safety stock triggers", "Automated purchase orders", "Batch barcode printing", "Bin location routing"],
       },
       {
-        layer: "Compliance & E-Invoice",
+        layer: "Fiscal Compliance",
         tech: "ZATCA Phase 2 Cryptographic XML Engine",
         description: "Automated cryptographic invoice signing and real-time tax authority reporting.",
+        capabilities: ["ECDSA secp256k1 signing", "Cryptographic stamp QR codes", "Sequential hash chaining", "Real-time Fatoora sync"],
+      },
+      {
+        layer: "Omnichannel Bridge",
+        tech: "FastAPI + Webhook Hub + Next.js 15 PWA",
+        description: "Unified customer account, loyalty points, and digital receipts across online and offline touchpoints.",
+        capabilities: ["Cross-branch loyalty balances", "SMS/WhatsApp digital receipts", "Click-and-collect inventory reservation"],
       },
     ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Operational Blueprint & SKUs Audit",
+        details: "Audit store workflows, catalog hierarchy, barcode standards, and tax registration requirements.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "ERP & POS Environment Architecture",
+        details: "Deploy isolated Odoo 18 staging environment, configure POS terminals, and build custom fiscal modules.",
+      },
+      {
+        stage: "Stage 03",
+        duration: "Week 5 - 6",
+        title: "Telemetry & E-Invoice Clearance Testing",
+        details: "Simulate high-concurrency 10,000 transaction test runs and verify ZATCA Phase 2 cryptographic XML clearance.",
+      },
+      {
+        stage: "Stage 04",
+        duration: "Week 7",
+        title: "Pilot Store Deployment & Parallel Run",
+        details: "Roll out to primary flagship branch with parallel ledger reconciliation and cashier staff training.",
+      },
+      {
+        stage: "Stage 05",
+        duration: "Week 8+",
+        title: "Full Branch Network Cutover & 24/7 SLA",
+        details: "Full production rollout across all store locations with real-time telemetry monitoring and 24/7 SLA.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "ZATCA Phase 2 Mandate", description: "Cryptographically compliant UBL 2.1 electronic invoices with sequential hashing." },
+      { standard: "PCI-DSS Level 1 Standards", description: "End-to-end payment card tokenization with zero plain-text card data storage." },
+      { standard: "Role-Based Access Control (RBAC)", description: "Strict cashier, manager, and auditor permission matrices with full ledger change logs." },
+    ],
     deliverables: [
-      "Custom Odoo 18 Multi-Store POS Configuration",
-      "Automated Inter-Branch Stock Replenishment Engine",
-      "Centralized Barcode & Inventory Telemetry Dashboard",
-      "ZATCA Phase 2 Verified Cryptographic E-Invoicing",
-      "Omnichannel Customer Loyalty & Gift Card System",
+      "Custom Odoo 18 Multi-Store POS Configuration & Terminal Setup",
+      "Automated Inter-Branch Stock Replenishment & Safety Threshold Engine",
+      "Centralized Barcode Telemetry & Multi-Store Inventory Dashboard",
+      "ZATCA Phase 2 Certified Cryptographic E-Invoicing Integration",
+      "Omnichannel Customer Loyalty, Gift Card & Digital Receipt System",
+      "Offline-Resilient Local Caching Layer with Auto-Reconciliation",
     ],
     metrics: [
       { metric: "< 250ms", label: "Barcode Scan & POS Checkout Latency" },
@@ -83,15 +153,19 @@ export const industriesData: IndustryDetail[] = [
       { metric: "-42%", label: "Multi-Store Inventory Shrinkage Drop" },
       { metric: "100%", label: "ZATCA Phase 2 Compliant Invoices" },
     ],
-    tags: ["Odoo POS", "Barcode Telemetry", "ZATCA Phase 2", "Multi-Store ERP"],
+    tags: ["Odoo POS", "Barcode Telemetry", "ZATCA Phase 2", "Multi-Store ERP", "Retail Tech"],
     faqs: [
       {
-        question: "How does the POS handle internet outages during store hours?",
-        answer: "Our retail POS uses an offline-first indexed caching layer. Cashiers continue processing cash and card receipts without interruption, and the system automatically reconciles ledgers once connectivity is restored.",
+        question: "How does the POS handle internet outages during high-traffic store hours?",
+        answer: "Our retail POS utilizes an offline-first indexed caching layer. Cashiers continue processing cash, card, and barcode transactions without interruption. The system assigns local cryptographically validated sequence numbers and automatically reconciles financial ledgers once connectivity is restored.",
       },
       {
-        question: "Can this integrate with our existing third-party delivery aggregators?",
-        answer: "Yes. We build bi-directional webhook pipelines that inject aggregator orders directly into your kitchen/store POS queue, updating inventory in real time.",
+        question: "Can this integrate with our third-party delivery and e-commerce aggregators?",
+        answer: "Yes. We build bi-directional webhook pipelines that ingest orders directly into your store POS queue, updating inventory across all branches in real time and notifying kitchen or fulfillment staff instantly.",
+      },
+      {
+        question: "How is employee fraud and drawer discrepancies prevented?",
+        answer: "Every POS terminal tracks cashier shifts with mandatory blind cash drawer counts, biometric or RFID badge sign-in, and instant manager override logging for price adjustments or item voids.",
       },
     ],
   },
@@ -101,43 +175,84 @@ export const industriesData: IndustryDetail[] = [
     num: "02",
     name: "Food & Beverage",
     badge: "Aggregator Sync",
+    category: "Hospitality & Dining",
     headline: "Automated Kitchen Telemetry & Real-Time Restaurant Webhook Routing",
     summary: "Automated aggregator webhook routing, live Kitchen Display (KDS), and recipe batch cost ledgers.",
     overview:
-      "Engineered for high-throughput cloud kitchens and multi-concept restaurant chains. We consolidate Jahez, HungerStation, and direct online ordering into a single unified kitchen display and automated recipe cost accounting platform.",
+      "Engineered for high-throughput cloud kitchens, franchise restaurants, and multi-concept hospitality groups. We consolidate delivery aggregators, QR table orders, and drive-thru queues into a single high-performance kitchen display system with automated recipe inventory depletion.",
+    operationalContext: [
+      "In modern food service, multiple food delivery tablets create kitchen chaos, incorrect orders, and inventory reporting lag.",
+      "Devolopy builds a unified ingestion engine that parses orders from Jahez, HungerStation, Deliveroo, Talabat, and direct QR menus into standardized kitchen tickets with real-time station routing.",
+      "Every prepared dish automatically depletes raw ingredient inventories down to the gram, giving operations leaders real-time recipe gross margin visibility.",
+    ],
     challenges: [
       {
-        problem: "Order fragmentation across multiple delivery aggregators and tablets.",
-        impact: "Kitchen mistakes, delivery delays, and high tablet hardware clutter.",
+        problem: "Order fragmentation across multiple delivery aggregators and hardware tablets.",
+        impact: "Kitchen ticket bottlenecks, incorrect meal prep, and high tablet hardware clutter.",
+        resolution: "Unified FastAPI webhook middleware normalizing all third-party aggregators into a single digital KDS stream.",
       },
       {
-        problem: "Volatile raw material costs and untracked recipe portioning.",
+        problem: "Volatile raw ingredient costs and unmeasured recipe portioning.",
         impact: "Uncontrolled food cost variance and eroded restaurant profit margins.",
+        resolution: "Automated Bill of Materials (BOM) linked to POS order events with live ingredient cost depletion tracking.",
       },
     ],
     architecturalStack: [
       {
-        layer: "Aggregator Hub",
-        tech: "FastAPI + Webhook Ingestion Engine",
+        layer: "Aggregator Ingestion Hub",
+        tech: "FastAPI + Webhook Queue + Redis Pub/Sub",
         description: "Unified normalization of multi-platform orders with automatic kitchen queue routing.",
+        capabilities: ["Sub-2s order normalization", "Automatic 86-item auto-sync", "Delivery rider ETA tracking", "Dynamic prep time pacing"],
       },
       {
         layer: "Kitchen Display (KDS)",
-        tech: "Next.js 15 WebSockets + Touch Screen UI",
-        description: "Color-coded prep stage stations with live ticket timer tracking.",
+        tech: "Next.js 15 WebSockets + Touch Screen PWA",
+        description: "Multi-station touch displays for cold prep, grill, fry, and dispatch packaging.",
+        capabilities: ["Color-coded timer warnings", "Order item recall", "Station load balancing", "Audible ticket alerts"],
       },
       {
-        layer: "Cost Accounting",
-        tech: "Odoo Manufacturing + Automated BOM Ledgers",
+        layer: "Inventory & Recipe BOM",
+        tech: "Odoo 18 Manufacturing & Inventory Ledgers",
         description: "Real-time recipe depletion and ingredient cost margin analytics per ticket.",
+        capabilities: ["Gram-level ingredient tracking", "Batch production ledgers", "Supplier cost tracking", "Waste log auditing"],
       },
     ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Recipe Costing & Menu Taxonomy",
+        details: "Digitize recipe BOMs, modifier matrices, and station routing workflows across kitchen lines.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "Aggregator Webhook & KDS Engine Setup",
+        details: "Configure aggregator developer credentials, build webhook normalization, and deploy KDS screens.",
+      },
+      {
+        stage: "Stage 03",
+        duration: "Week 5",
+        title: "Kitchen Simulation & Stress Testing",
+        details: "Simulate peak rush-hour volumes with 500 concurrent tickets and verify station latency.",
+      },
+      {
+        stage: "Stage 04",
+        duration: "Week 6+",
+        title: "Live Service Launch & SLA Support",
+        details: "Live service cutover with on-site engineering standby and 24/7 continuous operations support.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "Municipal Food Safety & HACCP", description: "Digital temperature telemetry and ingredient expiration tracking." },
+      { standard: "Tax & Fiscal Receipts", description: "Compliant itemized customer receipts with localized tax breakdown and QR stamps." },
+    ],
     deliverables: [
-      "Unified Delivery Aggregator Webhook Middleware",
+      "Unified Delivery Aggregator Webhook Middleware (Jahez, HungerStation, Talabat)",
       "Interactive Multi-Station Kitchen Display System (KDS)",
       "Automated Recipe BOM & Inventory Depletion Engine",
       "Direct QR Code Table Ordering & Digital Menu PWA",
-      "Live Operational Variance & Food Cost Analytics",
+      "Real-Time Food Cost Variance & Recipe Profitability Analytics",
     ],
     metrics: [
       { metric: "-68%", label: "Kitchen Ticket Prep Variance" },
@@ -145,11 +260,15 @@ export const industriesData: IndustryDetail[] = [
       { metric: "+18%", label: "Average Table Ticket Size Lift" },
       { metric: "100%", label: "Real-Time Recipe Margin Visibility" },
     ],
-    tags: ["Webhook Router", "Kitchen Display", "Real-Time Ledger", "Restaurant ERP"],
+    tags: ["Webhook Router", "Kitchen Display", "Real-Time Ledger", "Restaurant ERP", "Cloud Kitchen"],
     faqs: [
       {
-        question: "Can we manage different menus across lunch and dinner services?",
-        answer: "Yes. Menus, price tiers, and modifier groups can be automated by daypart schedule, location, or delivery channel.",
+        question: "How quickly can we 86 (mark out of stock) an ingredient across all aggregator platforms?",
+        answer: "With 1 tap on the kitchen manager portal, the item is instantly marked unavailable across your direct QR menu, Jahez, HungerStation, and Deliveroo within seconds.",
+      },
+      {
+        question: "Can we support customized combo menus and complex modifiers?",
+        answer: "Yes, our modifier schema supports nested choices, required minimum selections, dynamic upcharge pricing, and station-specific routing (e.g. beverage modifiers routing to the barista station).",
       },
     ],
   },
@@ -159,18 +278,25 @@ export const industriesData: IndustryDetail[] = [
     num: "03",
     name: "E-Commerce & Scale Brands",
     badge: "Headless Commerce",
+    category: "Commerce & Retail",
     headline: "Sub-Second Headless Storefronts Engineered for High-Volume Checkouts",
     summary: "Sub-second Next.js headless storefronts with 1-click Mada/Stripe checkout and automated dispatch.",
     overview:
       "We replace bloated legacy monoliths with blazing-fast headless Next.js 15 storefronts. Integrated with regional payment rails (Mada, Apple Pay, Tabby, Tamara) and automated ERP fulfillment workflows.",
+    operationalContext: [
+      "Every 100ms of checkout latency costs e-commerce brands up to 7% in lost sales conversion.",
+      "Devolopy engineers edge-rendered Next.js 15 storefronts with instantaneous page transitions, localized split-payment gateways, and automated warehouse dispatch pipelines.",
+    ],
     challenges: [
       {
         problem: "Slow mobile page load speeds causing high bounce rates.",
         impact: "Lost conversion rate and high cost per customer acquisition.",
+        resolution: "Static Edge ISR with partial prerendering and sub-350ms global content delivery.",
       },
       {
         problem: "Cart abandonment on multi-step checkout forms.",
         impact: "Sub-optimal conversion on paid ad campaign traffic.",
+        resolution: "1-click native Apple Pay, Mada, and BNPL checkout with zero redundant form inputs.",
       },
     ],
     architecturalStack: [
@@ -178,17 +304,50 @@ export const industriesData: IndustryDetail[] = [
         layer: "Frontend Storefront",
         tech: "Next.js 15 App Router + Tailwind CSS + Edge ISR",
         description: "Static page generation with instant incremental revalidation on product edits.",
+        capabilities: ["Sub-350ms Edge LCP", "Dynamic bundle splitting", "Instant product search", "PWA offline browsing"],
       },
       {
         layer: "Payment & Checkout",
         tech: "Stripe, Mada, Apple Pay, Tabby & Tamara SDKs",
         description: "1-click localized high-conversion checkout flows.",
+        capabilities: ["Direct Apple Pay tokenization", "Tabby/Tamara BNPL widgets", "Auto-reconciled payouts", "Fraud shield velocity checks"],
       },
       {
         layer: "Fulfillment Pipeline",
-        tech: "n8n Automation + 3PL Courier APIs",
+        tech: "n8n Automation + 3PL Courier APIs + Odoo ERP",
         description: "Automated airway bill generation, dispatch booking, and SMS tracking notifications.",
+        capabilities: ["Instant Airway Bill (AWB) generation", "Multi-courier rate shopping", "Automated SMS/WhatsApp tracking bot"],
       },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Product Taxonomy & UI/UX Design System",
+        details: "Craft bespoke high-conversion mobile UI in Figma with customized design tokens and checkout wireframes.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "Headless Next.js 15 Architecture Build",
+        details: "Build edge storefront, integrate headless catalog CMS, and implement localized payment SDKs.",
+      },
+      {
+        stage: "Stage 03",
+        duration: "Week 5",
+        title: "Fulfillment & Courier Automation",
+        details: "Connect 3PL couriers, automated SMS tracking notifications, and ERP stock sync.",
+      },
+      {
+        stage: "Stage 04",
+        duration: "Week 6+",
+        title: "Conversion Optimization & Launch",
+        details: "Run A/B checkout experiments, GA4 enhanced e-commerce telemetry, and live traffic scaling.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "PCI-DSS Level 1 Gateway", description: "Direct client-side tokenization with no credit card data passing through application servers." },
+      { standard: "GDPR / Regional Data Residency", description: "Encrypted customer database with full personal data export and deletion workflows." },
     ],
     deliverables: [
       "Custom Next.js Headless E-Commerce Web & PWA",
@@ -203,11 +362,11 @@ export const industriesData: IndustryDetail[] = [
       { metric: "< 350ms", label: "Global Edge Page Response Time" },
       { metric: "0", label: "Manual Airway Bill Entry Errors" },
     ],
-    tags: ["Next.js 15", "Stripe & Mada", "Shopify Plus", "Headless Commerce"],
+    tags: ["Next.js 15", "Stripe & Mada", "Shopify Plus", "Headless Commerce", "E-Commerce Architecture"],
     faqs: [
       {
-        question: "Do you support Split Payment / Buy Now Pay Later (BNPL) providers?",
-        answer: "Yes, we natively integrate Tabby, Tamara, and standard payment gateways like Mada and Apple Pay with automated ledger reconciliation.",
+        question: "Can we integrate with our existing ERP for inventory sync?",
+        answer: "Yes, we connect Next.js headless storefronts directly to Odoo, SAP, or Microsoft Dynamics with bi-directional stock webhooks.",
       },
     ],
   },
@@ -217,36 +376,76 @@ export const industriesData: IndustryDetail[] = [
     num: "04",
     name: "Logistics & Fleet Operations",
     badge: "Real-Time Telemetry",
+    category: "Supply Chain & Logistics",
     headline: "Mission-Critical Dispatcher Portals & GPS Geofenced Fleet Tracking",
     summary: "Custom driver dispatcher mobile apps, live GPS geofencing, and automated shipment tracking notifications.",
     overview:
       "Transforming complex last-mile and line-haul logistics. We engineer high-frequency GPS telemetry maps, route optimization algorithms, and intuitive driver mobile apps that reduce fuel burn and eliminate lost parcels.",
+    operationalContext: [
+      "Fleet operations require zero-blind-spot visibility over vehicle coordinates, fuel consumption, driver behavior, and instant proof of delivery.",
+      "We engineer custom native mobile apps and WebGL dispatcher map consoles handling thousands of concurrent telemetry streams with sub-second update intervals.",
+    ],
     challenges: [
       {
         problem: "Blind spots in driver location and delivery proof verification.",
         impact: "Customer disputes, late deliveries, and operational bottlenecks.",
+        resolution: "Native Flutter driver app with offline signature capture, photo proof, and continuous GPS coordinate streaming.",
       },
       {
         problem: "Manual dispatching and inefficient routing schedules.",
         impact: "Inflated fuel expenditure and reduced deliveries per driver shift.",
+        resolution: "Automated route optimization engine utilizing Python OR-Tools and dynamic time-window clustering.",
       },
     ],
     architecturalStack: [
       {
-        layer: "Driver App",
+        layer: "Driver Mobile App",
         tech: "Flutter Native 60fps (iOS & Android)",
         description: "Offline barcode scanning, photo signature proof, and turn-by-turn navigation.",
+        capabilities: ["Offline SQLite persistence", "Camera barcode laser scanner", "Digital signature canvas", "Voice-guided navigation"],
       },
       {
-        layer: "Telemetry & Map",
+        layer: "Telemetry & Map Engine",
         tech: "Mapbox GL + WebSockets + Redis Pub/Sub",
         description: "Real-time coordinate streaming for thousands of concurrent vehicles.",
+        capabilities: ["Sub-500ms vehicle refresh", "Geofence entry/exit alerts", "Speeding telemetry", "Historical breadcrumb replay"],
       },
       {
-        layer: "Dispatch Optimizer",
-        tech: "Python OR-Tools Route Solver",
+        layer: "Dispatch Optimization",
+        tech: "Python OR-Tools + FastRoute Solver",
         description: "Automated route clustering based on time windows and parcel volume.",
+        capabilities: ["Vehicle capacity constraints", "Time window scheduling", "Traffic-aware route solving"],
       },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Fleet Workflows & Telemetry Mapping",
+        details: "Analyze driver shifts, vehicle classes, hub sorting procedures, and customer notification SLA requirements.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "Flutter Driver App & Mapbox Dispatch Build",
+        details: "Develop native mobile app and real-time dispatcher command tower with WebSocket streaming.",
+      },
+      {
+        stage: "Stage 03",
+        duration: "Week 5",
+        title: "Route Optimization Engine Calibration",
+        details: "Calibrate route clustering solver with historical road speed data and geofence boundary rules.",
+      },
+      {
+        stage: "Stage 04",
+        duration: "Week 6+",
+        title: "Fleet Rollout & Driver Onboarding",
+        details: "Deploy app across driver fleet with on-device diagnostics and 24/7 telemetry monitoring.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "Transport Authority Telemetry (Wasl / Local Regulators)", description: "Direct regulatory API integration for mandatory commercial fleet telemetry transmission." },
+      { standard: "Data Encryption & Privacy", description: "Encrypted location logs and pseudonymized customer delivery recipient contact info." },
     ],
     deliverables: [
       "Custom Flutter Driver Mobile App with Signature Proof",
@@ -261,11 +460,11 @@ export const industriesData: IndustryDetail[] = [
       { metric: "< 500ms", label: "Driver GPS Telemetry Latency" },
       { metric: "99.8%", label: "On-Time Delivery SLA Fulfillment" },
     ],
-    tags: ["Flutter Driver App", "Live GPS Geofence", "WhatsApp Bot", "Fleet Telemetry"],
+    tags: ["Flutter Driver App", "Live GPS Geofence", "WhatsApp Bot", "Fleet Telemetry", "Logistics Tech"],
     faqs: [
       {
         question: "Can drivers scan parcels without active cellular connection in remote areas?",
-        answer: "Yes. Scanned barcodes and digital signatures are encrypted in local SQLite storage and automatically stream to central dispatch once cell reception is acquired.",
+        answer: "Yes. Scanned barcodes, photos, and digital signatures are encrypted in local SQLite storage and automatically stream to central dispatch once cell reception is acquired.",
       },
     ],
   },
@@ -275,36 +474,76 @@ export const industriesData: IndustryDetail[] = [
     num: "05",
     name: "Healthcare & Specialized Clinics",
     badge: "Patient Portals",
+    category: "Healthcare & Regulated",
     headline: "HIPAA-Ready Telehealth Systems & Automated Clinical Scheduling",
     summary: "HIPAA-ready patient portal, doctor shift scheduling, and automated WhatsApp appointment reminders.",
     overview:
       "Digital health platforms built for specialized clinics, diagnostic labs, and telehealth providers. Secure Electronic Medical Records (EMR), dynamic doctor scheduling, and automated patient engagement.",
+    operationalContext: [
+      "Medical clinics lose substantial revenue from patient no-shows and face severe regulatory liabilities if medical data is improperly handled.",
+      "Devolopy builds end-to-end encrypted telehealth portals, automated WhatsApp appointment confirmations, and compliant EMR integrations.",
+    ],
     challenges: [
       {
         problem: "High appointment no-show rates and phone-based booking friction.",
         impact: "Doctor idle time and lost clinic revenue.",
+        resolution: "Automated multi-channel WhatsApp booking reminders with 1-tap confirmation and dynamic waitlist backfills.",
       },
       {
         problem: "Fragmented patient medical history and lab report delivery.",
         impact: "Slow diagnostic follow-ups and compliance vulnerability.",
+        resolution: "Encrypted patient portal with instant lab report delivery and role-based doctor access logs.",
       },
     ],
     architecturalStack: [
       {
-        layer: "Patient Portal",
+        layer: "Patient Experience Portal",
         tech: "Next.js 15 PWA + WebAuthn Biometrics",
         description: "Zero-friction appointment booking, lab result downloads, and encrypted messaging.",
+        capabilities: ["Biometric 1-tap sign-in", "Lab report PDF viewer", "Prescription renewal requests", "Integrated telemedicine video"],
       },
       {
-        layer: "Clinical Ledger",
+        layer: "Clinical Data Core",
         tech: "PostgreSQL + AES-256 Column Encryption",
         description: "HIPAA and local health authority compliance with audit log trails.",
+        capabilities: ["At-rest column encryption", "Immutable audit trails", "Doctor shift calendar sync", "E-prescribing integration"],
       },
       {
-        layer: "Engagement Bot",
-        tech: "Meta WhatsApp Business Cloud API",
+        layer: "Automated Communication",
+        tech: "Meta WhatsApp Cloud API + SMS Gateway",
         description: "Automated 24h & 2h appointment confirmations with 1-tap rescheduling.",
+        capabilities: ["Interactive WhatsApp buttons", "Automated pre-consultation medical questionnaires", "Post-visit care follow-ups"],
       },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Clinical Workflow & Compliance Audit",
+        details: "Define medical specialty workflows, appointment types, doctor room calendars, and data governance standards.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "Encrypted EMR & Scheduling Architecture",
+        details: "Deploy encrypted PostgreSQL schema, doctor scheduling matrix, and patient portal frontend.",
+      },
+      {
+        stage: "Stage 03",
+        duration: "Week 5",
+        title: "WhatsApp Bot & Telehealth Video Module",
+        details: "Integrate Meta WhatsApp Business API and WebRTC encrypted video consultation module.",
+      },
+      {
+        stage: "Stage 04",
+        duration: "Week 6+",
+        title: "Clinical Staff Training & Production Launch",
+        details: "Staff onboarding, pilot patient bookings, and 24/7 security monitoring.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "HIPAA / Local Health Authority Compliance", description: "Encrypted data transmission, strict data retention rules, and medical record audit logging." },
+      { standard: "AES-256 & TLS 1.3 Encryption", description: "All patient identifiable health information is encrypted at rest and in transit." },
     ],
     deliverables: [
       "Custom Patient Web Portal & Digital Health Pass",
@@ -319,7 +558,7 @@ export const industriesData: IndustryDetail[] = [
       { metric: "-74%", label: "Phone Desk Booking Inquiries" },
       { metric: "4.9/5", label: "Patient Booking Satisfaction Score" },
     ],
-    tags: ["HIPAA Ready", "Telehealth Portal", "WhatsApp Reminders", "EMR Integration"],
+    tags: ["HIPAA Ready", "Telehealth Portal", "WhatsApp Reminders", "EMR Integration", "HealthTech"],
     faqs: [
       {
         question: "How is patient data secured and isolated?",
@@ -333,14 +572,20 @@ export const industriesData: IndustryDetail[] = [
     num: "06",
     name: "Education & Academies",
     badge: "EdTech & LMS",
+    category: "EdTech & Academies",
     headline: "Unified Student Lifecycle Platforms & Automated Fee Installments",
     summary: "Unified student lifecycle portal with automated fee installments and mobile parent communications.",
     overview:
       "Modern Learning Management Systems (LMS) and student information platforms engineered for private academies, training institutes, and multi-campus schools.",
+    operationalContext: [
+      "Educational institutions struggle with fragmented student databases, manual tuition fee chasing, and disconnected parent communication channels.",
+      "Devolopy unifies admissions, live attendance tracking, automated tuition installment debiting, and digital gradebooks into a single secure platform.",
+    ],
     challenges: [
       {
         problem: "Manual tuition fee collection and reconciliation bottlenecks.",
         impact: "Cashflow delays and heavy administrative workload.",
+        resolution: "Automated recurring tuition installment plans with reminder SMS and instant payment receipts.",
       },
     ],
     architecturalStack: [
@@ -348,17 +593,31 @@ export const industriesData: IndustryDetail[] = [
         layer: "Student / Parent Portal",
         tech: "Next.js 15 + Mobile Responsive UI",
         description: "Attendance records, report cards, and digital fee invoices.",
+        capabilities: ["Digital report cards", "Fee installment breakdown", "Direct teacher messaging"],
       },
       {
         layer: "Billing Engine",
         tech: "Stripe Subscriptions + Local Mada Recurring",
         description: "Automated recurring tuition installment plans with reminder SMS.",
+        capabilities: ["Split family payment plans", "Auto-reconciled bank ledger", "Scholarship discount rules"],
+      },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Academic Curriculum & Fee Structure Mapping",
+        details: "Define grade levels, course modules, fee schedules, and teacher assignment rosters.",
       },
       {
-        layer: "LMS Core",
-        tech: "Node.js + PostgreSQL + AWS S3 CDN",
-        description: "High-concurrency video lectures, assignments, and automated grading.",
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "LMS Portal & Billing Architecture Build",
+        details: "Develop student portal, gradebook calculation engine, and automated tuition payment rails.",
       },
+    ],
+    complianceAndSecurity: [
+      { standard: "Student Privacy & COPPA Compliance", description: "Strict isolation of student personal identifiable information with parent guardian consent logs." },
     ],
     deliverables: [
       "Custom Student & Parent Portal",
@@ -385,14 +644,19 @@ export const industriesData: IndustryDetail[] = [
     num: "07",
     name: "Real Estate & Asset Management",
     badge: "Property & Lead Hub",
+    category: "PropTech & Real Estate",
     headline: "Interactive Property Portals & Automated Lead-to-CRM Routing",
     summary: "Searchable property platform with interactive floorplans, 3D tours, and automated CRM lead capture.",
     overview:
       "High-end real estate portals, tenant management platforms, and developer showroom interfaces with dynamic inventory filters, interactive 3D tours, and instant broker lead routing.",
+    operationalContext: [
+      "Real estate brokerages and asset managers need lightning-fast property search with immersive media and instant broker lead distribution to capture high-value buyer intent.",
+    ],
     challenges: [
       {
         problem: "Slow lead follow-up from property portal inquiries.",
         impact: "Lost buyer interest and reduced sales conversions.",
+        resolution: "Instant WhatsApp and CRM lead assignment to nearest regional property broker within 30 seconds.",
       },
     ],
     architecturalStack: [
@@ -400,17 +664,31 @@ export const industriesData: IndustryDetail[] = [
         layer: "Search Engine",
         tech: "Next.js 15 + MeiliSearch Vector Index",
         description: "Sub-50ms property search by budget, neighborhood, and amenities.",
+        capabilities: ["Faceted search filters", "Polygon map search", "Instant price currency conversion"],
       },
       {
-        layer: "Interactive Floorplans",
-        tech: "Three.js / WebGL + Matterport SDK",
-        description: "Immersive 3D virtual walkthroughs directly inside the browser.",
-      },
-      {
-        layer: "CRM Engine",
+        layer: "CRM & Broker Router",
         tech: "Odoo CRM + n8n Webhook Pipeline",
         description: "Instant WhatsApp lead assignment to regional real estate brokers.",
+        capabilities: ["Broker round-robin distribution", "Lead scoring algorithm", "Automated viewing reminder SMS"],
       },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Property Catalog Taxonomy & Virtual Assets",
+        details: "Structure property parameters, high-res photo hosting, and 3D Matterport embeds.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "Sub-50ms Search & Lead Engine Build",
+        details: "Implement vector search index, broker assignment routing, and WhatsApp instant alerts.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "Real Estate Authority MLS Compliance", description: "Verified license numbers and real estate regulatory compliance metadata." },
     ],
     deliverables: [
       "Custom Fast Property Search & Showcase Engine",
@@ -437,32 +715,51 @@ export const industriesData: IndustryDetail[] = [
     num: "08",
     name: "Hospitality & Boutique Resorts",
     badge: "Direct Booking",
+    category: "Hospitality & Dining",
     headline: "Zero-Commission Direct Booking Engines & Guest Experience Portals",
     summary: "High-converting direct booking engine with guest experience portal and zero OTA commissions.",
     overview:
       "Empowering boutique hotels and luxury resorts to bypass hefty OTA commissions with elegant, lightning-fast direct booking engines, room customization, and digital guest concierge web apps.",
+    operationalContext: [
+      "Hotels surrender 15% to 25% of top-line revenue to third-party online travel agencies. We engineer high-converting direct booking engines that maximize direct revenue while syncing inventory two-way with major channel managers.",
+    ],
     challenges: [
       {
         problem: "15-25% commission leakage to third-party travel agencies (OTAs).",
         impact: "Severe compression of hotel operating profit margins.",
+        resolution: "Sub-second direct booking engine with dynamic room rate calendars, promo codes, and 1-click checkout.",
       },
     ],
     architecturalStack: [
       {
-        layer: "Booking Engine",
+        layer: "Direct Booking Engine",
         tech: "Next.js 15 + Stripe / Mada Gateways",
         description: "Dynamic room rate calendars, promo codes, and multi-currency checkout.",
+        capabilities: ["Dynamic room yield pricing", "Add-on amenity upsells", "Multi-currency checkout"],
       },
       {
-        layer: "Channel Sync",
+        layer: "Channel Manager Sync",
         tech: "Two-Way OTA Channel Manager API",
-        description: "Real-time calendar synchronization to prevent double bookings.",
+        description: "Real-time calendar synchronization to prevent double bookings across Booking.com and Expedia.",
+        capabilities: ["Real-time availability lock", "Rate parity enforcement", "Instant cancellation backfills"],
+      },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Room Matrix & PMS Inventory Mapping",
+        details: "Define room types, seasonal rate tiers, cancellation policies, and PMS integration endpoints.",
       },
       {
-        layer: "Guest Concierge",
-        tech: "Mobile-First PWA + QR Code Access",
-        description: "In-room dining orders, spa booking, and digital key integration.",
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "Direct Booking Engine & Guest PWA Build",
+        details: "Develop high-converting direct booking funnel, payment gateway integration, and guest web app.",
       },
+    ],
+    complianceAndSecurity: [
+      { standard: "PCI-DSS Level 1 Standards", description: "Zero credit card exposure with secure tokenized pre-authorizations." },
     ],
     deliverables: [
       "Custom Ultra-Fast Direct Booking Engine",
@@ -475,7 +772,7 @@ export const industriesData: IndustryDetail[] = [
       { metric: "0", label: "OTA Commission on Direct Website Bookings" },
       { metric: "< 1.5s", label: "Full Booking Funnel Completion Time" },
     ],
-    tags: ["Direct Booking", "Channel Manager", "Guest Web App", "Hospitality"],
+    tags: ["Direct Booking", "Channel Manager", "Guest Web App", "Hospitality Tech"],
     faqs: [
       {
         question: "Does the system sync with our existing Property Management System (PMS)?",
@@ -489,14 +786,19 @@ export const industriesData: IndustryDetail[] = [
     num: "09",
     name: "Travel & Custom Tours",
     badge: "Dynamic Itineraries",
+    category: "Hospitality & Dining",
     headline: "Dynamic Visual Tour Itinerary Builders & Supplier API Feeds",
     summary: "Dynamic visual itinerary builder integrated with live supplier flight and hotel API feeds.",
     overview:
       "Bespoke travel platforms for tour operators, DMC agencies, and customized travel planners with live pricing aggregation and visual drag-and-drop itinerary builders.",
+    operationalContext: [
+      "Custom travel agencies lose booking velocity when building manual itinerary proposals. We build dynamic visual itinerary builders with live supplier rate aggregation.",
+    ],
     challenges: [
       {
         problem: "Slow manual quote turnaround for custom multi-city tour packages.",
         impact: "Customer booking drop-off to faster automated competitors.",
+        resolution: "Visual drag-and-drop itinerary studio dynamically fetching live hotel and flight inventory.",
       },
     ],
     architecturalStack: [
@@ -504,12 +806,19 @@ export const industriesData: IndustryDetail[] = [
         layer: "Itinerary Studio",
         tech: "React 19 + Drag-and-Drop Canvas",
         description: "Visual day-by-day travel timeline with interactive map routes.",
+        capabilities: ["Interactive day-by-day maps", "Dynamic markup rules", "Instant PDF export"],
       },
+    ],
+    implementationStages: [
       {
-        layer: "Supplier GDS API",
-        tech: "Amadeus / HotelBeds / Sabre APIs",
-        description: "Real-time flight and accommodation rates dynamically bundled.",
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Supplier API Ingestion & Product Catalog",
+        details: "Connect Amadeus, Sabre, and HotelBeds supplier APIs for real-time rate queries.",
       },
+    ],
+    complianceAndSecurity: [
+      { standard: "IATA Compliance & Travel Insurance Security", description: "Secure passenger manifest storage and payment verification." },
     ],
     deliverables: [
       "Dynamic Tour Package & Itinerary Builder",
@@ -534,27 +843,51 @@ export const industriesData: IndustryDetail[] = [
     num: "10",
     name: "Manufacturing Plants & Industrial",
     badge: "Shop Floor IoT",
+    category: "Industrial & Manufacturing",
     headline: "Shop Floor Telemetry, Automated Work Orders & Odoo MRP",
     summary: "IoT sensor telemetry dashboard, automated shop floor work orders, and predictive maintenance alerts.",
     overview:
       "Digital shop-floor execution systems (MES) and MRP ERP implementations connecting industrial machinery telemetry to real-time production ledgers and inventory replenishment.",
+    operationalContext: [
+      "Industrial manufacturing requires real-time telemetry over Overall Equipment Effectiveness (OEE), scrap rates, machine vibration/temperature, and automated raw material re-ordering.",
+    ],
     challenges: [
       {
         problem: "Unplanned machine downtime and untracked scrap rate variance.",
         impact: "Missed production schedules and high maintenance costs.",
+        resolution: "Industrial IoT edge gateways streaming machine cycle signals directly to Odoo MRP work orders.",
       },
     ],
     architecturalStack: [
       {
-        layer: "Industrial IoT",
+        layer: "Industrial IoT Edge",
         tech: "MQTT + Node-RED + TimescaleDB",
         description: "High-frequency machine temperature, vibration, and RPM telemetry.",
+        capabilities: ["Modbus / OPC UA integration", "Sub-second sensor streaming", "Threshold anomaly detection"],
       },
       {
-        layer: "Shop Floor MES",
+        layer: "Shop Floor MES & MRP",
         tech: "Odoo 18 Manufacturing (MRP) + Tablet Work Centers",
         description: "Digital work order tracking and live operator efficiency metrics.",
+        capabilities: ["Work order timers", "Automated raw material depletion", "Digital quality control checklists"],
       },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Shop Floor Audit & PLC Protocol Mapping",
+        details: "Map machinery sensors, Modbus registers, work center routing, and bill of materials.",
+      },
+      {
+        stage: "Stage 02",
+        duration: "Week 3 - 4",
+        title: "IoT Telemetry Pipeline & Odoo MRP Setup",
+        details: "Deploy edge gateways, TimescaleDB time-series database, and digital tablet work centers.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "ISO 9001 / Batch Traceability", description: "Complete raw material lot/serial traceability with immutable batch records." },
     ],
     deliverables: [
       "Custom Odoo 18 Manufacturing & MRP Implementation",
@@ -567,7 +900,7 @@ export const industriesData: IndustryDetail[] = [
       { metric: "+22%", label: "Overall Equipment Effectiveness (OEE)" },
       { metric: "100%", label: "Batch Traceability Audit Compliance" },
     ],
-    tags: ["IoT Telemetry", "Odoo MRP", "Automated Work Orders", "Manufacturing"],
+    tags: ["IoT Telemetry", "Odoo MRP", "Automated Work Orders", "Manufacturing Tech"],
     faqs: [
       {
         question: "Can this connect to legacy PLC controllers on our factory line?",
@@ -581,14 +914,19 @@ export const industriesData: IndustryDetail[] = [
     num: "11",
     name: "Professional Services & Agencies",
     badge: "Agency Operations",
+    category: "Enterprise SaaS & B2B",
     headline: "Automated Client Invoicing, Resource Scheduling & Margin Telemetry",
     summary: "Automated timesheet telemetry, client milestone invoicing, and real-time project margin analytics.",
     overview:
       "Operational backbones for consulting firms, law offices, and creative agencies. Centralized project billing, automated milestone triggers, and real-time project profitability dashboards.",
+    operationalContext: [
+      "Professional service agencies leak revenue when billable hours go untracked and milestone invoices are delayed. We build automated agency operating systems.",
+    ],
     challenges: [
       {
         problem: "Revenue leakage from unbilled hours and delayed milestone invoicing.",
         impact: "Depressed agency operating margins and late client payments.",
+        resolution: "Automated timesheet tracking linked directly to milestone invoice triggers and client approval portals.",
       },
     ],
     architecturalStack: [
@@ -596,12 +934,19 @@ export const industriesData: IndustryDetail[] = [
         layer: "Agency CRM & PM",
         tech: "Odoo Project + Next.js Client Portal",
         description: "Transparent milestone approvals, timesheets, and deliverable sign-offs.",
+        capabilities: ["Milestone approval workflows", "Resource utilization heatmaps", "Profit margin telemetry"],
       },
+    ],
+    implementationStages: [
       {
-        layer: "Automated Billing",
-        tech: "Stripe Invoicing + ZATCA Phase 2 E-Invoice",
-        description: "Milestone-triggered invoice generation with automated reminders.",
+        stage: "Stage 01",
+        duration: "Week 1 - 2",
+        title: "Service Catalog & Billing Rate Matrix",
+        details: "Define billable roles, retainer structures, and milestone approval stages.",
       },
+    ],
+    complianceAndSecurity: [
+      { standard: "NDA & Client Data Confidentiality", description: "Tenant data isolation with encrypted contract storage." },
     ],
     deliverables: [
       "Custom Client Project & Invoicing Portal",
@@ -626,14 +971,19 @@ export const industriesData: IndustryDetail[] = [
     num: "12",
     name: "Venture Startups & Scaleups",
     badge: "4-Week MVP Sprint",
+    category: "High-Growth Startups",
     headline: "Rapid 4-Week Production MVP Sprints Built on Scalable TypeScript",
     summary: "Rapid 4-week production MVP sprint with modular TypeScript codebase ready for venture scale.",
     overview:
       "For venture-backed founders who need to move fast without accumulating technical debt. We engineer clean, modular TypeScript + Next.js + PostgreSQL architectures ready for seed and Series A due diligence.",
+    operationalContext: [
+      "Startups cannot afford months of bloated agency overhead. We deliver production-grade MVPs in 4-week structured sprints, handing over 100% intellectual property and full Git repositories.",
+    ],
     challenges: [
       {
         problem: "Slow development cycles and messy outsourced prototype code.",
         impact: "Burned runway and failed technical investor due diligence.",
+        resolution: "Clean modular TypeScript architecture with automated CI/CD and production staging environments.",
       },
     ],
     architecturalStack: [
@@ -641,17 +991,37 @@ export const industriesData: IndustryDetail[] = [
         layer: "Application Core",
         tech: "Next.js 15 + TypeScript + Tailwind CSS",
         description: "Clean modular repository with strict type safety and linting standards.",
+        capabilities: ["Server Actions", "Strict TypeScript types", "Shadcn UI component kit", "Edge routing"],
       },
       {
         layer: "Database & Auth",
         tech: "PostgreSQL + Prisma ORM + Supabase / Auth0",
         description: "Enterprise-grade database with automated migrations and secure JWT auth.",
+        capabilities: ["Automated Prisma migrations", "Row-Level Security (RLS)", "OAuth social & magic links"],
+      },
+    ],
+    implementationStages: [
+      {
+        stage: "Stage 01",
+        duration: "Week 1",
+        title: "Product Scope & Technical Architecture",
+        details: "Lock MVP user stories, database schema, and Figma design tokens.",
       },
       {
-        layer: "Infrastructure",
-        tech: "Vercel + AWS RDS + GitHub Actions CI/CD",
-        description: "Production pipeline with automated preview deploys and unit test suites.",
+        stage: "Stage 02",
+        duration: "Week 2 - 3",
+        title: "Full-Stack Development Sprint",
+        details: "Engineer frontend UI, core business logic, database migrations, and authentication.",
       },
+      {
+        stage: "Stage 03",
+        duration: "Week 4",
+        title: "QA, Security & Live Production Launch",
+        details: "End-to-end automated testing, Vercel/AWS deployment, and full Git repository handover.",
+      },
+    ],
+    complianceAndSecurity: [
+      { standard: "100% IP & Code Ownership", description: "Complete intellectual property assignment to the founder upon project delivery." },
     ],
     deliverables: [
       "Complete Production-Grade MVP in 4 Weeks",
