@@ -51,12 +51,12 @@ export const TextHoverEffect = ({
   }, [cursor]);
 
   return (
-    <div className="relative w-full overflow-hidden flex items-center justify-center py-4 select-none opacity-85 hover:opacity-100 transition-opacity">
+    <div className="relative w-full overflow-hidden flex items-center justify-center pt-8 pb-2 select-none">
       <svg
         ref={svgRef}
         width="100%"
         height="100%"
-        viewBox="0 0 1200 220"
+        viewBox="0 0 1600 220"
         xmlns="http://www.w3.org/2000/svg"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
@@ -64,7 +64,7 @@ export const TextHoverEffect = ({
           setCursor({ x: null, y: null });
         }}
         onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-        className={cn("w-full max-w-7xl h-auto overflow-visible cursor-pointer", className)}
+        className={cn("w-full h-auto overflow-visible cursor-pointer", className)}
       >
         <defs>
           {/* Luminous multi-color gradient */}
@@ -87,13 +87,13 @@ export const TextHoverEffect = ({
           <motion.radialGradient
             id="devolopyRevealMask"
             gradientUnits="userSpaceOnUse"
-            r="28%"
+            r="25%"
             initial={{ cx: "50%", cy: "50%" }}
             animate={maskPosition}
             transition={{ duration: duration ?? 0, ease: "easeOut" }}
           >
             <stop offset="0%" stopColor="white" />
-            <stop offset="70%" stopColor="white" stopOpacity="0.8" />
+            <stop offset="60%" stopColor="white" stopOpacity="0.75" />
             <stop offset="100%" stopColor="black" />
           </motion.radialGradient>
 
@@ -108,42 +108,44 @@ export const TextHoverEffect = ({
           </mask>
         </defs>
 
-        {/* 1. Base subtle outline text (Exact logo font & reduced opacity) */}
+        {/* 1. Base subtle extended outline text (Exact logo font & reduced soft opacity spanning full left-to-right width) */}
         <text
           x="50%"
           y="56%"
           textAnchor="middle"
           dominantBaseline="middle"
-          strokeWidth="1"
-          letterSpacing="-0.03em"
+          textLength="98%"
+          lengthAdjust="spacingAndGlyphs"
+          strokeWidth="0.8"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 800,
+            fontWeight: 900,
             textRendering: "geometricPrecision",
           }}
-          className="fill-white/[0.01] stroke-white/10 dark:stroke-white/10 text-[130px] sm:text-[150px] transition-all duration-300"
+          className="fill-transparent stroke-white/[0.04] dark:stroke-white/[0.06] text-[180px] sm:text-[220px] lg:text-[250px] transition-all duration-300"
         >
           {text}
         </text>
 
-        {/* 2. Subtle animated stroke path (Subtle opacity, exact logo geometry) */}
+        {/* 2. Subtle animated stroke path with low opacity */}
         <motion.text
           x="50%"
           y="56%"
           textAnchor="middle"
           dominantBaseline="middle"
-          strokeWidth="1.2"
-          letterSpacing="-0.03em"
+          textLength="98%"
+          lengthAdjust="spacingAndGlyphs"
+          strokeWidth="0.9"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 800,
+            fontWeight: 900,
             textRendering: "geometricPrecision",
           }}
-          className="fill-transparent stroke-primary/30 text-[130px] sm:text-[150px]"
-          initial={{ strokeDashoffset: 2000, strokeDasharray: 2000 }}
+          className="fill-transparent stroke-primary/15 text-[180px] sm:text-[220px] lg:text-[250px]"
+          initial={{ strokeDashoffset: 3000, strokeDasharray: 3000 }}
           animate={{
             strokeDashoffset: 0,
-            strokeDasharray: 2000,
+            strokeDasharray: 3000,
           }}
           transition={{
             duration: 3.5,
@@ -159,18 +161,19 @@ export const TextHoverEffect = ({
           y="56%"
           textAnchor="middle"
           dominantBaseline="middle"
+          textLength="98%"
+          lengthAdjust="spacingAndGlyphs"
           stroke="url(#devolopyTextGradient)"
           fill="url(#devolopyTextGradient)"
-          strokeWidth="1.6"
-          letterSpacing="-0.03em"
+          strokeWidth="1.2"
           mask="url(#devolopyTextMask)"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 800,
-            opacity: hovered ? 0.85 : 0,
+            fontWeight: 900,
+            opacity: hovered ? 0.65 : 0,
             textRendering: "geometricPrecision",
           }}
-          className="text-[130px] sm:text-[150px] transition-opacity duration-200"
+          className="text-[180px] sm:text-[220px] lg:text-[250px] transition-opacity duration-200"
         >
           {text}
         </text>
@@ -239,7 +242,7 @@ export function HoverFooter() {
     <footer
       id="contact"
       aria-label="Devolopy Platform Footer"
-      className="relative bg-[#07090e] text-white border-t border-white/10 overflow-hidden mt-20 pt-16 sm:pt-20 pb-12"
+      className="relative bg-[#07090e] text-white border-t border-white/10 overflow-hidden mt-20 pt-16 sm:pt-20 pb-6"
     >
       <FooterBackgroundGradient />
 
@@ -375,8 +378,8 @@ export function HoverFooter() {
           </div>
         </div>
 
-        {/* ── Massive Centerpiece Text Hover Effect with Subtler Opacity & Exact Logo Font ── */}
-        <div className="pt-6 sm:pt-10 flex justify-center items-center">
+        {/* ── Massive Edge-to-Edge Extended Footer Watermark ── */}
+        <div className="pt-4 flex justify-center items-center w-full overflow-hidden">
           <TextHoverEffect text="DEVOLOPY" />
         </div>
       </div>

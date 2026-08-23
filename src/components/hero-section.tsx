@@ -135,9 +135,9 @@ export function HeroSection() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center">
           {/* Left Column: Multi-Beat Copy & CTAs */}
-          <div className="lg:col-span-6 space-y-7">
+          <div className="lg:col-span-5 space-y-7">
             {/* Ultra-Premium Shimmering Eyebrow Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 dark:bg-[#C0703C]/15 border border-[#C0703C]/25 shadow-xs backdrop-blur-md">
               <span className="size-2 rounded-full bg-[#C0703C] animate-ping" />
@@ -146,7 +146,7 @@ export function HeroSection() {
 
             {/* Headline Switcher Area with Gradient Emphasis */}
             <div className="min-h-[190px] sm:min-h-[170px] flex flex-col justify-center">
-              <h1 className="font-space text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight leading-[1.08] text-foreground">
+              <h1 className="font-space text-4xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.08] text-foreground">
                 {beats[activeBeat].headline}{" "}
                 <span className="bg-gradient-to-r from-primary via-indigo-500 to-[#C0703C] bg-clip-text text-transparent">
                   {beats[activeBeat].highlight}
@@ -207,7 +207,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Column: 3D Isometric Build Stack & Interactive Inspector (Shifted Right) */}
-          <div className="lg:col-span-6 flex flex-col md:flex-row items-center justify-center lg:justify-end gap-6 sm:gap-8 lg:translate-x-8 xl:translate-x-12">
+          <div className="lg:col-span-7 flex flex-col md:flex-row items-center justify-center lg:justify-end gap-6 sm:gap-8 lg:translate-x-12 xl:translate-x-16">
             {/* 3D Stack Stage Canvas */}
             <div
               ref={stageRef}
