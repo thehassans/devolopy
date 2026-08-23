@@ -18,6 +18,7 @@ import {
   Globe,
   Zap,
   ArrowUpRight,
+  Sparkles,
 } from "lucide-react";
 
 export const TextHoverEffect = ({
@@ -51,12 +52,18 @@ export const TextHoverEffect = ({
   }, [cursor]);
 
   return (
-    <div className="relative w-full overflow-hidden flex items-center justify-center pt-8 pb-2 select-none">
+    <div className="relative w-full overflow-hidden flex flex-col items-center justify-center pt-10 pb-4 select-none group/watermark">
+      {/* Ambient Atmospheric Floor Glow */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl h-36 bg-gradient-to-t from-primary/15 via-indigo-500/10 to-transparent blur-3xl opacity-60 group-hover/watermark:opacity-90 transition-opacity duration-700"
+        aria-hidden="true"
+      />
+
       <svg
         ref={svgRef}
         width="100%"
         height="100%"
-        viewBox="0 0 1600 220"
+        viewBox="0 0 1400 200"
         xmlns="http://www.w3.org/2000/svg"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
@@ -64,12 +71,41 @@ export const TextHoverEffect = ({
           setCursor({ x: null, y: null });
         }}
         onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-        className={cn("w-full h-auto overflow-visible cursor-pointer", className)}
+        className={cn("w-full max-w-7xl h-auto overflow-visible cursor-pointer relative z-10", className)}
       >
         <defs>
-          {/* Luminous multi-color gradient */}
+          {/* Luxury Metallic & Electric Blue Gradient */}
           <linearGradient
-            id="devolopyTextGradient"
+            id="devolopyLuxuryStroke"
+            gradientUnits="userSpaceOnUse"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
+            <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
+            <stop offset="30%" stopColor="rgba(56,189,248,0.4)" />
+            <stop offset="50%" stopColor="rgba(129,140,248,0.5)" />
+            <stop offset="70%" stopColor="rgba(192,112,60,0.4)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.25)" />
+          </linearGradient>
+
+          {/* Frosted Glass Fill Gradient */}
+          <linearGradient
+            id="devolopyGlassFill"
+            gradientUnits="userSpaceOnUse"
+            x1="0%"
+            y1="0%"
+            x2="0%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="rgba(255,255,255,0.04)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.005)" />
+          </linearGradient>
+
+          {/* Luminous Multi-Spectrum Iridescent Hover Gradient */}
+          <linearGradient
+            id="devolopyHoverSpectrum"
             gradientUnits="userSpaceOnUse"
             x1="0%"
             y1="0%"
@@ -80,100 +116,97 @@ export const TextHoverEffect = ({
             <stop offset="25%" stopColor="#6366f1" />
             <stop offset="50%" stopColor="#a855f7" />
             <stop offset="75%" stopColor="#ec4899" />
-            <stop offset="100%" stopColor="#3b82f6" />
+            <stop offset="100%" stopColor="#38bdf8" />
           </linearGradient>
 
-          {/* Smooth radial cursor reveal mask */}
+          {/* Smooth Radial Cursor Reveal Spotlight */}
           <motion.radialGradient
-            id="devolopyRevealMask"
+            id="devolopyCursorSpotlight"
             gradientUnits="userSpaceOnUse"
-            r="26%"
+            r="32%"
             initial={{ cx: "50%", cy: "50%" }}
             animate={maskPosition}
             transition={{ duration: duration ?? 0, ease: "easeOut" }}
           >
             <stop offset="0%" stopColor="white" />
-            <stop offset="60%" stopColor="white" stopOpacity="0.85" />
+            <stop offset="55%" stopColor="white" stopOpacity="0.85" />
             <stop offset="100%" stopColor="black" />
           </motion.radialGradient>
 
-          <mask id="devolopyTextMask">
+          <mask id="devolopyCursorMask">
             <rect
               x="0"
               y="0"
               width="100%"
               height="100%"
-              fill="url(#devolopyRevealMask)"
+              fill="url(#devolopyCursorSpotlight)"
             />
           </mask>
         </defs>
 
-        {/* 1. Base subtle extended outline text (Clearly visible, exact logo font spanning full left-to-right width) */}
+        {/* 1. Base Luxury Proportional Outline & Frosted Fill */}
         <text
           x="50%"
-          y="56%"
+          y="58%"
           textAnchor="middle"
           dominantBaseline="middle"
-          textLength="98%"
-          lengthAdjust="spacingAndGlyphs"
           strokeWidth="1.2"
+          letterSpacing="0.06em"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 900,
+            fontWeight: 800,
             textRendering: "geometricPrecision",
           }}
-          className="fill-white/[0.02] stroke-white/20 dark:stroke-white/25 text-[180px] sm:text-[220px] lg:text-[250px] transition-all duration-300"
+          className="fill-[url(#devolopyGlassFill)] stroke-[url(#devolopyLuxuryStroke)] text-[150px] sm:text-[175px] md:text-[195px] lg:text-[210px] transition-all duration-300"
         >
           {text}
         </text>
 
-        {/* 2. Distinct animated primary stroke path */}
+        {/* 2. Micro Edge Highlight Stroke */}
         <motion.text
           x="50%"
-          y="56%"
+          y="58%"
           textAnchor="middle"
           dominantBaseline="middle"
-          textLength="98%"
-          lengthAdjust="spacingAndGlyphs"
-          strokeWidth="1.4"
+          strokeWidth="1"
+          letterSpacing="0.06em"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 900,
+            fontWeight: 800,
             textRendering: "geometricPrecision",
           }}
-          className="fill-transparent stroke-primary/40 dark:stroke-primary/45 text-[180px] sm:text-[220px] lg:text-[250px]"
-          initial={{ strokeDashoffset: 3000, strokeDasharray: 3000 }}
+          className="fill-transparent stroke-white/20 dark:stroke-white/30 text-[150px] sm:text-[175px] md:text-[195px] lg:text-[210px]"
+          initial={{ strokeDashoffset: 2500, strokeDasharray: 2500 }}
           animate={{
             strokeDashoffset: 0,
-            strokeDasharray: 3000,
+            strokeDasharray: 2500,
           }}
           transition={{
-            duration: 3.5,
+            duration: 3,
             ease: "easeInOut",
           }}
         >
           {text}
         </motion.text>
 
-        {/* 3. Interactive iridescent hover reveal layer */}
+        {/* 3. Interactive Iridescent Liquid Light Spotlight Layer */}
         <text
           x="50%"
-          y="56%"
+          y="58%"
           textAnchor="middle"
           dominantBaseline="middle"
-          textLength="98%"
-          lengthAdjust="spacingAndGlyphs"
-          stroke="url(#devolopyTextGradient)"
-          fill="url(#devolopyTextGradient)"
-          strokeWidth="1.6"
-          mask="url(#devolopyTextMask)"
+          stroke="url(#devolopyHoverSpectrum)"
+          fill="url(#devolopyHoverSpectrum)"
+          strokeWidth="1.8"
+          letterSpacing="0.06em"
+          mask="url(#devolopyCursorMask)"
           style={{
             fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
-            fontWeight: 900,
-            opacity: hovered ? 0.9 : 0,
+            fontWeight: 800,
+            opacity: hovered ? 0.95 : 0,
             textRendering: "geometricPrecision",
           }}
-          className="text-[180px] sm:text-[220px] lg:text-[250px] transition-opacity duration-200"
+          className="text-[150px] sm:text-[175px] md:text-[195px] lg:text-[210px] transition-opacity duration-200"
         >
           {text}
         </text>
@@ -378,7 +411,7 @@ export function HoverFooter() {
           </div>
         </div>
 
-        {/* ── Massive Edge-to-Edge Extended Footer Watermark with Visible Contrast ── */}
+        {/* ── Ultra-Premium Centerpiece Cinematic Watermark ── */}
         <div className="pt-4 flex justify-center items-center w-full overflow-hidden">
           <TextHoverEffect text="DEVOLOPY" />
         </div>
