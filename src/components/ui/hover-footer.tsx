@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,80 +27,151 @@ export const TextHoverEffect = ({
   automatic?: boolean;
   className?: string;
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [cursor, setCursor] = useState<{ x: number | null; y: number | null }>({
+    x: null,
+    y: null,
+  });
+  const [hovered, setHovered] = useState(false);
+  const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setCursor({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
+  useEffect(() => {
+    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
+      const svgRect = svgRef.current.getBoundingClientRect();
+      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
+      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
+      setMaskPosition({
+        cx: `${cxPercentage}%`,
+        cy: `${cyPercentage}%`,
+      });
+    }
+  }, [cursor]);
 
   return (
-    <div
-      ref={containerRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setCursor(null);
-      }}
-      onMouseMove={handleMouseMove}
-      className={cn(
-        "relative w-full py-8 sm:py-12 flex items-center justify-center overflow-hidden select-none group cursor-pointer",
-        className
-      )}
-    >
-      {/* Background Interactive Luminescence Spotlight */}
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-out"
-        style={{
-          opacity: isHovered && cursor ? 1 : 0,
-          background: cursor
-            ? `radial-gradient(500px circle at ${cursor.x}px ${cursor.y}px, rgba(59, 130, 246, 0.16), rgba(168, 85, 247, 0.08), transparent 70%)`
-            : "none",
+    <div className="relative w-full overflow-hidden flex items-center justify-center pt-6 pb-2 select-none">
+      <svg
+        ref={svgRef}
+        width="100%"
+        height="100%"
+        viewBox="0 0 1400 160"
+        xmlns="http://www.w3.org/2000/svg"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => {
+          setHovered(false);
+          setCursor({ x: null, y: null });
         }}
-      />
+        onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
+        className={cn("w-full h-auto overflow-visible cursor-pointer max-w-7xl", className)}
+      >
+        <defs>
+          {/* Luminous multi-color brand gradient */}
+          <linearGradient
+            id="devolopyTextGradient"
+            gradientUnits="userSpaceOnUse"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="#38bdf8" />
+            <stop offset="25%" stopColor="#6366f1" />
+            <stop offset="50%" stopColor="#a855f7" />
+            <stop offset="75%" stopColor="#ec4899" />
+            <stop offset="100%" stopColor="#3b82f6" />
+          </linearGradient>
 
-      {/* Base Ultra-Minimalist Geometric Outline Text (100% Un-distorted Proportions) */}
-      <div className="relative z-10 w-full text-center px-2 sm:px-4">
-        <span
-          className="font-space text-[12.5vw] sm:text-[13.5vw] md:text-[14.5vw] font-black uppercase tracking-[0.14em] sm:tracking-[0.18em] leading-none inline-block transition-all duration-300"
+          {/* Smooth radial cursor reveal mask */}
+          <motion.radialGradient
+            id="devolopyRevealMask"
+            gradientUnits="userSpaceOnUse"
+            r="28%"
+            initial={{ cx: "50%", cy: "50%" }}
+            animate={maskPosition}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+          >
+            <stop offset="0%" stopColor="white" />
+            <stop offset="60%" stopColor="white" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="black" />
+          </motion.radialGradient>
+
+          <mask id="devolopyTextMask">
+            <rect
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#devolopyRevealMask)"
+            />
+          </mask>
+        </defs>
+
+        {/* 1. Base Ultra-Minimalist Geometric Outline Text (Guaranteed 100% Complete DEVOLOPY on all screens) */}
+        <text
+          x="50%"
+          y="56%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          letterSpacing="0.16em"
+          strokeWidth="1.2"
           style={{
-            WebkitTextStroke: "1px rgba(255, 255, 255, 0.18)",
-            color: "transparent",
+            fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
+            fontWeight: 900,
             textRendering: "geometricPrecision",
+          }}
+          className="fill-white/[0.02] stroke-white/25 dark:stroke-white/30 text-[115px] transition-all duration-300"
+        >
+          {text}
+        </text>
+
+        {/* 2. Distinct Animated Stroke Layer */}
+        <motion.text
+          x="50%"
+          y="56%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          letterSpacing="0.16em"
+          strokeWidth="1.4"
+          style={{
+            fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
+            fontWeight: 900,
+            textRendering: "geometricPrecision",
+          }}
+          className="fill-transparent stroke-primary/45 dark:stroke-primary/50 text-[115px]"
+          initial={{ strokeDashoffset: 3000, strokeDasharray: 3000 }}
+          animate={{
+            strokeDashoffset: 0,
+            strokeDasharray: 3000,
+          }}
+          transition={{
+            duration: 3.5,
+            ease: "easeInOut",
           }}
         >
           {text}
-        </span>
-      </div>
+        </motion.text>
 
-      {/* Iridescent Cursor Spotlight Reveal Layer */}
-      {isHovered && cursor && (
-        <div
-          className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-200"
+        {/* 3. Interactive Iridescent Hover Spotlight Layer */}
+        <text
+          x="50%"
+          y="56%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          letterSpacing="0.16em"
+          stroke="url(#devolopyTextGradient)"
+          fill="url(#devolopyTextGradient)"
+          strokeWidth="1.6"
+          mask="url(#devolopyTextMask)"
           style={{
-            maskImage: `radial-gradient(350px circle at ${cursor.x}px ${cursor.y}px, black 30%, transparent 75%)`,
-            WebkitMaskImage: `radial-gradient(350px circle at ${cursor.x}px ${cursor.y}px, black 30%, transparent 75%)`,
+            fontFamily: "var(--font-space-grotesk), var(--font-inter), sans-serif",
+            fontWeight: 900,
+            opacity: hovered ? 0.95 : 0,
+            textRendering: "geometricPrecision",
           }}
+          className="text-[115px] transition-opacity duration-200"
         >
-          <div className="w-full text-center px-2 sm:px-4">
-            <span
-              className="font-space text-[12.5vw] sm:text-[13.5vw] md:text-[14.5vw] font-black uppercase tracking-[0.14em] sm:tracking-[0.18em] leading-none inline-block bg-gradient-to-r from-blue-400 via-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
-              style={{
-                WebkitTextStroke: "1.2px rgba(96, 165, 250, 0.85)",
-                textRendering: "geometricPrecision",
-              }}
-            >
-              {text}
-            </span>
-          </div>
-        </div>
-      )}
+          {text}
+        </text>
+      </svg>
     </div>
   );
 };
@@ -300,8 +372,8 @@ export function HoverFooter() {
           </div>
         </div>
 
-        {/* ── Ultra-Premium Minimalist Centerpiece Brandmark (Natural Space Grotesk Lettering) ── */}
-        <div className="pt-2 flex justify-center items-center w-full overflow-hidden">
+        {/* ── Ultra-Premium Minimalist Centerpiece Brandmark (100% Complete DEVOLOPY) ── */}
+        <div className="pt-4 flex justify-center items-center w-full overflow-hidden">
           <TextHoverEffect text="DEVOLOPY" />
         </div>
       </div>
