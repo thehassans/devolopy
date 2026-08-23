@@ -636,6 +636,28 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Direct design-to-code token synchronization with Tailwind CSS and React components",
       "Comprehensive UX journey mapping and conversion funnel usability analysis",
     ],
+    architecturalLayers: [
+      {
+        layer: "Visual & Brand Tokens",
+        tech: "Figma Variables + CSS Variables",
+        description: "Centralized color palettes, typography scales, spacing tokens, and dynamic dark/light theme switching.",
+        capabilities: ["Nested token hierarchy", "Semantic color palettes", "Fluid typography scales"],
+      },
+      {
+        layer: "Interactive Component Library",
+        tech: "Storybook + shadcn/ui + React",
+        description: "Self-documenting UI components tested across hover, focus, active, loading, and disabled states.",
+        capabilities: ["Zero developer guesswork", "Keyboard accessibility", "Aria attributes"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "UX Discovery & Journey Architecture", details: "Define user personas, core interaction paths, and structural wireframes." },
+      { stage: "Stage 02", duration: "Week 2", title: "Visual Design & Atomic Component System", details: "Craft high-fidelity components, micro-animations, and responsive screens in Figma." },
+      { stage: "Stage 03", duration: "Week 3", title: "Developer Token Export & Storybook Sync", details: "Export SVG icons, generate CSS tokens, and document handoff guidelines." },
+    ],
+    securityAndCompliance: [
+      { standard: "WCAG 2.1 AA Accessibility", description: "Enforced color contrast ratios, focus indicators, and screen reader compatibility." },
+    ],
     deliverables: [
       "Master Figma design file with organized typography, color, and spacing styles",
       "Interactive prototype link for stakeholder and customer demonstrations",
@@ -659,6 +681,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
     ],
     faqs: [
       { question: "Do you include light and dark theme designs in Figma?", answer: "Yes! We build using design token variables so switching between light and dark modes is built into every component." },
+      { question: "Can our engineers directly copy code from the design system?", answer: "Yes, we structure components with 1:1 parity matching Tailwind CSS and React shadcn/ui tokens." },
     ],
   },
   {
@@ -680,6 +703,28 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Role-Based Access Control (RBAC), JWT authentication, and OAuth2 security",
       "Event-driven message queues (RabbitMQ, Kafka, AWS SQS) for async background tasks",
       "Interactive Swagger UI / OpenAPI 3.0 self-documenting endpoints",
+    ],
+    architecturalLayers: [
+      {
+        layer: "API Gateway & Auth",
+        tech: "FastAPI / Node.js + JWT + Redis Rate Limiter",
+        description: "High-throughput request routing with token verification and DDoS throttle guards.",
+        capabilities: ["Token authentication", "Rate limiting", "CORS policy enforcement"],
+      },
+      {
+        layer: "Async Event Pipeline",
+        tech: "Kafka / Redis Streams + Worker Containers",
+        description: "Decoupled asynchronous task processing ensuring sub-15ms client response times.",
+        capabilities: ["Dead-letter queues", "Event replayability", "Horizontal worker scaling"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "API Contract & Schema Definition", details: "Draft OpenAPI 3.0 specification, JSON request/response models, and database migrations." },
+      { stage: "Stage 02", duration: "Week 2 - 3", title: "Microservices Implementation & Redis Caching", details: "Engineer controllers, auth middleware, database indexing, and caching logic." },
+      { stage: "Stage 03", duration: "Week 4", title: "Load Testing & High-Throughput Deployment", details: "Simulate 10,000 requests/second load testing, configure monitoring, and deploy." },
+    ],
+    securityAndCompliance: [
+      { standard: "JWT / OAuth2 Strict Authentication", description: "Cryptographically signed JWT tokens with automated rotation and blacklist revoking." },
     ],
     deliverables: [
       "Modular microservices API codebase with comprehensive unit tests",
@@ -704,6 +749,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
     ],
     faqs: [
       { question: "Do you provide documentation for our internal engineers?", answer: "Yes, every endpoint comes with live interactive Swagger/OpenAPI documentation and Postman workspace collections." },
+      { question: "Can these APIs integrate with legacy SQL databases?", answer: "Yes, we build adapter layers that safely query and sync with legacy Oracle, SQL Server, and MySQL databases." },
     ],
   },
   {
@@ -725,6 +771,28 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Real-time interactive data analytics dashboards, KPI metrics, and PDF export engines",
       "Integrated communication center (Email alerts, SMS notifications, in-app messaging)",
       "Secure document storage with encrypted cloud file uploads",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Client Dashboard UI",
+        tech: "Next.js 15 App Router + Recharts Data Visualizations",
+        description: "Fast, responsive web portal with real-time chart telemetry and filterable data tables.",
+        capabilities: ["Exportable PDF reports", "CSV bulk data import", "Multi-tenant white labeling"],
+      },
+      {
+        layer: "Data Isolation & Storage",
+        tech: "PostgreSQL 16 + Prisma ORM (Row-Level Security)",
+        description: "Strict multi-tenant tenant isolation ensuring zero data cross-contamination.",
+        capabilities: ["Role-Based Access Control (RBAC)", "Immutable audit logs", "Encrypted document attachments in S3"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1 - 2", title: "Workflow Mapping & Entity Relations", details: "Catalog customer journey stages, data attributes, role permissions, and custom KPIs." },
+      { stage: "Stage 02", duration: "Week 3 - 4", title: "Application Engineering & Dashboard Charts", details: "Build interactive portal UI, data tables, automated email triggers, and report exports." },
+      { stage: "Stage 03", duration: "Week 5 - 6", title: "Security Testing & Team Onboarding", details: "Audit access control permissions, execute vulnerability scans, and onboard team users." },
+    ],
+    securityAndCompliance: [
+      { standard: "Multi-Tenant Row-Level Security (RLS)", description: "Database-level tenant isolation preventing unauthorized data access between accounts." },
     ],
     deliverables: [
       "Custom web dashboard application with clean responsive design",
@@ -749,6 +817,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
     ],
     faqs: [
       { question: "Do we own the full source code and data?", answer: "Yes! You own 100% of the source code, database, and intellectual property with zero recurring vendor lock-in." },
+      { question: "Can we add custom fields and reports as our business expands?", answer: "Yes, our modular database architecture and admin interfaces allow dynamic attribute management without breaking code." },
     ],
   },
   {
@@ -770,6 +839,28 @@ export const ALL_SERVICES: ServiceDetail[] = [
       "Mobile user experience optimization and cart abandonment reduction",
       "Value proposition and headline copy testing backed by click heatmap data",
       "Live conversion tracking dashboards reporting statistical significance",
+    ],
+    architecturalLayers: [
+      {
+        layer: "Event Telemetry & Replay",
+        tech: "PostHog + Google Analytics 4 + Server-Side CAPI",
+        description: "Zero-data-loss user interaction tracking recording scrolls, clicks, and rage-clicks.",
+        capabilities: ["Session replay video audits", "Multi-touch attribution", "Server-side event streaming"],
+      },
+      {
+        layer: "Edge A/B Experimentation",
+        tech: "Edge Middleware Split Testing + Looker Studio",
+        description: "Zero-flicker edge-rendered split testing delivering variants with sub-10ms overhead.",
+        capabilities: ["Flicker-free variant delivery", "Bayesian statistical confidence", "Real-time revenue lift analytics"],
+      },
+    ],
+    implementationRoadmap: [
+      { stage: "Stage 01", duration: "Week 1", title: "Funnel Friction & Heatmap Audit", details: "Analyze GA4 checkout steps, user session replay videos, and customer survey data." },
+      { stage: "Stage 02", duration: "Week 2", title: "Hypothesis Matrix & Variation Engineering", details: "Code high-fidelity UI variations targeting identified conversion bottlenecks." },
+      { stage: "Stage 03", duration: "Week 3 - 4", title: "A/B Experimentation & Production Rollout", details: "Run split test until statistical significance is reached, then deploy winning variation." },
+    ],
+    securityAndCompliance: [
+      { standard: "GDPR / User Privacy Masking", description: "Automatic masking of credit cards, passwords, and personal information in session recordings." },
     ],
     deliverables: [
       "Comprehensive CRO opportunity matrix and audit report",
@@ -794,6 +885,7 @@ export const ALL_SERVICES: ServiceDetail[] = [
     ],
     faqs: [
       { question: "How much traffic do we need to run meaningful A/B tests?", answer: "Generally, sites with at least 5,000 monthly visitors can achieve statistically significant test results within 2 to 4 weeks." },
+      { question: "Will A/B testing scripts slow down our site?", answer: "No. We utilize edge middleware routing and server-side experiments that eliminate the dreaded visual layout flicker and maintain 100/100 Lighthouse performance." },
     ],
   },
 ];
