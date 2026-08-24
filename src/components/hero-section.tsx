@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -18,7 +18,6 @@ import { useConsultation } from "@/components/consultation-modal";
 
 export function HeroSection() {
   const { openConsultation } = useConsultation();
-  const [cookieAccepted, setCookieAccepted] = useState(true);
 
   return (
     <section className="relative min-h-[92vh] lg:min-h-[98vh] flex flex-col justify-between overflow-hidden bg-background text-foreground pt-28 sm:pt-32 pb-10 sm:pb-12 transition-colors duration-300">
@@ -114,7 +113,7 @@ export function HeroSection() {
               <button
                 type="button"
                 onClick={() => openConsultation("custom-software")}
-                className="group inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-full bg-neutral-950 hover:bg-neutral-850 text-white dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-950 font-semibold text-sm sm:text-base shadow-xl shadow-neutral-950/20 dark:shadow-[0_0_25px_rgba(255,255,255,0.25)] transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-[#C0703C] hover:from-amber-400 hover:to-orange-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
               >
                 <span>Get Started</span>
                 <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
@@ -313,10 +312,10 @@ export function HeroSection() {
       </div>
 
       {/* =========================================================
-          BOTTOM BAR: Socials, Cookie Notice & Scroll Indicator
+          BOTTOM BAR: Follow Us Socials & Scroll Indicator
          ========================================================= */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pt-10 sm:pt-14 border-t border-border/70 dark:border-white/[0.06] mt-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between gap-4 text-xs text-muted-foreground">
           {/* Follow Us Socials */}
           <div className="flex items-center gap-3">
             <span className="font-mono text-[11px] uppercase tracking-wider">Follow Us</span>
@@ -350,31 +349,6 @@ export function HeroSection() {
               </a>
             </div>
           </div>
-
-          {/* Privacy Cookie Banner Pill */}
-          {cookieAccepted && (
-            <div className="hidden lg:flex items-center gap-3 px-4 py-2 rounded-full bg-card/90 border border-border/80 backdrop-blur-md text-[11px]">
-              <span className="text-muted-foreground">
-                This website uses cookies to enhance your browsing experience, analyze traffic, and improve our services.
-              </span>
-              <div className="flex items-center gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setCookieAccepted(false)}
-                  className="px-2.5 py-1 rounded-full text-muted-foreground hover:text-foreground text-[10px] font-medium transition-colors cursor-pointer"
-                >
-                  Decline
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCookieAccepted(false)}
-                  className="px-3 py-1 rounded-full bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold text-[10px] transition-colors hover:bg-neutral-800 dark:hover:bg-neutral-200 cursor-pointer shadow-xs"
-                >
-                  Accept
-                </button>
-              </div>
-            </div>
-          )}
 
           {/* Scroll To Explore */}
           <Link

@@ -449,18 +449,18 @@ export function Navbar() {
               ))}
             </div>
 
-            {/* Get Started CTA */}
+            {/* Get Started CTA: Radiant Golden Luxury Amber Gradient */}
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => openConsultation()}
-                className="relative group overflow-hidden rounded-full p-[1px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-primary/20 hover:shadow-primary/35 cursor-pointer"
+                className="relative group overflow-hidden rounded-full p-[1px] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/35 cursor-pointer"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 rounded-full animate-pulse" />
-                <span className="relative flex items-center gap-2 h-9 px-5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 group-hover:from-blue-500 group-hover:to-indigo-500 shadow-inner">
+                <span className="absolute inset-0 bg-gradient-to-r from-amber-400 via-orange-500 to-[#C0703C] rounded-full animate-pulse opacity-80 group-hover:opacity-100" />
+                <span className="relative flex items-center gap-2 h-9 sm:h-10 px-5 sm:px-6 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-[#C0703C] text-white text-xs sm:text-sm font-bold tracking-wide transition-all duration-300 group-hover:brightness-110 shadow-inner">
                   <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%)] rounded-full" />
                   <span>Get Started</span>
-                  <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 stroke-[2.5]" />
                 </span>
               </button>
             </div>
