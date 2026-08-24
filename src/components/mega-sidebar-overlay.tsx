@@ -9,25 +9,8 @@ import {
   ArrowRight,
   ArrowUpRight,
   Plus,
-  Minus,
-  Globe,
-  Smartphone,
-  RefreshCw,
-  Bot,
-  ShoppingBag,
-  Cloud,
-  Layers,
-  BarChart3,
-  BookOpen,
-  Sparkles,
   Mail,
   MapPin,
-  Instagram,
-  Facebook,
-  Twitter,
-  Github,
-  Phone,
-  CheckCircle2,
 } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 import { ALL_SERVICES } from "@/lib/services-data";
@@ -216,7 +199,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
               </div>
             </Link>
 
-            {/* Direct Consultation Trigger: Luxury Matte Black or Golden Pill */}
+            {/* Direct Consultation Trigger: Luxury Matte Black Pill */}
             <div className="hidden sm:flex items-center gap-3">
               <button
                 type="button"
@@ -237,7 +220,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
               
               {/* =========================================================
-                  LEFT COLUMN: High-Impact Categories with '+' Toggle Buttons
+                  LEFT COLUMN: Clean High-Impact Categories with '+' Toggle Buttons
                  ========================================================= */}
               <div
                 className={`transition-all duration-500 ${
@@ -246,10 +229,6 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                     : "lg:col-span-8 max-w-2xl"
                 } space-y-2 sm:space-y-3`}
               >
-                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#C0703C] block mb-4">
-                  Navigation Architecture // Click &apos;+&apos; to Explore
-                </span>
-
                 {navCategories.map((cat) => {
                   const isExpanded = expandedCategory === cat.id;
                   return (
@@ -280,7 +259,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                         </span>
                       </Link>
 
-                      {/* Explicit Interactive '+' / '✕' Circular Toggle Button (Radiant Golden Amber when active) */}
+                      {/* Explicit Interactive '+' / '✕' Circular Toggle Button */}
                       <button
                         type="button"
                         onClick={(e) => handleToggleCategory(cat.id, e)}
@@ -304,7 +283,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
               </div>
 
               {/* =========================================================
-                  RIGHT COLUMN: Only Rendered / Visible When A Category '+' is Clicked!
+                  RIGHT COLUMN: Ultra-Premium Minimalist Extended Panel
                  ========================================================= */}
               <AnimatePresence mode="wait">
                 {expandedCategory !== null && (
@@ -314,56 +293,57 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     exit={{ opacity: 0, x: 20, scale: 0.98 }}
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="lg:col-span-7 bg-card border border-border rounded-3xl p-6 sm:p-8 backdrop-blur-2xl min-h-[380px] sm:min-h-[440px] flex flex-col justify-between shadow-2xl relative"
+                    className="lg:col-span-7 bg-card/95 dark:bg-[#0c0d12]/95 border border-border/80 dark:border-white/10 rounded-3xl p-7 sm:p-9 backdrop-blur-3xl min-h-[380px] sm:min-h-[440px] flex flex-col justify-between shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] relative"
                   >
                     {/* Close Submenu Button */}
                     <button
                       type="button"
                       onClick={() => setExpandedCategory(null)}
-                      className="absolute top-4 right-4 size-7 rounded-full bg-secondary hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                      className="absolute top-4 right-4 size-7 rounded-full bg-secondary/80 hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                       title="Hide sub-panel"
                     >
                       <X className="size-3.5" />
                     </button>
 
-                    {/* ── Sub-Nav 0: Services Sub-Links ── */}
+                    {/* ── Sub-Nav 0: Services Sub-Links (Ultra-Minimalist Clean Rows) ── */}
                     {expandedCategory === 0 && (
-                      <div className="space-y-5">
-                        <div className="flex items-center justify-between border-b border-border pb-3.5 pr-8">
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
-                            <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                            <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
                               Engineering Disciplines
                             </span>
-                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Full-Stack &amp; Enterprise Services
                             </h3>
                           </div>
                           <Link
                             href="/services"
                             onClick={onClose}
-                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1.5 transition-colors"
                           >
-                            <span>All 12</span> &rarr;
+                            <span>All 12</span>
+                            <ArrowRight className="size-3.5" />
                           </Link>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[320px] overflow-y-auto pr-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1">
                           {ALL_SERVICES.slice(0, 8).map((svc) => (
                             <Link
                               key={svc.slug}
                               href={`/services/${svc.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
                             >
-                              <div className="min-w-0 pr-2">
-                                <span className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
+                              <div className="min-w-0 pr-3">
+                                <span className="font-space text-sm font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
                                   {svc.title}
                                 </span>
-                                <span className="text-[11px] text-muted-foreground block truncate mt-0.5 font-mono">
+                                <span className="text-[11px] text-muted-foreground/80 block truncate mt-0.5 font-mono">
                                   {svc.tagline}
                                 </span>
                               </div>
-                              <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] group-hover/item:rotate-90 transition-all duration-200 shrink-0" />
+                              <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-200 shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -372,52 +352,53 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 1: Portfolio / Case Studies ── */}
                     {expandedCategory === 1 && (
-                      <div className="space-y-5">
-                        <div className="flex items-center justify-between border-b border-border pb-3.5 pr-8">
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
-                            <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase font-bold tracking-wider">
+                            <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 uppercase font-bold tracking-widest">
                               Verified Case Studies
                             </span>
-                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Mission-Critical Deployments
                             </h3>
                           </div>
                           <Link
                             href="/#selected-work"
                             onClick={onClose}
-                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1.5 transition-colors"
                           >
-                            <span>Explore Grid</span> &rarr;
+                            <span>Explore Grid</span>
+                            <ArrowRight className="size-3.5" />
                           </Link>
                         </div>
 
-                        <div className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                        <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
                           {portfolioHighlights.map((work, idx) => (
                             <Link
                               key={idx}
                               href={work.href}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
                             >
-                              <div>
+                              <div className="min-w-0 pr-3">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-xs font-space font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors">
+                                  <span className="text-sm font-space font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
                                     {work.title}
                                   </span>
-                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground shrink-0">
                                     {work.category}
                                   </span>
                                 </div>
-                                <span className="text-[11px] text-muted-foreground font-mono mt-0.5 block">
+                                <span className="text-[11px] text-muted-foreground/80 font-mono mt-0.5 block truncate">
                                   Client: {work.client}
                                 </span>
                               </div>
 
-                              <div className="flex items-center gap-2 shrink-0">
-                                <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 block">
+                              <div className="flex items-center gap-2.5 shrink-0">
+                                <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">
                                   {work.metric}
                                 </span>
-                                <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] transition-all shrink-0" />
+                                <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
                               </div>
                             </Link>
                           ))}
@@ -427,42 +408,43 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 2: Industries ── */}
                     {expandedCategory === 2 && (
-                      <div className="space-y-5">
-                        <div className="flex items-center justify-between border-b border-border pb-3.5 pr-8">
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
-                            <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                            <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
                               12 Domain Blueprints
                             </span>
-                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Commercial Sector Specializations
                             </h3>
                           </div>
                           <Link
                             href="/industries"
                             onClick={onClose}
-                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1.5 transition-colors"
                           >
-                            <span>All Industries</span> &rarr;
+                            <span>All Industries</span>
+                            <ArrowRight className="size-3.5" />
                           </Link>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[320px] overflow-y-auto pr-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1">
                           {industriesData.slice(0, 8).map((ind) => (
                             <Link
                               key={ind.slug}
                               href={`/industries/${ind.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
                             >
-                              <div className="min-w-0 pr-2">
-                                <span className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
+                              <div className="min-w-0 pr-3">
+                                <span className="font-space text-sm font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
                                   {ind.name}
                                 </span>
-                                <span className="text-[10px] text-[#C0703C] font-mono block truncate">
+                                <span className="text-[11px] text-[#C0703C] font-mono block truncate mt-0.5">
                                   {ind.badge}
                                 </span>
                               </div>
-                              <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] group-hover/item:rotate-90 transition-all shrink-0" />
+                              <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -471,43 +453,44 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 3: Blogs ── */}
                     {expandedCategory === 3 && (
-                      <div className="space-y-5">
-                        <div className="flex items-center justify-between border-b border-border pb-3.5 pr-8">
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
-                            <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase font-bold tracking-wider">
+                            <span className="text-[11px] font-mono text-purple-600 dark:text-purple-400 uppercase font-bold tracking-widest">
                               Engineering Journal
                             </span>
-                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Technical Deep Dives &amp; Compliance
                             </h3>
                           </div>
                           <Link
                             href="/blog"
                             onClick={onClose}
-                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1.5 transition-colors"
                           >
-                            <span>View Journal</span> &rarr;
+                            <span>View Journal</span>
+                            <ArrowRight className="size-3.5" />
                           </Link>
                         </div>
 
-                        <div className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                        <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
                           {blogPosts.map((post) => (
                             <Link
                               key={post.slug}
                               href={`/blog/${post.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
                             >
-                              <div className="min-w-0 pr-2">
+                              <div className="min-w-0 pr-3">
                                 <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground mb-0.5">
                                   <span className="text-[#C0703C] font-semibold">{post.category}</span>
                                   <span>&middot; {post.readTime}</span>
                                 </div>
-                                <h4 className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
+                                <h4 className="font-space text-sm font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
                                   {post.title}
                                 </h4>
                               </div>
-                              <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] transition-all shrink-0" />
+                              <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -516,12 +499,12 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 4: About Devolopy ── */}
                     {expandedCategory === 4 && (
-                      <div className="space-y-5">
-                        <div className="border-b border-border pb-3.5 pr-8">
-                          <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                      <div className="space-y-6">
+                        <div className="border-b border-border/60 pb-3 pr-8">
+                          <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
                             Engineering DNA
                           </span>
-                          <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                          <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                             Systems, Not Billable Staff Hours.
                           </h3>
                         </div>
@@ -530,14 +513,14 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           <p>
                             Devolopy is an elite technology engineering partner. We design, build, and maintain mission-critical software backbones for growing enterprises and ambitious venture startups.
                           </p>
-                          <div className="grid grid-cols-2 gap-3 pt-1">
-                            <div className="p-3.5 rounded-2xl bg-secondary/50 border border-border">
+                          <div className="grid grid-cols-2 gap-3 pt-2">
+                            <div className="p-4 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
                               <span className="font-space text-lg font-bold text-foreground block">100% IP</span>
-                              <span className="text-xs text-muted-foreground">Full code ownership transferred on day one.</span>
+                              <span className="text-xs text-muted-foreground mt-0.5 block">Full code ownership transferred on day one.</span>
                             </div>
-                            <div className="p-3.5 rounded-2xl bg-secondary/50 border border-border">
+                            <div className="p-4 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
                               <span className="font-space text-lg font-bold text-foreground block">99.99% SLA</span>
-                              <span className="text-xs text-muted-foreground">Guaranteed production uptime monitoring.</span>
+                              <span className="text-xs text-muted-foreground mt-0.5 block">Guaranteed production uptime monitoring.</span>
                             </div>
                           </div>
                         </div>
@@ -546,18 +529,18 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 5: Contact ── */}
                     {expandedCategory === 5 && (
-                      <div className="space-y-5">
-                        <div className="border-b border-border pb-3.5 pr-8">
-                          <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                      <div className="space-y-6">
+                        <div className="border-b border-border/60 pb-3 pr-8">
+                          <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
                             Direct Technical Line
                           </span>
-                          <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                          <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                             Start Your Architecture Briefing
                           </h3>
                         </div>
 
-                        <div className="space-y-3.5 text-sm">
-                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/50 border border-border">
+                        <div className="space-y-3 text-sm">
+                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
                             <Mail className="size-4 text-[#C0703C] shrink-0" />
                             <div>
                               <span className="text-[10px] font-mono text-muted-foreground block">Inquiries</span>
@@ -567,7 +550,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/50 border border-border">
+                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
                             <MapPin className="size-4 text-[#C0703C] shrink-0" />
                             <div>
                               <span className="text-[10px] font-mono text-muted-foreground block">Headquarters</span>
@@ -593,7 +576,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                     )}
 
                     {/* Sub-Nav Bottom Fast Links */}
-                    <div className="pt-3.5 border-t border-border flex items-center justify-between text-xs font-mono text-muted-foreground">
+                    <div className="pt-4 border-t border-border/60 flex items-center justify-between text-xs font-mono text-muted-foreground">
                       <span>&copy; {new Date().getFullYear()} Devolopy, Inc.</span>
                       <span className="text-[#C0703C]">Next.js 15 &middot; React 19 &middot; TypeScript</span>
                     </div>

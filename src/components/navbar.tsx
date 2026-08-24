@@ -468,16 +468,7 @@ export function Navbar() {
                 </AnimatePresence>
               </div>
 
-              {/* 3. Blogs Link with Clean Icon */}
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-1.5 text-sm lg:text-base font-medium text-foreground/80 hover:text-primary transition-colors group"
-              >
-                <BookOpen className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span>Blogs</span>
-              </Link>
-
-              {/* 4. Standard Navlinks */}
+              {/* 3. Standard Navlinks */}
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
