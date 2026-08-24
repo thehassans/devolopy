@@ -113,7 +113,7 @@ export function HeroSection() {
               <button
                 type="button"
                 onClick={() => openConsultation("custom-software")}
-                className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-[#C0703C] hover:from-amber-400 hover:to-orange-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-full bg-[#121316] hover:bg-[#1e1f26] text-white font-semibold text-sm sm:text-base border border-neutral-800/80 shadow-xl shadow-black/20 hover:border-neutral-700 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
               >
                 <span>Get Started</span>
                 <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
