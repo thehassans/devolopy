@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Plus,
+  Minus,
   Globe,
   Smartphone,
   RefreshCw,
@@ -39,9 +40,16 @@ interface MegaSidebarOverlayProps {
 }
 
 export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps) {
-  const [activeTab, setActiveTab] = useState<number>(0);
-  const [hoveredSubItem, setHoveredSubItem] = useState<string | null>(null);
+  // Right panel is ONLY visible when a user clicks the '+' icon on a category!
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const { openConsultation } = useConsultation();
+
+  // Reset expanded category on open/close
+  useEffect(() => {
+    if (!isOpen) {
+      setExpandedCategory(null);
+    }
+  }, [isOpen]);
 
   // Prevent background scroll when sidebar is open
   useEffect(() => {
@@ -149,6 +157,12 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
     },
   ];
 
+  const handleToggleCategory = (catId: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedCategory((prev) => (prev === catId ? null : catId));
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -211,37 +225,43 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
           </div>
 
           {/* Main Navigation Matrix */}
-          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto py-12 sm:py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto py-10 sm:py-14">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
               
               {/* =========================================================
-                  LEFT COLUMN: High-Impact Numbered Categories
+                  LEFT COLUMN: High-Impact Categories with '+' Toggle Buttons
                  ========================================================= */}
-              <div className="lg:col-span-5 space-y-2 sm:space-y-3">
+              <div
+                className={`transition-all duration-500 ${
+                  expandedCategory !== null
+                    ? "lg:col-span-5"
+                    : "lg:col-span-8 max-w-2xl"
+                } space-y-2 sm:space-y-3`}
+              >
                 <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#C0703C] block mb-4">
-                  Navigation Architecture // 06 Disciplines
+                  Navigation Architecture // Click &apos;+&apos; to Explore
                 </span>
 
                 {navCategories.map((cat) => {
-                  const isActive = activeTab === cat.id;
+                  const isExpanded = expandedCategory === cat.id;
                   return (
                     <div
                       key={cat.id}
-                      onMouseEnter={() => setActiveTab(cat.id)}
-                      className="group"
+                      className="group flex items-center justify-between gap-4 py-2 sm:py-2.5 border-b border-white/[0.04]"
                     >
+                      {/* Category Label Link */}
                       <Link
                         href={cat.href}
                         onClick={onClose}
-                        className={`flex items-baseline gap-4 sm:gap-6 py-2.5 sm:py-3 transition-all duration-300 ${
-                          isActive
+                        className={`flex items-baseline gap-4 sm:gap-6 transition-all duration-300 ${
+                          isExpanded
                             ? "text-white translate-x-2"
-                            : "text-white/40 hover:text-white/80"
+                            : "text-white/40 hover:text-white/90"
                         }`}
                       >
                         <span
                           className={`font-mono text-xs sm:text-sm font-bold transition-colors ${
-                            isActive ? "text-[#C0703C]" : "text-white/30 group-hover:text-white/60"
+                            isExpanded ? "text-[#C0703C]" : "text-white/30 group-hover:text-white/60"
                           }`}
                         >
                           {cat.num}
@@ -250,338 +270,328 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                         <span className="font-space text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight transition-all leading-none">
                           {cat.label}
                         </span>
-
-                        <ArrowUpRight
-                          className={`size-5 transition-all duration-200 ${
-                            isActive
-                              ? "opacity-100 translate-x-1 -translate-y-1 text-primary"
-                              : "opacity-0 group-hover:opacity-60"
-                          }`}
-                        />
                       </Link>
+
+                      {/* Explicit Interactive '+' / '✕' Circular Toggle Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => handleToggleCategory(cat.id, e)}
+                        className={`size-9 sm:size-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shrink-0 shadow-md ${
+                          isExpanded
+                            ? "bg-primary text-white scale-110 shadow-primary/40 ring-4 ring-primary/20 rotate-90"
+                            : "bg-white/[0.06] hover:bg-white/[0.14] text-white/70 hover:text-white border border-white/10 hover:border-white/30"
+                        }`}
+                        aria-label={`Toggle sub-menu for ${cat.label}`}
+                        title={isExpanded ? "Close sub-menu" : "Expand sub-menu"}
+                      >
+                        {isExpanded ? (
+                          <X className="size-4 text-white stroke-[2.5]" />
+                        ) : (
+                          <Plus className="size-4 text-white/80 group-hover:text-white stroke-[2.5]" />
+                        )}
+                      </button>
                     </div>
                   );
                 })}
               </div>
 
               {/* =========================================================
-                  RIGHT COLUMN: Dynamic Deep Sub-Navigation Inspector
+                  RIGHT COLUMN: Only Rendered / Visible When A Category '+' is Clicked!
                  ========================================================= */}
-              <div className="lg:col-span-7 bg-white/[0.03] border border-white/[0.08] rounded-3xl p-6 sm:p-8 backdrop-blur-xl min-h-[380px] sm:min-h-[440px] flex flex-col justify-between shadow-2xl">
-                
-                {/* ── Sub-Nav 0: Services Sub-Links ── */}
-                {activeTab === 0 && (
+              <AnimatePresence mode="wait">
+                {expandedCategory !== null && (
                   <motion.div
-                    key="services-tab"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-6"
+                    key={`submenu-${expandedCategory}`}
+                    initial={{ opacity: 0, x: 25, scale: 0.98 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 20, scale: 0.98 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="lg:col-span-7 bg-white/[0.03] border border-white/[0.1] rounded-3xl p-6 sm:p-8 backdrop-blur-2xl min-h-[380px] sm:min-h-[440px] flex flex-col justify-between shadow-2xl relative"
                   >
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                      <div>
-                        <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
-                          Engineering Disciplines
-                        </span>
-                        <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
-                          Full-Stack &amp; Enterprise Services
-                        </h3>
-                      </div>
-                      <Link
-                        href="/services"
-                        onClick={onClose}
-                        className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
-                      >
-                        <span>View All 12</span> &rarr;
-                      </Link>
-                    </div>
+                    {/* Close Submenu Button */}
+                    <button
+                      type="button"
+                      onClick={() => setExpandedCategory(null)}
+                      className="absolute top-4 right-4 size-7 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer"
+                      title="Hide sub-panel"
+                    >
+                      <X className="size-3.5" />
+                    </button>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[320px] overflow-y-auto pr-1">
-                      {ALL_SERVICES.slice(0, 8).map((svc) => (
-                        <Link
-                          key={svc.slug}
-                          href={`/services/${svc.slug}`}
-                          onClick={onClose}
-                          className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
-                        >
-                          <div className="min-w-0 pr-2">
-                            <span className="font-space text-sm font-bold text-white group-hover/item:text-primary transition-colors block truncate">
-                              {svc.title}
-                            </span>
-                            <span className="text-[11px] text-white/50 block truncate mt-0.5 font-mono">
-                              {svc.tagline}
-                            </span>
-                          </div>
-                          <Plus className="size-4 text-white/40 group-hover/item:text-primary group-hover/item:rotate-90 transition-all duration-200 shrink-0" />
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* ── Sub-Nav 1: Portfolio / Case Studies ── */}
-                {activeTab === 1 && (
-                  <motion.div
-                    key="portfolio-tab"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-6"
-                  >
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                      <div>
-                        <span className="text-xs font-mono text-emerald-400 uppercase font-bold tracking-wider">
-                          Verified Case Studies
-                        </span>
-                        <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
-                          Mission-Critical Client Deployments
-                        </h3>
-                      </div>
-                      <Link
-                        href="/#selected-work"
-                        onClick={onClose}
-                        className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
-                      >
-                        <span>Explore Grid</span> &rarr;
-                      </Link>
-                    </div>
-
-                    <div className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
-                      {portfolioHighlights.map((work, idx) => (
-                        <Link
-                          key={idx}
-                          href={work.href}
-                          onClick={onClose}
-                          className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
-                        >
+                    {/* ── Sub-Nav 0: Services Sub-Links ── */}
+                    {expandedCategory === 0 && (
+                      <div className="space-y-5">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3.5 pr-8">
                           <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-space font-bold text-white group-hover/item:text-primary transition-colors">
-                                {work.title}
-                              </span>
-                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-white/70">
-                                {work.category}
+                            <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                              Engineering Disciplines
+                            </span>
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
+                              Full-Stack &amp; Enterprise Services
+                            </h3>
+                          </div>
+                          <Link
+                            href="/services"
+                            onClick={onClose}
+                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                          >
+                            <span>All 12</span> &rarr;
+                          </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[320px] overflow-y-auto pr-1">
+                          {ALL_SERVICES.slice(0, 8).map((svc) => (
+                            <Link
+                              key={svc.slug}
+                              href={`/services/${svc.slug}`}
+                              onClick={onClose}
+                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
+                            >
+                              <div className="min-w-0 pr-2">
+                                <span className="font-space text-sm font-bold text-white group-hover/item:text-primary transition-colors block truncate">
+                                  {svc.title}
+                                </span>
+                                <span className="text-[11px] text-white/50 block truncate mt-0.5 font-mono">
+                                  {svc.tagline}
+                                </span>
+                              </div>
+                              <Plus className="size-4 text-white/40 group-hover/item:text-primary group-hover/item:rotate-90 transition-all duration-200 shrink-0" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ── Sub-Nav 1: Portfolio / Case Studies ── */}
+                    {expandedCategory === 1 && (
+                      <div className="space-y-5">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3.5 pr-8">
+                          <div>
+                            <span className="text-xs font-mono text-emerald-400 uppercase font-bold tracking-wider">
+                              Verified Case Studies
+                            </span>
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
+                              Mission-Critical Deployments
+                            </h3>
+                          </div>
+                          <Link
+                            href="/#selected-work"
+                            onClick={onClose}
+                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                          >
+                            <span>Explore Grid</span> &rarr;
+                          </Link>
+                        </div>
+
+                        <div className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                          {portfolioHighlights.map((work, idx) => (
+                            <Link
+                              key={idx}
+                              href={work.href}
+                              onClick={onClose}
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
+                            >
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-space font-bold text-white group-hover/item:text-primary transition-colors">
+                                    {work.title}
+                                  </span>
+                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-white/70">
+                                    {work.category}
+                                  </span>
+                                </div>
+                                <span className="text-[11px] text-white/50 font-mono mt-0.5 block">
+                                  Client: {work.client}
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="text-xs font-mono font-bold text-emerald-400 block">
+                                  {work.metric}
+                                </span>
+                                <Plus className="size-4 text-white/40 group-hover/item:text-primary transition-all shrink-0" />
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ── Sub-Nav 2: Industries ── */}
+                    {expandedCategory === 2 && (
+                      <div className="space-y-5">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3.5 pr-8">
+                          <div>
+                            <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                              12 Domain Blueprints
+                            </span>
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
+                              Commercial Sector Specializations
+                            </h3>
+                          </div>
+                          <Link
+                            href="/industries"
+                            onClick={onClose}
+                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                          >
+                            <span>All Industries</span> &rarr;
+                          </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[320px] overflow-y-auto pr-1">
+                          {industriesData.slice(0, 8).map((ind) => (
+                            <Link
+                              key={ind.slug}
+                              href={`/industries/${ind.slug}`}
+                              onClick={onClose}
+                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
+                            >
+                              <div className="min-w-0 pr-2">
+                                <span className="font-space text-sm font-bold text-white group-hover/item:text-primary transition-colors block truncate">
+                                  {ind.name}
+                                </span>
+                                <span className="text-[10px] text-[#C0703C] font-mono block truncate">
+                                  {ind.badge}
+                                </span>
+                              </div>
+                              <Plus className="size-4 text-white/40 group-hover/item:text-primary group-hover/item:rotate-90 transition-all shrink-0" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ── Sub-Nav 3: Blogs ── */}
+                    {expandedCategory === 3 && (
+                      <div className="space-y-5">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3.5 pr-8">
+                          <div>
+                            <span className="text-xs font-mono text-purple-400 uppercase font-bold tracking-wider">
+                              Engineering Journal
+                            </span>
+                            <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
+                              Technical Deep Dives &amp; Compliance
+                            </h3>
+                          </div>
+                          <Link
+                            href="/blog"
+                            onClick={onClose}
+                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                          >
+                            <span>View Journal</span> &rarr;
+                          </Link>
+                        </div>
+
+                        <div className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                          {blogPosts.map((post) => (
+                            <Link
+                              key={post.slug}
+                              href={`/blog/${post.slug}`}
+                              onClick={onClose}
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
+                            >
+                              <div className="min-w-0 pr-2">
+                                <div className="flex items-center gap-2 text-[10px] font-mono text-white/50 mb-0.5">
+                                  <span className="text-primary font-semibold">{post.category}</span>
+                                  <span>&middot; {post.readTime}</span>
+                                </div>
+                                <h4 className="font-space text-sm font-bold text-white group-hover/item:text-primary transition-colors truncate">
+                                  {post.title}
+                                </h4>
+                              </div>
+                              <Plus className="size-4 text-white/40 group-hover/item:text-primary transition-all shrink-0" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ── Sub-Nav 4: About Devolopy ── */}
+                    {expandedCategory === 4 && (
+                      <div className="space-y-5">
+                        <div className="border-b border-white/10 pb-3.5 pr-8">
+                          <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
+                            Engineering DNA
+                          </span>
+                          <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
+                            Systems, Not Billable Staff Hours.
+                          </h3>
+                        </div>
+
+                        <div className="space-y-4 text-sm text-white/75 leading-relaxed">
+                          <p>
+                            Devolopy is an elite technology engineering partner. We design, build, and maintain mission-critical software backbones for growing enterprises and ambitious venture startups.
+                          </p>
+                          <div className="grid grid-cols-2 gap-3 pt-1">
+                            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                              <span className="font-space text-lg font-bold text-white block">100% IP</span>
+                              <span className="text-xs text-white/50">Full code ownership transferred on day one.</span>
+                            </div>
+                            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                              <span className="font-space text-lg font-bold text-white block">99.99% SLA</span>
+                              <span className="text-xs text-white/50">Guaranteed production uptime monitoring.</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ── Sub-Nav 5: Contact ── */}
+                    {expandedCategory === 5 && (
+                      <div className="space-y-5">
+                        <div className="border-b border-white/10 pb-3.5 pr-8">
+                          <span className="text-xs font-mono text-primary uppercase font-bold tracking-wider">
+                            Direct Technical Line
+                          </span>
+                          <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
+                            Start Your Architecture Briefing
+                          </h3>
+                        </div>
+
+                        <div className="space-y-3.5 text-sm">
+                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                            <Mail className="size-4 text-primary shrink-0" />
+                            <div>
+                              <span className="text-[10px] font-mono text-white/50 block">Inquiries</span>
+                              <a href="mailto:contact@devolopy.com" className="font-semibold text-white hover:text-primary transition-colors">
+                                contact@devolopy.com
+                              </a>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
+                            <MapPin className="size-4 text-primary shrink-0" />
+                            <div>
+                              <span className="text-[10px] font-mono text-white/50 block">Headquarters</span>
+                              <span className="font-medium text-white/90">
+                                Tech Innovation Hub, Silicon Avenue
                               </span>
                             </div>
-                            <span className="text-[11px] text-white/50 font-mono mt-0.5 block">
-                              Client: {work.client}
-                            </span>
                           </div>
 
-                          <div className="text-right shrink-0">
-                            <span className="text-xs font-mono font-bold text-emerald-400 block">
-                              {work.metric}
-                            </span>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* ── Sub-Nav 2: Industries ── */}
-                {activeTab === 2 && (
-                  <motion.div
-                    key="industries-tab"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-6"
-                  >
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                      <div>
-                        <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
-                          12 Domain Blueprints
-                        </span>
-                        <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
-                          Commercial Sector Specializations
-                        </h3>
-                      </div>
-                      <Link
-                        href="/industries"
-                        onClick={onClose}
-                        className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
-                      >
-                        <span>All Industries</span> &rarr;
-                      </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[320px] overflow-y-auto pr-1">
-                      {industriesData.slice(0, 8).map((ind) => (
-                        <Link
-                          key={ind.slug}
-                          href={`/industries/${ind.slug}`}
-                          onClick={onClose}
-                          className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
-                        >
-                          <div className="min-w-0 pr-2">
-                            <span className="font-space text-sm font-bold text-white group-hover/item:text-primary transition-colors block truncate">
-                              {ind.name}
-                            </span>
-                            <span className="text-[10px] text-[#C0703C] font-mono block truncate">
-                              {ind.badge}
-                            </span>
-                          </div>
-                          <ArrowUpRight className="size-4 text-white/40 group-hover/item:text-primary group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* ── Sub-Nav 3: Blogs ── */}
-                {activeTab === 3 && (
-                  <motion.div
-                    key="blogs-tab"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-6"
-                  >
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                      <div>
-                        <span className="text-xs font-mono text-purple-400 uppercase font-bold tracking-wider">
-                          Engineering Journal
-                        </span>
-                        <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
-                          Technical Deep Dives &amp; Compliance
-                        </h3>
-                      </div>
-                      <Link
-                        href="/blog"
-                        onClick={onClose}
-                        className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
-                      >
-                        <span>View Journal</span> &rarr;
-                      </Link>
-                    </div>
-
-                    <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1">
-                      {blogPosts.map((post) => (
-                        <Link
-                          key={post.slug}
-                          href={`/blog/${post.slug}`}
-                          onClick={onClose}
-                          className="group/item block p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary/40 transition-all duration-200"
-                        >
-                          <div className="flex items-center justify-between text-[11px] font-mono text-white/50 mb-1">
-                            <span className="text-primary font-semibold">{post.category}</span>
-                            <span>{post.readTime}</span>
-                          </div>
-                          <h4 className="font-space text-sm font-bold text-white group-hover/item:text-primary transition-colors line-clamp-1">
-                            {post.title}
-                          </h4>
-                          <p className="text-xs text-white/60 line-clamp-1 mt-1">
-                            {post.excerpt}
-                          </p>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* ── Sub-Nav 4: About Devolopy ── */}
-                {activeTab === 4 && (
-                  <motion.div
-                    key="about-tab"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-6"
-                  >
-                    <div className="border-b border-white/10 pb-4">
-                      <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
-                        Engineering DNA
-                      </span>
-                      <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
-                        Systems, Not Billable Staff Hours.
-                      </h3>
-                    </div>
-
-                    <div className="space-y-4 text-sm text-white/75 leading-relaxed">
-                      <p>
-                        Devolopy is an elite technology engineering partner. We design, build, and maintain mission-critical software backbones for growing enterprises and ambitious venture startups.
-                      </p>
-                      <div className="grid grid-cols-2 gap-3 pt-2">
-                        <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                          <span className="font-space text-lg font-bold text-white block">100% IP</span>
-                          <span className="text-xs text-white/50">Full code ownership transferred on day one.</span>
-                        </div>
-                        <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                          <span className="font-space text-lg font-bold text-white block">99.99% SLA</span>
-                          <span className="text-xs text-white/50">Guaranteed production uptime monitoring.</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onClose();
+                              openConsultation("custom-software");
+                            }}
+                            className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-xl transition-all cursor-pointer"
+                          >
+                            <span>Schedule Technical Call</span>
+                            <ArrowRight className="size-4" />
+                          </button>
                         </div>
                       </div>
+                    )}
+
+                    {/* Sub-Nav Bottom Fast Links */}
+                    <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-white/40">
+                      <span>&copy; {new Date().getFullYear()} Devolopy, Inc.</span>
+                      <span className="text-[#C0703C]">Next.js 15 &middot; React 19 &middot; TypeScript</span>
                     </div>
                   </motion.div>
                 )}
-
-                {/* ── Sub-Nav 5: Contact ── */}
-                {activeTab === 5 && (
-                  <motion.div
-                    key="contact-tab"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-6"
-                  >
-                    <div className="border-b border-white/10 pb-4">
-                      <span className="text-xs font-mono text-primary uppercase font-bold tracking-wider">
-                        Direct Technical Line
-                      </span>
-                      <h3 className="font-space text-xl sm:text-2xl font-bold text-white mt-0.5">
-                        Start Your Architecture Briefing
-                      </h3>
-                    </div>
-
-                    <div className="space-y-4 text-sm">
-                      <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                        <Mail className="size-4 text-primary shrink-0" />
-                        <div>
-                          <span className="text-[10px] font-mono text-white/50 block">Inquiries</span>
-                          <a href="mailto:contact@devolopy.com" className="font-semibold text-white hover:text-primary transition-colors">
-                            contact@devolopy.com
-                          </a>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-                        <MapPin className="size-4 text-primary shrink-0" />
-                        <div>
-                          <span className="text-[10px] font-mono text-white/50 block">Headquarters</span>
-                          <span className="font-medium text-white/90">
-                            Tech Innovation Hub, Silicon Avenue
-                          </span>
-                        </div>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onClose();
-                          openConsultation("custom-software");
-                        }}
-                        className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-xl transition-all cursor-pointer"
-                      >
-                        <span>Schedule Technical Call</span>
-                        <ArrowRight className="size-4" />
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Sub-Nav Bottom Fast Links */}
-                <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-white/40">
-                  <span>&copy; {new Date().getFullYear()} Devolopy, Inc.</span>
-                  <span className="text-[#C0703C]">Next.js 15 &middot; React 19 &middot; TypeScript</span>
-                </div>
-              </div>
+              </AnimatePresence>
 
             </div>
           </div>
