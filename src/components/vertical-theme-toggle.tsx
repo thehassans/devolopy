@@ -65,7 +65,7 @@ export function VerticalThemeToggle() {
           >
             Dark
           </span>
-          <Moon className={`size-3.5 transition-transform duration-300 ${isDark ? "text-blue-400 scale-110 rotate-0" : "scale-90"}`} />
+          <Moon className={`size-3.5 transition-transform duration-300 ${isDark ? "text-amber-400 scale-110 rotate-0" : "scale-90"}`} />
         </button>
 
         {/* Animated Sliding Active Capsule */}
@@ -75,7 +75,7 @@ export function VerticalThemeToggle() {
           className={`absolute left-1 right-1 rounded-full shadow-md pointer-events-none transition-all duration-300 ${
             !isDark
               ? "top-1 h-[70px] bg-white border border-black/10 shadow-sm"
-              : "bottom-1 h-[70px] bg-white/10 border border-white/20 shadow-blue-500/10"
+              : "bottom-1 h-[70px] bg-white/10 border border-white/20 shadow-amber-500/10"
           }`}
         />
       </div>

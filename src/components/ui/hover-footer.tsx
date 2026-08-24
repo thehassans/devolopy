@@ -183,8 +183,8 @@ export const FooterBackgroundGradient = () => {
       aria-hidden="true"
     >
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[900px] rounded-full bg-gradient-to-b from-primary/20 via-primary/5 to-transparent blur-[120px]" />
-      <div className="absolute -bottom-20 left-1/4 h-[350px] w-[500px] rounded-full bg-blue-600/10 blur-[140px]" />
-      <div className="absolute -bottom-20 right-1/4 h-[350px] w-[500px] rounded-full bg-purple-600/10 blur-[140px]" />
+      <div className="absolute -bottom-20 left-1/4 h-[350px] w-[500px] rounded-full bg-amber-600/10 blur-[140px]" />
+      <div className="absolute -bottom-20 right-1/4 h-[350px] w-[500px] rounded-full bg-[#C0703C]/10 blur-[140px]" />
     </div>
   );
 };

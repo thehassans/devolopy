@@ -124,7 +124,7 @@ export function WhatWeDoSection() {
 
       {/* Atmospheric Ambient Lighting Wrapper */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/4 left-10 w-[550px] h-[450px] bg-primary/10 blur-[150px] rounded-full" />
+        <div className="absolute top-1/4 left-10 w-[550px] h-[450px] bg-amber-500/10 blur-[150px] rounded-full" />
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full" />
       </div>
 
@@ -152,15 +152,15 @@ export function WhatWeDoSection() {
             {/* Core Value Highlights */}
             <div className="p-5 rounded-2xl bg-card border border-border/80 dark:border-white/10 shadow-xs space-y-3">
               <div className="flex items-center gap-3 text-sm font-semibold text-foreground">
-                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <CheckCircle2 className="size-4 text-[#C0703C] shrink-0" />
                 <span>100% Full Source Code &amp; IP Ownership</span>
               </div>
               <div className="flex items-center gap-3 text-sm font-semibold text-foreground">
-                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <CheckCircle2 className="size-4 text-[#C0703C] shrink-0" />
                 <span>Senior Dedicated Engineers &mdash; No Junior Pools</span>
               </div>
               <div className="flex items-center gap-3 text-sm font-semibold text-foreground">
-                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <CheckCircle2 className="size-4 text-[#C0703C] shrink-0" />
                 <span>Milestone-Based Transparent Delivery Sprints</span>
               </div>
             </div>
@@ -180,7 +180,7 @@ export function WhatWeDoSection() {
                 <button
                   type="button"
                   onClick={() => openConsultation("custom-software")}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-200 hover:scale-[1.03] shrink-0 cursor-pointer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#121316] hover:bg-[#1e1f26] text-white border border-neutral-800 shadow-lg shadow-black/20 font-semibold text-sm transition-all duration-200 hover:scale-[1.03] shrink-0 cursor-pointer"
                 >
                   <span>Get Started</span>
                   <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
@@ -199,18 +199,18 @@ export function WhatWeDoSection() {
                 return (
                   <div
                     key={svc.id}
-                    className={`group relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-xl dark:shadow-2xl backdrop-blur-md ${
+                    className={`group relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-[#C0703C]/50 dark:hover:border-[#C0703C]/50 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-xl dark:shadow-2xl backdrop-blur-md ${
                       svc.isOffset ? "sm:translate-y-8" : ""
                     }`}
                   >
                     <div>
                       {/* Clean Standalone Outline Icon */}
-                      <div className="text-foreground/90 group-hover:text-primary transition-colors duration-300 mb-6">
+                      <div className="text-foreground/90 group-hover:text-[#C0703C] transition-colors duration-300 mb-6">
                         <Icon className="size-7 stroke-[1.75]" />
                       </div>
 
                       {/* Title */}
-                      <h3 className="font-space text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight mb-3">
+                      <h3 className="font-space text-2xl font-bold text-foreground group-hover:text-[#C0703C] transition-colors leading-tight mb-3">
                         {svc.title}
                       </h3>
 
@@ -220,11 +220,11 @@ export function WhatWeDoSection() {
                       </p>
                     </div>
 
-                    {/* Action Button: Read more */}
+                    {/* Action Button: Read more (Matte Black with Golden Hover Border) */}
                     <div className="pt-6 mt-6">
                       <Link
                         href={`/services/${svc.slug}`}
-                        className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-foreground/30 dark:border-white/20 hover:border-primary hover:bg-primary hover:text-primary-foreground text-foreground font-semibold text-xs transition-all duration-200 group/btn cursor-pointer shadow-xs"
+                        className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-neutral-700/80 bg-[#121316] hover:bg-[#1e1f26] text-white font-semibold text-xs transition-all duration-200 group/btn cursor-pointer shadow-xs hover:border-[#C0703C]/60"
                       >
                         <span>Read more</span>
                       </Link>
