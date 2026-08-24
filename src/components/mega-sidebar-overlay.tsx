@@ -173,10 +173,10 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[100] flex flex-col justify-between bg-background/98 text-foreground backdrop-blur-3xl overflow-y-auto"
         >
-          {/* Ambient Lighting Accents */}
+          {/* Ambient Lighting Accents: Warm Golden & Amber Luxury Glow */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-            <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-b from-primary/15 via-orange-500/10 to-transparent blur-[160px] rounded-full" />
-            <div className="absolute bottom-0 left-10 w-[500px] h-[500px] bg-blue-600/10 blur-[150px] rounded-full" />
+            <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-b from-amber-500/15 via-orange-500/10 to-transparent blur-[160px] rounded-full" />
+            <div className="absolute bottom-0 left-10 w-[500px] h-[500px] bg-amber-600/10 blur-[150px] rounded-full" />
           </div>
 
           {/* Top Bar: Close Button, Logo & Quick Action */}
@@ -216,7 +216,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
               </div>
             </Link>
 
-            {/* Direct Consultation Trigger */}
+            {/* Direct Consultation Trigger: Luxury Matte Black or Golden Pill */}
             <div className="hidden sm:flex items-center gap-3">
               <button
                 type="button"
@@ -224,7 +224,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                   onClose();
                   openConsultation("custom-software");
                 }}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs sm:text-sm shadow-lg shadow-primary/25 transition-all hover:scale-[1.02] cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#121316] hover:bg-[#1e1f26] text-white border border-neutral-800 shadow-lg shadow-black/20 font-semibold text-xs sm:text-sm transition-all hover:scale-[1.03] cursor-pointer"
               >
                 <span>Request Briefing</span>
                 <ArrowRight className="size-3.5" />
@@ -280,14 +280,14 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                         </span>
                       </Link>
 
-                      {/* Explicit Interactive '+' / '✕' Circular Toggle Button */}
+                      {/* Explicit Interactive '+' / '✕' Circular Toggle Button (Radiant Golden Amber when active) */}
                       <button
                         type="button"
                         onClick={(e) => handleToggleCategory(cat.id, e)}
                         className={`size-9 sm:size-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shrink-0 shadow-md ${
                           isExpanded
-                            ? "bg-primary text-primary-foreground scale-110 shadow-primary/40 ring-4 ring-primary/20 rotate-90"
-                            : "bg-card hover:bg-secondary text-foreground border border-border hover:border-primary/40"
+                            ? "bg-gradient-to-r from-amber-500 via-orange-500 to-[#C0703C] text-white scale-110 shadow-lg shadow-amber-500/40 ring-4 ring-amber-500/25 rotate-90"
+                            : "bg-card hover:bg-secondary text-foreground border border-border hover:border-amber-500/40"
                         }`}
                         aria-label={`Toggle sub-menu for ${cat.label}`}
                         title={isExpanded ? "Close sub-menu" : "Expand sub-menu"}
@@ -341,7 +341,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           <Link
                             href="/services"
                             onClick={onClose}
-                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
                           >
                             <span>All 12</span> &rarr;
                           </Link>
@@ -353,17 +353,17 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                               key={svc.slug}
                               href={`/services/${svc.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-primary/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
                             >
                               <div className="min-w-0 pr-2">
-                                <span className="font-space text-sm font-bold text-foreground group-hover/item:text-primary transition-colors block truncate">
+                                <span className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
                                   {svc.title}
                                 </span>
                                 <span className="text-[11px] text-muted-foreground block truncate mt-0.5 font-mono">
                                   {svc.tagline}
                                 </span>
                               </div>
-                              <Plus className="size-4 text-muted-foreground group-hover/item:text-primary group-hover/item:rotate-90 transition-all duration-200 shrink-0" />
+                              <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] group-hover/item:rotate-90 transition-all duration-200 shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -385,7 +385,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           <Link
                             href="/#selected-work"
                             onClick={onClose}
-                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
                           >
                             <span>Explore Grid</span> &rarr;
                           </Link>
@@ -397,11 +397,11 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                               key={idx}
                               href={work.href}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-primary/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
                             >
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-xs font-space font-bold text-foreground group-hover/item:text-primary transition-colors">
+                                  <span className="text-xs font-space font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors">
                                     {work.title}
                                   </span>
                                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground">
@@ -417,7 +417,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                                 <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 block">
                                   {work.metric}
                                 </span>
-                                <Plus className="size-4 text-muted-foreground group-hover/item:text-primary transition-all shrink-0" />
+                                <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] transition-all shrink-0" />
                               </div>
                             </Link>
                           ))}
@@ -440,7 +440,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           <Link
                             href="/industries"
                             onClick={onClose}
-                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
                           >
                             <span>All Industries</span> &rarr;
                           </Link>
@@ -452,17 +452,17 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                               key={ind.slug}
                               href={`/industries/${ind.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-primary/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
                             >
                               <div className="min-w-0 pr-2">
-                                <span className="font-space text-sm font-bold text-foreground group-hover/item:text-primary transition-colors block truncate">
+                                <span className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
                                   {ind.name}
                                 </span>
                                 <span className="text-[10px] text-[#C0703C] font-mono block truncate">
                                   {ind.badge}
                                 </span>
                               </div>
-                              <Plus className="size-4 text-muted-foreground group-hover/item:text-primary group-hover/item:rotate-90 transition-all shrink-0" />
+                              <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] group-hover/item:rotate-90 transition-all shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -484,7 +484,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           <Link
                             href="/blog"
                             onClick={onClose}
-                            className="text-xs font-mono font-semibold text-primary hover:underline flex items-center gap-1"
+                            className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1"
                           >
                             <span>View Journal</span> &rarr;
                           </Link>
@@ -496,18 +496,18 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                               key={post.slug}
                               href={`/blog/${post.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-primary/40 transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/50 hover:bg-secondary border border-border hover:border-amber-500/40 transition-all duration-200"
                             >
                               <div className="min-w-0 pr-2">
                                 <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground mb-0.5">
-                                  <span className="text-primary font-semibold">{post.category}</span>
+                                  <span className="text-[#C0703C] font-semibold">{post.category}</span>
                                   <span>&middot; {post.readTime}</span>
                                 </div>
-                                <h4 className="font-space text-sm font-bold text-foreground group-hover/item:text-primary transition-colors truncate">
+                                <h4 className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
                                   {post.title}
                                 </h4>
                               </div>
-                              <Plus className="size-4 text-muted-foreground group-hover/item:text-primary transition-all shrink-0" />
+                              <Plus className="size-4 text-muted-foreground group-hover/item:text-[#C0703C] transition-all shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -548,7 +548,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                     {expandedCategory === 5 && (
                       <div className="space-y-5">
                         <div className="border-b border-border pb-3.5 pr-8">
-                          <span className="text-xs font-mono text-primary uppercase font-bold tracking-wider">
+                          <span className="text-xs font-mono text-[#C0703C] uppercase font-bold tracking-wider">
                             Direct Technical Line
                           </span>
                           <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5">
@@ -558,17 +558,17 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                         <div className="space-y-3.5 text-sm">
                           <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/50 border border-border">
-                            <Mail className="size-4 text-primary shrink-0" />
+                            <Mail className="size-4 text-[#C0703C] shrink-0" />
                             <div>
                               <span className="text-[10px] font-mono text-muted-foreground block">Inquiries</span>
-                              <a href="mailto:contact@devolopy.com" className="font-semibold text-foreground hover:text-primary transition-colors">
+                              <a href="mailto:contact@devolopy.com" className="font-semibold text-foreground hover:text-[#C0703C] transition-colors">
                                 contact@devolopy.com
                               </a>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/50 border border-border">
-                            <MapPin className="size-4 text-primary shrink-0" />
+                            <MapPin className="size-4 text-[#C0703C] shrink-0" />
                             <div>
                               <span className="text-[10px] font-mono text-muted-foreground block">Headquarters</span>
                               <span className="font-medium text-foreground">
@@ -583,7 +583,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                               onClose();
                               openConsultation("custom-software");
                             }}
-                            className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-xl transition-all cursor-pointer"
+                            className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-[#121316] hover:bg-[#1e1f26] text-white border border-neutral-800 shadow-xl font-semibold text-sm transition-all cursor-pointer hover:scale-[1.02]"
                           >
                             <span>Schedule Technical Call</span>
                             <ArrowRight className="size-4" />
@@ -612,7 +612,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                 href="https://instagram.com/devolopy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
+                className="hover:text-[#C0703C] transition-colors"
               >
                 Instagram
               </a>
@@ -620,7 +620,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                 href="https://twitter.com/devolopy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
+                className="hover:text-[#C0703C] transition-colors"
               >
                 Twitter / X
               </a>
@@ -628,7 +628,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                 href="https://facebook.com/devolopy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
+                className="hover:text-[#C0703C] transition-colors"
               >
                 Facebook
               </a>
@@ -636,7 +636,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                 href="https://github.com/devolopy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
+                className="hover:text-[#C0703C] transition-colors"
               >
                 GitHub
               </a>
