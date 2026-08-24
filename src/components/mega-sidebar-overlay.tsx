@@ -11,6 +11,30 @@ import {
   Plus,
   Mail,
   MapPin,
+  Globe,
+  Smartphone,
+  RefreshCw,
+  Zap,
+  ShoppingBag,
+  BarChart3,
+  Bot,
+  Cloud,
+  Layers,
+  Store,
+  Utensils,
+  Truck,
+  HeartPulse,
+  GraduationCap,
+  Building2,
+  Hotel,
+  Factory,
+  Rocket,
+  ShieldCheck,
+  CreditCard,
+  Flame,
+  FileText,
+  Calendar,
+  Sparkles,
 } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
 import { ALL_SERVICES } from "@/lib/services-data";
@@ -109,6 +133,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
       category: "Operations & Fleet",
       metric: "1,200+ Vehicles Tracked",
       href: "/#selected-work",
+      icon: Truck,
     },
     {
       title: "Tamkin Multi-Branch ERP & POS",
@@ -116,6 +141,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
       category: "Commerce & Retail",
       metric: "$48M+ Annual GMV Synced",
       href: "/#selected-work",
+      icon: Store,
     },
     {
       title: "Cura Health Patient & EHR Portal",
@@ -123,6 +149,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
       category: "Healthcare & Clinics",
       metric: "98% No-Show Reduction",
       href: "/#selected-work",
+      icon: HeartPulse,
     },
     {
       title: "SouqPlus Headless Storefront",
@@ -130,6 +157,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
       category: "Headless Commerce",
       metric: "+64% Checkout Conversion",
       href: "/#selected-work",
+      icon: ShoppingBag,
     },
     {
       title: "AutoFlow Autonomous Document AI",
@@ -137,8 +165,59 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
       category: "AI & Automation",
       metric: "85K+ Monthly Invoices",
       href: "/#selected-work",
+      icon: Bot,
     },
   ];
+
+  // Map service icons for high-definition luxury display
+  const getServiceIcon = (slug: string) => {
+    switch (slug) {
+      case "website-development":
+        return Globe;
+      case "mobile-app-development":
+        return Smartphone;
+      case "odoo-development":
+        return RefreshCw;
+      case "n8n-development":
+        return Zap;
+      case "e-commerce-solutions":
+        return ShoppingBag;
+      case "seo-optimization":
+        return BarChart3;
+      case "ai-agentic-automation":
+        return Bot;
+      case "cloud-devops-architecture":
+        return Cloud;
+      case "ui-ux-design-systems":
+        return Layers;
+      default:
+        return Sparkles;
+    }
+  };
+
+  // Map industry icons
+  const getIndustryIcon = (slug: string) => {
+    switch (slug) {
+      case "retail-multibranch":
+        return Store;
+      case "food-beverage":
+        return Utensils;
+      case "ecommerce-brands":
+        return ShoppingBag;
+      case "logistics-fleet":
+        return Truck;
+      case "healthcare-clinics":
+        return HeartPulse;
+      case "education-academies":
+        return GraduationCap;
+      case "real-estate-assets":
+        return Building2;
+      case "hospitality-resorts":
+        return Hotel;
+      default:
+        return Factory;
+    }
+  };
 
   const handleToggleCategory = (catId: number, e: React.MouseEvent) => {
     e.preventDefault();
@@ -234,7 +313,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                   return (
                     <div
                       key={cat.id}
-                      className="group flex items-center justify-between gap-4 py-2 sm:py-2.5 border-b border-border/50"
+                      className="group flex items-center justify-between gap-4 py-2.5 sm:py-3 border-b border-border/50"
                     >
                       {/* Category Label Link */}
                       <Link
@@ -293,7 +372,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     exit={{ opacity: 0, x: 20, scale: 0.98 }}
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="lg:col-span-7 bg-card/95 dark:bg-[#0c0d12]/95 border border-border/80 dark:border-white/10 rounded-3xl p-7 sm:p-9 backdrop-blur-3xl min-h-[380px] sm:min-h-[440px] flex flex-col justify-between shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] relative"
+                    className="lg:col-span-7 bg-card/98 dark:bg-[#0d0e14]/98 border border-border/80 dark:border-white/12 rounded-[28px] p-7 sm:p-8 backdrop-blur-3xl min-h-[380px] sm:min-h-[440px] flex flex-col justify-between shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] relative"
                   >
                     {/* Close Submenu Button */}
                     <button
@@ -305,13 +384,13 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                       <X className="size-3.5" />
                     </button>
 
-                    {/* ── Sub-Nav 0: Services Sub-Links (Ultra-Minimalist Clean Rows) ── */}
+                    {/* ── Sub-Nav 0: Services Sub-Links (Ultra-Minimalist Cards with Icons) ── */}
                     {expandedCategory === 0 && (
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
                             <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
-                              Engineering Disciplines
+                              01 // Engineering Disciplines
                             </span>
                             <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Full-Stack &amp; Enterprise Services
@@ -322,41 +401,47 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                             onClick={onClose}
                             className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1.5 transition-colors"
                           >
-                            <span>All 12</span>
+                            <span>Explore All 12</span>
                             <ArrowRight className="size-3.5" />
                           </Link>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1">
-                          {ALL_SERVICES.slice(0, 8).map((svc) => (
-                            <Link
-                              key={svc.slug}
-                              href={`/services/${svc.slug}`}
-                              onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
-                            >
-                              <div className="min-w-0 pr-3">
-                                <span className="font-space text-sm font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
-                                  {svc.title}
-                                </span>
-                                <span className="text-[11px] text-muted-foreground/80 block truncate mt-0.5 font-mono">
-                                  {svc.tagline}
-                                </span>
-                              </div>
-                              <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-200 shrink-0" />
-                            </Link>
-                          ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[330px] overflow-y-auto pr-1">
+                          {ALL_SERVICES.slice(0, 8).map((svc) => {
+                            const Icon = getServiceIcon(svc.slug);
+                            return (
+                              <Link
+                                key={svc.slug}
+                                href={`/services/${svc.slug}`}
+                                onClick={onClose}
+                                className="group/item flex items-center gap-3.5 p-3 rounded-2xl bg-secondary/40 hover:bg-secondary border border-border/50 hover:border-amber-500/40 dark:border-white/[0.05] dark:hover:border-amber-500/40 transition-all duration-200"
+                              >
+                                <div className="size-8 rounded-xl bg-background border border-border flex items-center justify-center text-foreground group-hover/item:text-amber-400 group-hover/item:bg-[#121316] transition-colors shrink-0 shadow-xs">
+                                  <Icon className="size-4" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
+                                    {svc.title}
+                                  </span>
+                                  <span className="text-[11px] text-muted-foreground/80 block truncate mt-0.5 font-mono">
+                                    {svc.tagline}
+                                  </span>
+                                </div>
+                                <ArrowUpRight className="size-3.5 text-muted-foreground/40 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-200 shrink-0 mr-1" />
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
 
                     {/* ── Sub-Nav 1: Portfolio / Case Studies ── */}
                     {expandedCategory === 1 && (
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
                             <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 uppercase font-bold tracking-widest">
-                              Verified Case Studies
+                              02 // Verified Case Studies
                             </span>
                             <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Mission-Critical Deployments
@@ -372,47 +457,55 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           </Link>
                         </div>
 
-                        <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
-                          {portfolioHighlights.map((work, idx) => (
-                            <Link
-                              key={idx}
-                              href={work.href}
-                              onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
-                            >
-                              <div className="min-w-0 pr-3">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm font-space font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
-                                    {work.title}
-                                  </span>
-                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-secondary text-muted-foreground shrink-0">
-                                    {work.category}
-                                  </span>
+                        <div className="space-y-2.5 max-h-[330px] overflow-y-auto pr-1">
+                          {portfolioHighlights.map((work, idx) => {
+                            const Icon = work.icon;
+                            return (
+                              <Link
+                                key={idx}
+                                href={work.href}
+                                onClick={onClose}
+                                className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/40 hover:bg-secondary border border-border/50 hover:border-amber-500/40 dark:border-white/[0.05] dark:hover:border-amber-500/40 transition-all duration-200"
+                              >
+                                <div className="flex items-center gap-3.5 min-w-0 pr-3">
+                                  <div className="size-8 rounded-xl bg-background border border-border flex items-center justify-center text-foreground group-hover/item:text-amber-400 group-hover/item:bg-[#121316] transition-colors shrink-0 shadow-xs">
+                                    <Icon className="size-4" />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-sm font-space font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
+                                        {work.title}
+                                      </span>
+                                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-muted text-muted-foreground shrink-0">
+                                        {work.category}
+                                      </span>
+                                    </div>
+                                    <span className="text-[11px] text-muted-foreground/80 font-mono mt-0.5 block truncate">
+                                      Client: {work.client}
+                                    </span>
+                                  </div>
                                 </div>
-                                <span className="text-[11px] text-muted-foreground/80 font-mono mt-0.5 block truncate">
-                                  Client: {work.client}
-                                </span>
-                              </div>
 
-                              <div className="flex items-center gap-2.5 shrink-0">
-                                <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">
-                                  {work.metric}
-                                </span>
-                                <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
-                              </div>
-                            </Link>
-                          ))}
+                                <div className="flex items-center gap-2.5 shrink-0">
+                                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                                    {work.metric}
+                                  </span>
+                                  <ArrowUpRight className="size-3.5 text-muted-foreground/40 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
+                                </div>
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
 
                     {/* ── Sub-Nav 2: Industries ── */}
                     {expandedCategory === 2 && (
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
                             <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
-                              12 Domain Blueprints
+                              03 // Domain Blueprints
                             </span>
                             <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Commercial Sector Specializations
@@ -423,41 +516,47 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                             onClick={onClose}
                             className="text-xs font-mono font-bold text-[#C0703C] hover:underline flex items-center gap-1.5 transition-colors"
                           >
-                            <span>All Industries</span>
+                            <span>All 12 Industries</span>
                             <ArrowRight className="size-3.5" />
                           </Link>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1">
-                          {industriesData.slice(0, 8).map((ind) => (
-                            <Link
-                              key={ind.slug}
-                              href={`/industries/${ind.slug}`}
-                              onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
-                            >
-                              <div className="min-w-0 pr-3">
-                                <span className="font-space text-sm font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
-                                  {ind.name}
-                                </span>
-                                <span className="text-[11px] text-[#C0703C] font-mono block truncate mt-0.5">
-                                  {ind.badge}
-                                </span>
-                              </div>
-                              <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
-                            </Link>
-                          ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[330px] overflow-y-auto pr-1">
+                          {industriesData.slice(0, 8).map((ind) => {
+                            const Icon = getIndustryIcon(ind.slug);
+                            return (
+                              <Link
+                                key={ind.slug}
+                                href={`/industries/${ind.slug}`}
+                                onClick={onClose}
+                                className="group/item flex items-center gap-3.5 p-3 rounded-2xl bg-secondary/40 hover:bg-secondary border border-border/50 hover:border-amber-500/40 dark:border-white/[0.05] dark:hover:border-amber-500/40 transition-all duration-200"
+                              >
+                                <div className="size-8 rounded-xl bg-background border border-border flex items-center justify-center text-foreground group-hover/item:text-amber-400 group-hover/item:bg-[#121316] transition-colors shrink-0 shadow-xs">
+                                  <Icon className="size-4" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors block truncate">
+                                    {ind.name}
+                                  </span>
+                                  <span className="text-[10px] text-[#C0703C] font-mono block truncate mt-0.5">
+                                    {ind.badge}
+                                  </span>
+                                </div>
+                                <ArrowUpRight className="size-3.5 text-muted-foreground/40 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0 mr-1" />
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
 
                     {/* ── Sub-Nav 3: Blogs ── */}
                     {expandedCategory === 3 && (
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="flex items-center justify-between border-b border-border/60 pb-3 pr-8">
                           <div>
                             <span className="text-[11px] font-mono text-purple-600 dark:text-purple-400 uppercase font-bold tracking-widest">
-                              Engineering Journal
+                              04 // Engineering Journal
                             </span>
                             <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                               Technical Deep Dives &amp; Compliance
@@ -473,24 +572,24 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           </Link>
                         </div>
 
-                        <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
+                        <div className="space-y-2.5 max-h-[330px] overflow-y-auto pr-1">
                           {blogPosts.map((post) => (
                             <Link
                               key={post.slug}
                               href={`/blog/${post.slug}`}
                               onClick={onClose}
-                              className="group/item flex items-center justify-between p-3.5 rounded-2xl hover:bg-secondary/70 dark:hover:bg-white/[0.04] transition-all duration-200"
+                              className="group/item flex items-center justify-between p-3.5 rounded-2xl bg-secondary/40 hover:bg-secondary border border-border/50 hover:border-amber-500/40 dark:border-white/[0.05] dark:hover:border-amber-500/40 transition-all duration-200"
                             >
                               <div className="min-w-0 pr-3">
                                 <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground mb-0.5">
                                   <span className="text-[#C0703C] font-semibold">{post.category}</span>
                                   <span>&middot; {post.readTime}</span>
                                 </div>
-                                <h4 className="font-space text-sm font-semibold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
+                                <h4 className="font-space text-sm font-bold text-foreground group-hover/item:text-[#C0703C] transition-colors truncate">
                                   {post.title}
                                 </h4>
                               </div>
-                              <ArrowUpRight className="size-3.5 text-muted-foreground/50 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
+                              <ArrowUpRight className="size-3.5 text-muted-foreground/40 group-hover/item:text-[#C0703C] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
                             </Link>
                           ))}
                         </div>
@@ -499,10 +598,10 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 4: About Devolopy ── */}
                     {expandedCategory === 4 && (
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="border-b border-border/60 pb-3 pr-8">
                           <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
-                            Engineering DNA
+                            05 // Engineering DNA
                           </span>
                           <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                             Systems, Not Billable Staff Hours.
@@ -513,12 +612,12 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                           <p>
                             Devolopy is an elite technology engineering partner. We design, build, and maintain mission-critical software backbones for growing enterprises and ambitious venture startups.
                           </p>
-                          <div className="grid grid-cols-2 gap-3 pt-2">
-                            <div className="p-4 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
+                          <div className="grid grid-cols-2 gap-3 pt-1">
+                            <div className="p-4 rounded-2xl bg-secondary/50 border border-border/60 dark:border-white/10">
                               <span className="font-space text-lg font-bold text-foreground block">100% IP</span>
                               <span className="text-xs text-muted-foreground mt-0.5 block">Full code ownership transferred on day one.</span>
                             </div>
-                            <div className="p-4 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
+                            <div className="p-4 rounded-2xl bg-secondary/50 border border-border/60 dark:border-white/10">
                               <span className="font-space text-lg font-bold text-foreground block">99.99% SLA</span>
                               <span className="text-xs text-muted-foreground mt-0.5 block">Guaranteed production uptime monitoring.</span>
                             </div>
@@ -529,10 +628,10 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* ── Sub-Nav 5: Contact ── */}
                     {expandedCategory === 5 && (
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="border-b border-border/60 pb-3 pr-8">
                           <span className="text-[11px] font-mono text-[#C0703C] uppercase font-bold tracking-widest">
-                            Direct Technical Line
+                            06 // Direct Technical Line
                           </span>
                           <h3 className="font-space text-xl sm:text-2xl font-bold text-foreground mt-0.5 tracking-tight">
                             Start Your Architecture Briefing
@@ -540,18 +639,22 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                         </div>
 
                         <div className="space-y-3 text-sm">
-                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
-                            <Mail className="size-4 text-[#C0703C] shrink-0" />
+                          <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-secondary/50 border border-border/60 dark:border-white/10">
+                            <div className="size-8 rounded-xl bg-background border border-border flex items-center justify-center text-[#C0703C] shrink-0 shadow-xs">
+                              <Mail className="size-4" />
+                            </div>
                             <div>
                               <span className="text-[10px] font-mono text-muted-foreground block">Inquiries</span>
-                              <a href="mailto:contact@devolopy.com" className="font-semibold text-foreground hover:text-[#C0703C] transition-colors">
+                              <a href="mailto:contact@devolopy.com" className="font-bold text-foreground hover:text-[#C0703C] transition-colors">
                                 contact@devolopy.com
                               </a>
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-secondary/60 dark:bg-white/[0.03] border border-border/80 dark:border-white/10">
-                            <MapPin className="size-4 text-[#C0703C] shrink-0" />
+                          <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-secondary/50 border border-border/60 dark:border-white/10">
+                            <div className="size-8 rounded-xl bg-background border border-border flex items-center justify-center text-[#C0703C] shrink-0 shadow-xs">
+                              <MapPin className="size-4" />
+                            </div>
                             <div>
                               <span className="text-[10px] font-mono text-muted-foreground block">Headquarters</span>
                               <span className="font-medium text-foreground">
@@ -576,7 +679,7 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                     )}
 
                     {/* Sub-Nav Bottom Fast Links */}
-                    <div className="pt-4 border-t border-border/60 flex items-center justify-between text-xs font-mono text-muted-foreground">
+                    <div className="pt-3.5 border-t border-border/60 flex items-center justify-between text-xs font-mono text-muted-foreground">
                       <span>&copy; {new Date().getFullYear()} Devolopy, Inc.</span>
                       <span className="text-[#C0703C]">Next.js 15 &middot; React 19 &middot; TypeScript</span>
                     </div>
