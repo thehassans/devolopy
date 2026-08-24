@@ -68,8 +68,38 @@ export function HeroSection() {
               <h1 className="font-space text-4xl sm:text-5xl lg:text-[62px] xl:text-[68px] font-black uppercase tracking-tight leading-[1.04] text-foreground">
                 <span className="block">FUTURE-DRIVEN</span>
                 <span className="block">SOFTWARE</span>
-                <span className="block mt-1 sm:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-500 to-[#C0703C] dark:from-amber-200 dark:via-orange-300 dark:to-[#C0703C] drop-shadow-[0_0_25px_rgba(234,140,46,0.35)]">
-                  &#123; DEVELOPMENT &#125;
+                <span className="inline-flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
+                  {/* Pixel-Perfect Left Curved Bracket */}
+                  <svg
+                    className="h-[0.84em] w-auto text-amber-500/90 dark:text-amber-400/90 inline-block align-middle shrink-0"
+                    viewBox="0 0 20 44"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M16 3C9 3 8 7 8 14C8 19 5 22 2 22C5 22 8 25 8 30C8 37 9 41 16 41" />
+                  </svg>
+
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-500 to-[#C0703C] dark:from-amber-200 dark:via-orange-300 dark:to-[#C0703C] drop-shadow-[0_0_25px_rgba(234,140,46,0.35)] tracking-tight">
+                    DEVELOPMENT
+                  </span>
+
+                  {/* Pixel-Perfect Right Curved Bracket */}
+                  <svg
+                    className="h-[0.84em] w-auto text-amber-500/90 dark:text-amber-400/90 inline-block align-middle shrink-0"
+                    viewBox="0 0 20 44"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 3C11 3 12 7 12 14C12 19 15 22 18 22C15 22 12 25 12 30C12 37 11 41 4 41" />
+                  </svg>
                 </span>
               </h1>
             </div>
