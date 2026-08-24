@@ -449,19 +449,16 @@ export function Navbar() {
               ))}
             </div>
 
-            {/* Get Started CTA: Radiant Golden Luxury Amber Gradient */}
+            {/* Get Started CTA: Luxury Matte Black Pill */}
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => openConsultation()}
-                className="relative group overflow-hidden rounded-full p-[1px] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/35 cursor-pointer"
+                className="group relative inline-flex items-center justify-center gap-2 h-9 sm:h-10 px-5 sm:px-6 rounded-full bg-[#121316] hover:bg-[#1e1f26] text-white font-semibold text-xs sm:text-sm border border-neutral-800/90 shadow-md shadow-black/20 hover:border-neutral-700 transition-all duration-200 hover:scale-[1.03] cursor-pointer"
+                aria-label="Get Started with Devolopy"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-amber-400 via-orange-500 to-[#C0703C] rounded-full animate-pulse opacity-80 group-hover:opacity-100" />
-                <span className="relative flex items-center gap-2 h-9 sm:h-10 px-5 sm:px-6 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-[#C0703C] text-white text-xs sm:text-sm font-bold tracking-wide transition-all duration-300 group-hover:brightness-110 shadow-inner">
-                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.4)_50%,transparent_75%)] rounded-full" />
-                  <span>Get Started</span>
-                  <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 stroke-[2.5]" />
-                </span>
+                <span>Get Started</span>
+                <ArrowUpRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 stroke-[2.5]" />
               </button>
             </div>
           </nav>
