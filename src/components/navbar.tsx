@@ -3,22 +3,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useConsultation } from "./consultation-modal";
-import { MegaSidebarOverlay } from "./mega-sidebar-overlay";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu,
-  X,
-  ArrowUpRight,
   ChevronDown,
+  ArrowRight,
+  ArrowUpRight,
+  Bot,
   Globe,
   Smartphone,
   RefreshCw,
-  Bot,
   ShoppingBag,
   Cloud,
   Layers,
   BarChart3,
-  ArrowRight,
   BookOpen,
   Store,
   Utensils,
@@ -29,14 +26,19 @@ import {
   Hotel,
   Factory,
   Rocket,
-  Sparkles,
+  ShieldCheck,
+  Zap,
+  Network,
+  CreditCard,
+  Flame,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useConsultation } from "@/components/consultation-modal";
+import { MegaSidebarOverlay } from "@/components/mega-sidebar-overlay";
 
 const servicesDropdownList = [
   {
-    title: "AI & Autonomous Automation",
-    desc: "Custom LLM agents, RAG pipelines & document OCR",
+    title: "AI & Automation",
+    desc: "Autonomous LLM agents, RAG & OCR pipelines",
     slug: "ai-agentic-automation",
     icon: Bot,
     badge: "AI Frontier",
@@ -55,33 +57,57 @@ const servicesDropdownList = [
   },
   {
     title: "Odoo ERP Systems",
-    desc: "Odoo 18 customization & ZATCA e-invoicing",
+    desc: "Odoo 18 customization & certified ZATCA Phase 2",
     slug: "odoo-development",
     icon: RefreshCw,
   },
   {
+    title: "n8n Automation",
+    desc: "Zero-code business workflows & event hooks",
+    slug: "n8n-development",
+    icon: Zap,
+  },
+  {
     title: "E-Commerce Solutions",
-    desc: "Headless commerce, Shopify Plus & Mada/Stripe",
+    desc: "Headless storefronts, Shopify Plus & Mada/Stripe",
     slug: "e-commerce-solutions",
     icon: ShoppingBag,
   },
   {
-    title: "Cloud & DevOps Architecture",
+    title: "Cloud & DevOps",
     desc: "AWS, GCP, Kubernetes & Terraform IaC",
     slug: "cloud-devops-architecture",
     icon: Cloud,
   },
   {
-    title: "Product Experience Design",
+    title: "Product Design",
     desc: "Figma design tokens & WCAG design systems",
     slug: "ui-ux-design-systems",
     icon: Layers,
   },
   {
+    title: "SEO & Growth",
+    desc: "Technical SEO, Core Web Vitals & Schema",
+    slug: "seo-optimization",
+    icon: BarChart3,
+  },
+  {
     title: "Custom CRM & Portals",
     desc: "Bespoke operational dashboards & client portals",
     slug: "custom-crm-portals",
-    icon: BarChart3,
+    icon: Store,
+  },
+  {
+    title: "API & Microservices",
+    desc: "High-throughput gRPC, GraphQL & event brokers",
+    slug: "api-microservices",
+    icon: Network,
+  },
+  {
+    title: "Security & Auditing",
+    desc: "OWASP penetration testing & SOC 2 hardening",
+    slug: "security-compliance-audit",
+    icon: ShieldCheck,
   },
 ];
 
@@ -94,7 +120,7 @@ const industriesDropdownList = [
   },
   {
     title: "Food & Beverage",
-    desc: "Aggregator webhooks & live Kitchen Display (KDS)",
+    desc: "Aggregator webhooks & live Kitchen Display",
     slug: "food-beverage",
     icon: Utensils,
   },
@@ -112,7 +138,7 @@ const industriesDropdownList = [
   },
   {
     title: "Healthcare & Clinics",
-    desc: "HIPAA-ready patient portal & WhatsApp reminders",
+    desc: "HIPAA-ready patient portal & WhatsApp alerts",
     slug: "healthcare-clinics",
     icon: HeartPulse,
   },
@@ -142,10 +168,22 @@ const industriesDropdownList = [
   },
   {
     title: "Venture Startups",
-    desc: "Rapid 4-week production MVP sprint in TypeScript",
+    desc: "Rapid 4-week production MVP sprint in TS",
     slug: "venture-startups",
     icon: Rocket,
     badge: "4-Wk MVP",
+  },
+  {
+    title: "FinTech & Banking",
+    desc: "PCI-DSS payment gateways & multi-currency ledger",
+    slug: "fintech-payments",
+    icon: CreditCard,
+  },
+  {
+    title: "Energy & Utilities",
+    desc: "SCADA telemetry & predictive asset maintenance",
+    slug: "energy-utilities",
+    icon: Flame,
   },
 ];
 
@@ -252,7 +290,7 @@ export function Navbar() {
 
             {/* Desktop Navigation Links */}
             <div className="hidden md:flex items-center gap-6 lg:gap-8">
-              {/* 1. Services Mega Dropdown */}
+              {/* 1. Services Mega Dropdown (3 Items Per Line Grid) */}
               <div
                 ref={servicesDropdownRef}
                 className="relative"
@@ -285,24 +323,25 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full -left-20 w-[640px] pt-3 z-50"
+                      className="absolute top-full -left-56 lg:-left-72 w-[860px] lg:w-[940px] pt-3 z-50"
                     >
-                      <div className="rounded-3xl bg-card border border-border p-6 shadow-2xl backdrop-blur-2xl space-y-4">
-                        <div className="flex items-center justify-between border-b border-border/70 pb-3">
+                      <div className="rounded-3xl bg-card border border-border p-6 sm:p-7 shadow-2xl backdrop-blur-2xl space-y-4">
+                        <div className="flex items-center justify-between border-b border-border/70 pb-3.5">
                           <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
-                            Enterprise Engineering Capabilities
+                            Enterprise Engineering Capabilities // 12 Disciplines
                           </span>
                           <Link
                             href="/services"
                             onClick={() => setServicesOpen(false)}
-                            className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
+                            className="text-xs font-bold text-[#C0703C] hover:underline flex items-center gap-1"
                           >
-                            <span>View All Services</span>
+                            <span>View All 12 Services</span>
                             <ArrowRight className="size-3" />
                           </Link>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3">
+                        {/* 3 Items Per Line Grid */}
+                        <div className="grid grid-cols-3 gap-3">
                           {servicesDropdownList.map((svc) => {
                             const Icon = svc.icon;
                             return (
@@ -312,16 +351,16 @@ export function Navbar() {
                                 onClick={() => setServicesOpen(false)}
                                 className="group flex items-start gap-3 p-3 rounded-2xl hover:bg-secondary/70 transition-all duration-200 border border-transparent hover:border-border/80"
                               >
-                                <div className="size-9 rounded-xl bg-secondary group-hover:bg-primary group-hover:text-primary-foreground text-foreground border border-border flex items-center justify-center shrink-0 transition-colors shadow-xs">
+                                <div className="size-9 rounded-xl bg-secondary group-hover:bg-[#121316] group-hover:text-amber-400 text-foreground border border-border flex items-center justify-center shrink-0 transition-colors shadow-xs">
                                   <Icon className="size-4.5" />
                                 </div>
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-1.5">
-                                    <span className="font-space text-sm font-bold text-foreground group-hover:text-primary transition-colors block truncate">
+                                    <span className="font-space text-sm font-bold text-foreground group-hover:text-[#C0703C] transition-colors block truncate">
                                       {svc.title}
                                     </span>
                                     {svc.badge && (
-                                      <span className="px-1.5 py-0.2 rounded-sm bg-primary/10 text-primary font-mono text-[9px] font-bold shrink-0">
+                                      <span className="px-1.5 py-0.2 rounded-sm bg-[#C0703C]/15 text-[#C0703C] font-mono text-[9px] font-bold shrink-0">
                                         {svc.badge}
                                       </span>
                                     )}
@@ -340,7 +379,7 @@ export function Navbar() {
                 </AnimatePresence>
               </div>
 
-              {/* 2. Industries Mega Dropdown */}
+              {/* 2. Industries Mega Dropdown (3 Items Per Line Grid) */}
               <div
                 ref={industriesDropdownRef}
                 className="relative"
@@ -373,24 +412,25 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full -left-36 w-[660px] pt-3 z-50"
+                      className="absolute top-full -left-64 lg:-left-80 w-[880px] lg:w-[960px] pt-3 z-50"
                     >
-                      <div className="rounded-3xl bg-card border border-border p-6 shadow-2xl backdrop-blur-2xl space-y-4 max-h-[80vh] overflow-y-auto">
-                        <div className="flex items-center justify-between border-b border-border/70 pb-3">
+                      <div className="rounded-3xl bg-card border border-border p-6 sm:p-7 shadow-2xl backdrop-blur-2xl space-y-4">
+                        <div className="flex items-center justify-between border-b border-border/70 pb-3.5">
                           <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C]">
-                            Domain Specialization &amp; Architecture
+                            Domain Specialization &amp; Architecture // 12 Sectors
                           </span>
                           <Link
                             href="/industries"
                             onClick={() => setIndustriesOpen(false)}
-                            className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
+                            className="text-xs font-bold text-[#C0703C] hover:underline flex items-center gap-1"
                           >
-                            <span>All Industries</span>
+                            <span>All 12 Industries</span>
                             <ArrowRight className="size-3" />
                           </Link>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3">
+                        {/* 3 Items Per Line Grid */}
+                        <div className="grid grid-cols-3 gap-3">
                           {industriesDropdownList.map((ind) => {
                             const Icon = ind.icon;
                             return (
@@ -400,12 +440,12 @@ export function Navbar() {
                                 onClick={() => setIndustriesOpen(false)}
                                 className="group flex items-start gap-3 p-3 rounded-2xl hover:bg-secondary/70 transition-all duration-200 border border-transparent hover:border-border/80"
                               >
-                                <div className="size-9 rounded-xl bg-secondary group-hover:bg-primary group-hover:text-primary-foreground text-foreground border border-border flex items-center justify-center shrink-0 transition-colors shadow-xs">
+                                <div className="size-9 rounded-xl bg-secondary group-hover:bg-[#121316] group-hover:text-amber-400 text-foreground border border-border flex items-center justify-center shrink-0 transition-colors shadow-xs">
                                   <Icon className="size-4.5" />
                                 </div>
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-1.5">
-                                    <span className="font-space text-sm font-bold text-foreground group-hover:text-primary transition-colors block truncate">
+                                    <span className="font-space text-sm font-bold text-foreground group-hover:text-[#C0703C] transition-colors block truncate">
                                       {ind.title}
                                     </span>
                                     {ind.badge && (
