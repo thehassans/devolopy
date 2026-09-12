@@ -84,6 +84,12 @@
     scroll-padding-top: 90px;
     overflow-x: clip;
     width: 100%;
+    zoom: 1.18;
+  }
+  @supports not (zoom: 1.18) {
+    html {
+      font-size: 118%;
+    }
   }
   body {
     @apply bg-background text-foreground antialiased;
