@@ -251,8 +251,8 @@ export function SelectedWorkSection() {
             textColor="#ffffff"
             mutedTextColor="#94a3b8"
             activeColor="#f97316"
-            imageUrl="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
-            imageAlt="High-Performance Enterprise Cloud Datacenter Architecture"
+            imageUrl="/case-studies-hero.jpg"
+            imageAlt="High-Performance Digital Architecture and Systems"
             topData={topCaseStudies}
             bottomData={bottomCaseStudies}
           />

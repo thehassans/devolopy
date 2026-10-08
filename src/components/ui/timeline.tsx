@@ -185,7 +185,7 @@ export default function Timeline({
   mutedTextColor = "var(--color-muted-foreground, #71717a)",
   activeColor = "#ff5f00",
   backgroundColor = "transparent",
-  imageUrl = "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80",
+  imageUrl = "/case-studies-hero.jpg",
   imageAlt = "High-Performance Cloud & Infrastructure Systems",
   topData = defaultTopJourneyData,
   bottomData = defaultBottomJourneyData,
