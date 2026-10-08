@@ -10,6 +10,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useConsultation } from "@/components/consultation-modal";
+import Timeline, { type JourneyItem } from "@/components/ui/timeline";
 
 interface CaseStudyItem {
   id: string;
@@ -122,168 +123,221 @@ const projects: CaseStudyItem[] = [
 
 export function SelectedWorkSection() {
   const { openConsultation } = useConsultation();
+  const [activeTab, setActiveTab] = React.useState<"timeline" | "cards">("timeline");
+
+  const topCaseStudies: JourneyItem[] = [
+    {
+      id: "nawa-fleet",
+      year: "2023",
+      month: "March",
+      badge: "Fleet Telematics",
+      content: "Nawa Logistics Telematics OS with sub-second route telemetry & automated dispatch.",
+      metric: "1,200+",
+      metricLabel: "Active Fleet Tracked (99.99% Uptime)",
+    },
+    {
+      id: "cura-health",
+      year: "2024",
+      month: "January",
+      badge: "Healthcare & EHR",
+      content: "HIPAA-ready clinical health platform uniting digital records and patient booking.",
+      metric: "98%",
+      metricLabel: "Reduction in Appointment No-Shows",
+    },
+    {
+      id: "autoflow-ai",
+      year: "2025",
+      month: "August",
+      badge: "Document AI",
+      content: "Autonomous n8n OCR & localized pgvector RAG document synthesis pipeline.",
+      metric: "85K+",
+      metricLabel: "Monthly Invoices Zero-Touch Processed",
+    },
+  ];
+
+  const bottomCaseStudies: JourneyItem[] = [
+    {
+      id: "tamkin-pos",
+      year: "2023",
+      month: "November",
+      badge: "Retail & ERP",
+      content: "Enterprise Odoo 18 multi-store synchronization with ZATCA Phase 2 e-invoicing.",
+      metric: "$48M+",
+      metricLabel: "Annual GMV Synced Across 42 Branches",
+    },
+    {
+      id: "souq-plus",
+      year: "2024",
+      month: "June",
+      badge: "Headless Commerce",
+      content: "Sub-second Next.js headless storefront with 1-click Mada & Stripe checkout rails.",
+      metric: "+64%",
+      metricLabel: "Mobile Checkout Conversion Lift",
+    },
+    {
+      id: "apex-cloud",
+      year: "2026",
+      month: "May",
+      badge: "Cloud Infra",
+      content: "Multi-cloud Kubernetes infrastructure migration with zero-downtime CI/CD failover.",
+      metric: "99.99%",
+      metricLabel: "Production Uptime Across 14M Requests",
+    },
+  ];
 
   return (
     <section
       id="selected-work"
-      className="w-full py-24 sm:py-32 bg-background text-foreground border-b border-border transition-colors duration-300 relative"
+      className="w-full py-16 sm:py-24 bg-background text-foreground border-b border-border transition-colors duration-300 relative overflow-hidden"
     >
-      {/* Atmospheric Ambient Lighting */}
+      {/* Ambient Lighting */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/3 left-10 w-[550px] h-[450px] bg-primary/10 blur-[150px] rounded-full" />
-        <div className="absolute bottom-1/3 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full" />
+        <div className="absolute top-1/4 left-10 w-[550px] h-[450px] bg-primary/10 blur-[150px] rounded-full" />
+        <div className="absolute bottom-1/4 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start relative">
-          {/* =========================================================
-              LEFT COLUMN: Sticky Header & "Have a project?" Card
-             ========================================================= */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-8 z-20">
-            <div className="space-y-4">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
-                <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
-                Selected Work &amp; Case Studies
-              </span>
-
-              <h2 className="font-space text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-foreground leading-[1.06]">
-                Engineered for Measurable Business Impact
-              </h2>
-
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                Explore how we design, build, and deploy production systems that eliminate bottlenecks, automate workflows, and drive revenue.
-              </p>
-            </div>
-
-            {/* Core Value Highlights */}
-            <div className="p-5 rounded-2xl bg-card border border-border/80 dark:border-white/10 shadow-xs space-y-3">
-              <div className="flex items-center gap-3 text-sm font-semibold text-foreground">
-                <ShieldCheck className="size-4 text-primary shrink-0" />
-                <span>100% Real Production Deployments</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm font-semibold text-foreground">
-                <TrendingUp className="size-4 text-primary shrink-0" />
-                <span>Proven ROI &amp; Quantified Performance Metrics</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm font-semibold text-foreground">
-                <Zap className="size-4 text-primary shrink-0" />
-                <span>Enterprise Scalability &amp; SLA Guarantees</span>
-              </div>
-            </div>
-
-            {/* Luxury "Have a project?" CTA Card */}
-            <div className="p-7 rounded-3xl bg-card border-2 border-border/90 dark:border-white/15 shadow-xl relative overflow-hidden group">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative z-10">
-                <div>
-                  <h3 className="font-space text-2xl font-bold text-foreground">
-                    Have a project?
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                    Talk directly with our lead architects.
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => openConsultation("custom-software")}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-200 hover:scale-[1.03] shrink-0 cursor-pointer"
-                >
-                  <span>Get Started</span>
-                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </div>
+        {/* Header with Switcher */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
+          <div className="space-y-4 max-w-2xl">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
+              <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
+              Selected Work &amp; Case Studies
+            </span>
+            <h2 className="font-space text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.08]">
+              Engineered for Measurable Business Impact
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+              Explore how we design, build, and deploy production systems that eliminate bottlenecks, automate workflows, and drive revenue.
+            </p>
           </div>
 
-          {/* =========================================================
-              RIGHT COLUMN: Ultra-Clean Project Case Study Cards
-             ========================================================= */}
-          <div className="lg:col-span-7">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-7">
-              {projects.map((project) => (
-                <div
-                  key={project.id}
-                  className={`group relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-xl dark:shadow-2xl backdrop-blur-md ${
-                    project.isOffset ? "sm:translate-y-8" : ""
-                  }`}
-                >
-                  <div>
-                    {/* Top Meta: Number + Category */}
-                    <div className="flex items-center justify-between mb-4">
-                      <span
-                        className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border shadow-xs"
-                        style={{
-                          borderColor: `${project.accent}40`,
-                          backgroundColor: `${project.accent}15`,
-                          color: project.accent,
-                        }}
-                      >
-                        {project.category}
-                      </span>
-                      <span className="font-mono text-xs font-bold text-muted-foreground/60">
-                        {project.num}
-                      </span>
-                    </div>
-
-                    {/* Client Name */}
-                    <span className="text-[11px] font-mono text-muted-foreground block mb-1 font-medium">
-                      Client // {project.client}
-                    </span>
-
-                    {/* Title */}
-                    <h3 className="font-space text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight mb-2">
-                      {project.title}
-                    </h3>
-
-                    {/* Tagline */}
-                    <p className="text-xs font-mono text-[#C0703C] font-semibold mb-3">
-                      {project.tagline}
-                    </p>
-
-                    {/* Description */}
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                      {project.desc}
-                    </p>
-
-                    {/* Core Features */}
-                    <div className="space-y-1.5 pt-1 mb-5">
-                      {project.features.map((feat, fIdx) => (
-                        <div key={fIdx} className="flex items-center gap-2 text-xs font-medium text-foreground/90">
-                          <CheckCircle2 className="size-3.5 text-primary shrink-0" />
-                          <span>{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bottom: Quantified Impact + Action Button */}
-                  <div className="pt-4 border-t border-border/70 mt-auto flex items-end justify-between gap-3">
-                    <div>
-                      <span
-                        className="font-space text-2xl font-black tracking-tight block"
-                        style={{ color: project.accent }}
-                      >
-                        {project.impact}
-                      </span>
-                      <span className="text-[10px] text-muted-foreground font-medium leading-tight block">
-                        {project.impactLabel}
-                      </span>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => openConsultation("custom-software")}
-                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl border border-foreground/30 dark:border-white/20 hover:border-primary hover:bg-primary hover:text-primary-foreground text-foreground font-semibold text-xs transition-all duration-200 group/btn cursor-pointer shadow-xs shrink-0"
-                    >
-                      <span>Details</span>
-                      <ArrowUpRight className="size-3.5 ml-1 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* Interactive View Toggle */}
+          <div className="flex items-center p-1.5 rounded-2xl bg-muted/40 border border-border/80 dark:border-white/10 shrink-0 self-start md:self-end shadow-xs">
+            <button
+              type="button"
+              onClick={() => setActiveTab("timeline")}
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
+                activeTab === "timeline"
+                  ? "bg-background text-foreground shadow-sm border border-border"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Horizontal Timeline
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("cards")}
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
+                activeTab === "cards"
+                  ? "bg-background text-foreground shadow-sm border border-border"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Grid Showcase
+            </button>
           </div>
         </div>
+
+        {activeTab === "timeline" ? (
+          <div className="w-full rounded-3xl border border-white/[0.08] dark:border-white/[0.1] bg-[#0c0d12]/90 dark:bg-[#090a0f]/95 shadow-[0_25px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl overflow-hidden">
+            <Timeline
+              id="case-studies-timeline"
+              title="Case Studies"
+              periodLabel="2023 — 2026"
+              backgroundColor="transparent"
+              textColor="#ffffff"
+              mutedTextColor="#94a3b8"
+              activeColor="#f97316"
+              imageUrl="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
+              imageAlt="Modern Software Engineering & Systems Team"
+              topData={topCaseStudies}
+              bottomData={bottomCaseStudies}
+            />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                className="group relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-card border border-border/80 dark:border-white/10 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-xl dark:shadow-2xl backdrop-blur-md"
+              >
+                <div>
+                  {/* Top Meta: Number + Category */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span
+                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border shadow-xs"
+                      style={{
+                        borderColor: `${project.accent}40`,
+                        backgroundColor: `${project.accent}15`,
+                        color: project.accent,
+                      }}
+                    >
+                      {project.category}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-muted-foreground/60">
+                      {project.num}
+                    </span>
+                  </div>
+
+                  {/* Client Name */}
+                  <span className="text-[11px] font-mono text-muted-foreground block mb-1 font-medium">
+                    Client // {project.client}
+                  </span>
+
+                  {/* Title */}
+                  <h3 className="font-space text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight mb-2">
+                    {project.title}
+                  </h3>
+
+                  {/* Tagline */}
+                  <p className="text-xs font-mono text-[#C0703C] font-semibold mb-3">
+                    {project.tagline}
+                  </p>
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                    {project.desc}
+                  </p>
+
+                  {/* Core Features */}
+                  <div className="space-y-1.5 pt-1 mb-5">
+                    {project.features.map((feat, fIdx) => (
+                      <div key={fIdx} className="flex items-center gap-2 text-xs font-medium text-foreground/90">
+                        <CheckCircle2 className="size-3.5 text-primary shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom: Quantified Impact + Action Button */}
+                <div className="pt-4 border-t border-border/70 mt-auto flex items-end justify-between gap-3">
+                  <div>
+                    <span
+                      className="font-space text-2xl font-black tracking-tight block"
+                      style={{ color: project.accent }}
+                    >
+                      {project.impact}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground font-medium leading-tight block">
+                      {project.impactLabel}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => openConsultation("custom-software")}
+                    className="inline-flex items-center justify-center px-4 py-2 rounded-xl border border-foreground/30 dark:border-white/20 hover:border-primary hover:bg-primary hover:text-primary-foreground text-foreground font-semibold text-xs transition-all duration-200 group/btn cursor-pointer shadow-xs shrink-0"
+                  >
+                    <span>Details</span>
+                    <ArrowUpRight className="size-3.5 ml-1 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -656,12 +656,28 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
                               <MapPin className="size-4" />
                             </div>
                             <div>
-                              <span className="text-[10px] font-mono text-muted-foreground block">Headquarters</span>
-                              <span className="font-medium text-foreground">
-                                Tech Innovation Hub, Silicon Avenue
+                              <span className="text-[10px] font-mono text-muted-foreground block">Headquarters &middot; Dammam, KSA</span>
+                              <span className="font-medium text-foreground text-xs leading-snug block">
+                                8328 Street 18, Madinat Al Ummal, Dammam 32253 (EDMA8328)
                               </span>
                             </div>
                           </div>
+
+                          <Link
+                            href="/legal"
+                            onClick={onClose}
+                            className="flex items-center gap-3 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 hover:border-emerald-500/40 transition-colors"
+                          >
+                            <div className="size-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                              <ShieldCheck className="size-4" />
+                            </div>
+                            <div className="text-xs">
+                              <span className="font-semibold text-foreground block">Licensed in Saudi Arabia</span>
+                              <span className="text-[10px] font-mono text-muted-foreground block">
+                                Eastern WorkForce Solutions Est. &middot; CR: 7043399216
+                              </span>
+                            </div>
+                          </Link>
 
                           <button
                             type="button"
@@ -680,8 +696,8 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
 
                     {/* Sub-Nav Bottom Fast Links */}
                     <div className="pt-3.5 border-t border-border/60 flex items-center justify-between text-xs font-mono text-muted-foreground">
-                      <span>&copy; {new Date().getFullYear()} Devolopy, Inc.</span>
-                      <span className="text-[#C0703C]">Next.js 15 &middot; React 19 &middot; TypeScript</span>
+                      <span>&copy; {new Date().getFullYear()} Devolopy &middot; Eastern WorkForce Solutions Est.</span>
+                      <span className="text-[#C0703C]">CR: 7043399216 &middot; Active (ساري)</span>
                     </div>
                   </motion.div>
                 )}
@@ -728,7 +744,10 @@ export function MegaSidebarOverlay({ isOpen, onClose }: MegaSidebarOverlayProps)
               </a>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center gap-6">
+              <Link href="/legal" onClick={onClose} className="hover:text-emerald-400 text-emerald-500 font-semibold transition-colors">
+                Commercial Register (السجل التجاري)
+              </Link>
               <Link href="/blog" onClick={onClose} className="hover:text-foreground transition-colors">
                 Technical Blog
               </Link>

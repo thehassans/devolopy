@@ -84,11 +84,11 @@
     scroll-padding-top: 90px;
     overflow-x: clip;
     width: 100%;
-    zoom: 1.18;
+    zoom: 0.9;
   }
-  @supports not (zoom: 1.18) {
+  @supports not (zoom: 0.9) {
     html {
-      font-size: 118%;
+      font-size: 90%;
     }
   }
   body {
@@ -101,6 +101,20 @@
   * {
     @apply border-border;
   }
+}
+
+/* Hardware-accelerated smooth animations & rendering */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.marquee-content,
+[style*="marquee"] {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Glass effect utilities */

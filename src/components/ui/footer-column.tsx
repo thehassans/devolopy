@@ -43,13 +43,13 @@ const data = {
   },
   contact: {
     email: 'contact@devolopy.com',
-    phone: '+1 (555) 234-5678',
-    address: 'Tech Innovation Hub, Silicon Avenue',
+    phone: '',
+    address: '8328 Street 18, Madinat Al Ummal Dist., Dammam 32253, Saudi Arabia (EDMA8328)',
   },
   company: {
     name: 'Devolopy',
     description:
-      'Building high-performance websites, mobile applications, Odoo ERP, e-commerce platforms, n8n automations, and SEO dominance with modern Next.js and AI architectures.',
+      'Devolopy is the specialized technology division of Eastern WorkForce Solutions Establishment (CR: 7043399216). We build high-performance websites, mobile apps, enterprise Odoo ERP, and AI systems in Saudi Arabia.',
     logoDark: '/DevolopyDarkTheme.png',
     logoLight: '/DevolopyLighttheme.png',
   },
@@ -240,10 +240,11 @@ export function Footer4Col() {
         <div className="mt-12 border-t border-border/60 pt-6">
           <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} {data.company.name}, Inc. All rights reserved. Powered by Next.js, TypeScript & Tailwind CSS.
+              &copy; {new Date().getFullYear()} Devolopy &middot; A branch of Eastern WorkForce Solutions Establishment (CR: 7043399216). All rights reserved.
             </p>
 
-            <div className="flex gap-6 text-xs text-muted-foreground">
+            <div className="flex flex-wrap gap-6 text-xs text-muted-foreground">
+              <Link href="/legal" className="text-emerald-500 hover:underline font-semibold">Commercial Register</Link>
               <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
               <Link href="/terms" className="hover:underline">Terms of Service</Link>
               <Link href="/sitemap.xml" className="hover:underline">Sitemap</Link>

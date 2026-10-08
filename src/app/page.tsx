@@ -10,8 +10,10 @@ import HowWeWorkSection from "@/components/how-we-work-section";
 import IndustriesSection from "@/components/industries-section";
 import WhyDevolopySection from "@/components/why-devolopy-section";
 import { AnimatedCarousel } from "@/components/ui/logo-carousel";
+import TestimonialsSection from "@/components/testimonials-section";
 import HomeFAQ from "@/components/home-faq";
 import FooterNewsletter from "@/components/ui/footer-newsletter";
+import TrustedBrandBlack from "@/components/trusted-brand-black";
 import HoverFooter from "@/components/ui/hover-footer";
 
 const homeJsonLd = {
@@ -149,13 +151,19 @@ export default function HomePage() {
         {/* 11. Why Devolopy & Engagement Models */}
         <WhyDevolopySection />
 
-        {/* 12. Comprehensive FAQ Section */}
+        {/* 12. Client Feedback & Stagger Testimonials */}
+        <TestimonialsSection />
+
+        {/* 13. Comprehensive FAQ Section */}
         <HomeFAQ />
 
-        {/* 13. Newsletter & Final Call to Action */}
+        {/* 14. Newsletter & Final Call to Action */}
         <div id="newsletter">
           <FooterNewsletter />
         </div>
+
+        {/* 15. Trusted Brand Black Social Proof Strip */}
+        <TrustedBrandBlack />
       </main>
 
       {/* 14. Devolopy Interactive Hover Footer */}

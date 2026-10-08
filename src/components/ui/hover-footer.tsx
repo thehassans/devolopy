@@ -16,7 +16,10 @@ import {
   Dribbble,
   Zap,
   ArrowUpRight,
+  ShieldCheck,
 } from "lucide-react";
+import { SaudiCommercialRegisterCard } from "@/components/saudi-commercial-register";
+import { COMPANY_REGISTRATION } from "@/lib/company-info";
 
 export const TextHoverEffect = ({
   text = "DEVOLOPY",
@@ -28,24 +31,31 @@ export const TextHoverEffect = ({
   className?: string;
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [cursor, setCursor] = useState<{ x: number | null; y: number | null }>({
-    x: null,
-    y: null,
-  });
+  const rafId = useRef<number | null>(null);
   const [hovered, setHovered] = useState(false);
   const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
 
-  useEffect(() => {
-    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      if (!svgRef.current) return;
       const svgRect = svgRef.current.getBoundingClientRect();
-      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
+      const cxPercentage = ((clientX - svgRect.left) / svgRect.width) * 100;
+      const cyPercentage = ((clientY - svgRect.top) / svgRect.height) * 100;
       setMaskPosition({
         cx: `${cxPercentage}%`,
         cy: `${cyPercentage}%`,
       });
-    }
-  }, [cursor]);
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
 
   return (
     <div className="relative w-full overflow-hidden flex items-center justify-center pt-6 pb-2 select-none">
@@ -58,10 +68,10 @@ export const TextHoverEffect = ({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
           setHovered(false);
-          setCursor({ x: null, y: null });
+          if (rafId.current) cancelAnimationFrame(rafId.current);
         }}
-        onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-        className={cn("w-full h-auto overflow-visible cursor-pointer max-w-7xl", className)}
+        onMouseMove={handleMouseMove}
+        className={cn("w-full h-auto max-h-[160px] overflow-hidden cursor-pointer max-w-7xl block", className)}
       >
         <defs>
           {/* Luminous multi-color brand gradient */}
@@ -214,13 +224,8 @@ export function HoverFooter() {
       href: "mailto:contact@devolopy.com",
     },
     {
-      icon: <Phone size={16} className="text-primary shrink-0" />,
-      text: "+1 (555) 234-5678",
-      href: "tel:+15552345678",
-    },
-    {
       icon: <MapPin size={16} className="text-primary shrink-0" />,
-      text: "Tech Innovation Hub, Silicon Avenue",
+      text: "8328 Street 18, Sec. 3844, Madinat Al Ummal Dist., Dammam 32253, Saudi Arabia (EDMA8328)",
     },
   ];
 
@@ -259,11 +264,16 @@ export function HoverFooter() {
             </Link>
 
             <p className="text-sm text-white/70 leading-relaxed max-w-sm">
-              Devolopy builds lightning-fast websites, native mobile applications, enterprise Odoo ERP integrations, n8n automations, and search engine optimization.
+              Devolopy is the specialized technology division of Eastern WorkForce Solutions Establishment. We build high-performance websites, mobile applications, enterprise Odoo ERP, and AI systems.
             </p>
 
-            <div className="flex items-center gap-2 text-xs font-mono text-primary bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full w-fit">
-              <Zap className="size-3.5" /> Ultra-High-Performance Engineering
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-primary bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-full w-fit">
+                <Zap className="size-3.5" /> High-Performance Engineering
+              </div>
+              <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit">
+                <ShieldCheck className="size-3.5" /> Licensed in Saudi Arabia
+              </div>
             </div>
           </div>
 
@@ -343,8 +353,13 @@ export function HoverFooter() {
           </div>
         </div>
 
+        {/* Official Saudi Commercial Registration & Licensing Card */}
+        <div className="py-10 border-b border-white/10">
+          <SaudiCommercialRegisterCard />
+        </div>
+
         {/* Bottom Bar with Socials and Copyright */}
-        <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50 border-b border-white/5">
+        <div className="py-8 flex flex-col lg:flex-row items-center justify-between gap-4 text-xs text-white/50 border-b border-white/5">
           <div className="flex items-center space-x-4">
             {socialLinks.map(({ icon, label, href }) => (
               <a
@@ -360,11 +375,15 @@ export function HoverFooter() {
             ))}
           </div>
 
-          <p className="text-center md:text-left">
-            &copy; {new Date().getFullYear()} Devolopy, Inc. All rights reserved. Architected with Next.js & Tailwind CSS.
+          <p className="text-center lg:text-left max-w-xl leading-relaxed">
+            &copy; {new Date().getFullYear()} Devolopy &middot; A branch of{" "}
+            <strong className="text-white/80 font-medium">Eastern WorkForce Solutions Establishment</strong> (CR: 7043399216 &middot; VAT: 312781371600003). All rights reserved.
           </p>
 
-          <div className="flex items-center gap-5 text-white/50">
+          <div className="flex flex-wrap items-center justify-center lg:justify-end gap-5 text-white/50">
+            <Link href="/legal" className="text-emerald-400/90 hover:text-emerald-300 font-semibold transition-colors">
+              Commercial Register (السجل التجاري)
+            </Link>
             <Link href="/blog" className="hover:underline">Blog</Link>
             <Link href="/privacy" className="hover:underline">Privacy</Link>
             <Link href="/terms" className="hover:underline">Terms</Link>

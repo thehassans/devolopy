@@ -120,7 +120,26 @@ const jsonLd = {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
       name: "Devolopy",
+      legalName: "Eastern WorkForce Solutions Establishment",
+      alternateName: ["مؤسسة إيسترن ووركفورس سلوشنز", "Maqder ERP"],
       url: siteUrl,
+      taxID: "312781371600003",
+      vatID: "312781371600003",
+      identifier: "7043399216",
+      parentOrganization: {
+        "@type": "Organization",
+        name: "Eastern WorkForce Solutions Establishment",
+        alternateName: "مؤسسة إيسترن ووركفورس سلوشنز",
+        identifier: "7043399216",
+        taxID: "312781371600003",
+      },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "8328 Street 18, Sec. 3844, Madinat Al Ummal Dist.",
+        addressLocality: "Dammam",
+        postalCode: "32253",
+        addressCountry: "SA",
+      },
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/DevolopyDarkTheme.png`,
@@ -132,7 +151,7 @@ const jsonLd = {
         "https://instagram.com/devolopy",
       ],
       description:
-        "Building beautiful, functional, and ultra-fast web experiences with modern Next.js, Tailwind CSS, Odoo ERP, n8n automations, and AI technologies.",
+        "Devolopy is the specialized technology branch of Eastern WorkForce Solutions Establishment in Dammam, Saudi Arabia. Building websites, mobile apps, enterprise Odoo ERP, and AI systems.",
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Devolopy Digital Engineering Services",

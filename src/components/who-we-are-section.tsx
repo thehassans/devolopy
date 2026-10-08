@@ -76,15 +76,21 @@ export function WhoWeAreSection() {
             </p>
             <p>
               Strategy, design, engineering and support sit in one team. You talk directly to the people building your system,
-              not to an account manager relaying filtered messages.
+              not to an account manager relaying filtered messages. Devolopy is the specialized technology branch of Eastern WorkForce Solutions Establishment, commercially registered and licensed in Dammam, Kingdom of Saudi Arabia.
             </p>
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link
                 href="#how-we-work"
                 className="inline-flex items-center gap-2 font-space font-semibold text-primary hover:text-primary/80 transition-colors group"
               >
                 <span>More about how we work</span>
                 <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/legal"
+                className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full hover:bg-emerald-500/20 transition-colors"
+              >
+                <span>Licensed in Saudi Arabia &middot; CR: 7043399216</span>
               </Link>
             </div>
           </div>
