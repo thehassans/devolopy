@@ -239,9 +239,9 @@ export function IndustriesSection() {
         <div className="absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-primary/5 blur-[140px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header with Switcher */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+      {/* Header Container with Switcher */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-8 sm:mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4 max-w-2xl">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#ff5f00] bg-[#ff5f00]/10 border border-[#ff5f00]/20 shadow-xs">
               <span className="size-2 rounded-full bg-[#ff5f00] animate-pulse" />
@@ -281,24 +281,27 @@ export function IndustriesSection() {
             </button>
           </div>
         </div>
+      </div>
 
-        {activeTab === "timeline" ? (
-          <div className="w-full rounded-3xl border border-border/70 dark:border-white/10 overflow-hidden bg-card/30 dark:bg-card/20 backdrop-blur-md shadow-2xl">
-            <Timeline
-              id="industries-timeline"
-              title="Domain Blueprints"
-              periodLabel="Sectors 01 — 12"
-              backgroundColor="transparent"
-              textColor="currentColor"
-              mutedTextColor="var(--color-muted-foreground, #71717a)"
-              activeColor="#ff5f00"
-              imageUrl="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80"
-              imageAlt="Modern Architecture and Industry Innovation"
-              topData={topIndustriesData}
-              bottomData={bottomIndustriesData}
-            />
-          </div>
-        ) : (
+      {/* Main Content: Full-Bleed Timeline or Domain Explorer */}
+      {activeTab === "timeline" ? (
+        <div className="w-full relative">
+          <Timeline
+            id="industries-timeline"
+            title="Domain Blueprints"
+            periodLabel="Sectors 01 — 12"
+            backgroundColor="transparent"
+            textColor="currentColor"
+            mutedTextColor="var(--color-muted-foreground, #71717a)"
+            activeColor="#ff5f00"
+            imageUrl="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80"
+            imageAlt="Modern Architecture and Industry Innovation"
+            topData={topIndustriesData}
+            bottomData={bottomIndustriesData}
+          />
+        </div>
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start relative">
             {/* Left Column: Sector Selector */}
             <div className="lg:col-span-5 lg:sticky lg:top-28 self-start space-y-6 z-20">
@@ -390,8 +393,8 @@ export function IndustriesSection() {
               })}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -188,7 +188,7 @@ export function SelectedWorkSection() {
   return (
     <section
       id="selected-work"
-      className="w-full py-16 sm:py-24 bg-background text-foreground border-b border-border transition-colors duration-300 relative overflow-hidden"
+      className="w-full pt-16 sm:pt-24 bg-background text-foreground border-b border-border transition-colors duration-300 relative"
     >
       {/* Ambient Lighting */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -196,9 +196,9 @@ export function SelectedWorkSection() {
         <div className="absolute bottom-1/4 right-10 w-[500px] h-[400px] bg-[#C0703C]/10 blur-[140px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header with Switcher */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
+      {/* Header Container with Switcher */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-8 sm:mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4 max-w-2xl">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-[#C0703C] bg-[#C0703C]/10 border border-[#C0703C]/20 shadow-xs">
               <span className="size-2 rounded-full bg-[#C0703C] animate-pulse" />
@@ -238,24 +238,27 @@ export function SelectedWorkSection() {
             </button>
           </div>
         </div>
+      </div>
 
-        {activeTab === "timeline" ? (
-          <div className="w-full rounded-3xl border border-white/[0.08] dark:border-white/[0.1] bg-[#0c0d12]/90 dark:bg-[#090a0f]/95 shadow-[0_25px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl overflow-hidden">
-            <Timeline
-              id="case-studies-timeline"
-              title="Case Studies"
-              periodLabel="2023 — 2026"
-              backgroundColor="transparent"
-              textColor="#ffffff"
-              mutedTextColor="#94a3b8"
-              activeColor="#f97316"
-              imageUrl="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
-              imageAlt="Modern Software Engineering & Systems Team"
-              topData={topCaseStudies}
-              bottomData={bottomCaseStudies}
-            />
-          </div>
-        ) : (
+      {/* Main Content: Full-Bleed Timeline or Grid Showcase */}
+      {activeTab === "timeline" ? (
+        <div className="w-full relative">
+          <Timeline
+            id="case-studies-timeline"
+            title="Case Studies"
+            periodLabel="2023 — 2026"
+            backgroundColor="transparent"
+            textColor="#ffffff"
+            mutedTextColor="#94a3b8"
+            activeColor="#f97316"
+            imageUrl="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
+            imageAlt="High-Performance Enterprise Cloud Datacenter Architecture"
+            topData={topCaseStudies}
+            bottomData={bottomCaseStudies}
+          />
+        </div>
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
             {projects.map((project) => (
               <div
@@ -337,8 +340,8 @@ export function SelectedWorkSection() {
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }
